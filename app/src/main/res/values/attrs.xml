@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopTabsCustom">
+        <attr name="selected_height" format="dimension"/>
+        <attr name="unselected_height" format="dimension"/>
+    </declare-styleable>
+</resources>
