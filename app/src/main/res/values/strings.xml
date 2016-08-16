@@ -1,3 +1,7 @@
 <resources>
+
     <string name="app_name">GirlTrollSV</string>
+
+    <string name="facebook_app_id">914437952016244</string>
+
 </resources>
