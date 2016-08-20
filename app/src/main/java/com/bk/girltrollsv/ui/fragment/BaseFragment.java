@@ -137,6 +137,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
         menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
     }

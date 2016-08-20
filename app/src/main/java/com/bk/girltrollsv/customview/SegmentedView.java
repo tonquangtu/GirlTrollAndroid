@@ -31,30 +31,30 @@ public class SegmentedView extends LinearLayout implements OnClickListener {
 
     public SegmentedView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        // TODO Auto-generated constructor stub
+
         initView(context);
         DebugLog.e("segmentedViewOnSelect" + segmentedViewOnSelect);
     }
 
     public SegmentedView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
+
         initView(context);
     }
 
     public SegmentedView(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
+
         initView(context);
     }
 
-    private void initView(Context context) {
-        // TODO init data
+    public void initView(Context context) {
+
     }
 
     @Override
     protected void onFinishInflate() {
-        // TODO Auto-generated method stub
+
         numberTab = getChildCount();
 
         if (numberTab > 0) {
@@ -88,7 +88,7 @@ public class SegmentedView extends LinearLayout implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
+
         // DebugLog.e(v.getId() + "");
         if (selectedView != null) {
             selectedView.setSelected(false);

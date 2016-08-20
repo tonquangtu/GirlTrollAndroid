@@ -6,9 +6,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by hex0r on 8/4/15.
+ * Created by QuangTu on 8/4/15.
  */
 public class HackyDrawerLayout extends DrawerLayout {
+
     public HackyDrawerLayout(Context context) {
         super(context);
     }

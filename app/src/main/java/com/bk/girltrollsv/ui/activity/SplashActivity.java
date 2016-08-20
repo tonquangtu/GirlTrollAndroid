@@ -1,5 +1,6 @@
 package com.bk.girltrollsv.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,5 +14,15 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_splash);
+
+        // load all thing need
+        launchMainActivity();
+    }
+
+    public void launchMainActivity() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

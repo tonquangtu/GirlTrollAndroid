@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    card_view:cardBackgroundColor="@color/background_feed"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rlTitle"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginTop="@dimen/margin_top_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginBottom="@dimen/margin_bottom_feed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/cir_img_member_feed"
+                android:layout_width="@dimen/width_member_feed"
+                android:layout_height="@dimen/height_member_feed" />
+
+            <LinearLayout
+                android:layout_toRightOf="@+id/cir_img_member_feed"
+                android:layout_marginLeft="@dimen/margin_left_feed"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="ton quang tu"
+                    android:id="@+id/txt_member_name"
+                    android:textColor="@color/color_title"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="hfhdhjd"
+                    android:id="@+id/txt_time_feed"
+                    android:layout_marginTop="3dp"
+                    android:textSize="@dimen/text_size_time_feed"
+                    android:textColor="@color/color_time_feed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <ImageView
+
+                android:id="@+id/img_more"
+                android:layout_alignParentRight="true"
+                android:paddingTop="1dp"
+                android:src="@drawable/icon_more"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_title_feed"
+            android:layout_below="@+id/rlTitle"
+            android:text="gai bk ca nha oi"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginBottom="@dimen/margin_bottom_feed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+
+      <FrameLayout
+          android:id="@+id/frame_container"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+      </FrameLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

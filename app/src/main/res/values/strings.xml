@@ -3,5 +3,12 @@
     <string name="app_name">GirlTrollSV</string>
 
     <string name="facebook_app_id">914437952016244</string>
+    <string name="view_top">Xem top</string>
+    <string name="fix_image">Chế ảnh</string>
+    <string name="view_girl_university">Xem gái các trường</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

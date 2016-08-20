@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_menu_top"
+            android:title="@string/view_top"
+            android:icon="@drawable/icon_view_top"/>
+
+        <item
+            android:id="@+id/nav_menu_fix_image"
+            android:title="@string/fix_image"
+            android:icon="@drawable/icon_fix_image"/>
+
+        <item
+            android:id="@+id/nav_view_girl_university"
+            android:title="@string/view_girl_university"
+            android:icon="@drawable/icon_university_girl"/>
+
+    </group>
+
+
+
+
+
+</menu>

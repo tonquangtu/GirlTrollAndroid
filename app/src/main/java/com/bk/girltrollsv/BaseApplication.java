@@ -1,6 +1,7 @@
 package com.bk.girltrollsv;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -17,8 +18,12 @@ import java.security.NoSuchAlgorithmException;
  * Created by Hado on 30-Jul-16.
  */
 public class BaseApplication extends Application {
+
     private static BaseApplication instance;
+
     private static SharedPrefUtils sharedPrefUtils;
+
+    private static Context mContext;
 
     public BaseApplication() {
         instance = this;
@@ -31,13 +36,19 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sharedPrefUtils = new SharedPrefUtils(getApplicationContext());
 
-//        printHashKey();
+        sharedPrefUtils = new SharedPrefUtils(getApplicationContext());
+        mContext = getApplicationContext();
+
+//        printHashKey()
     }
 
     public static SharedPrefUtils getSharedPreferences() {
         return sharedPrefUtils;
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
     public void printHashKey() {
@@ -59,4 +70,5 @@ public class BaseApplication extends Application {
 
         }
     }
+
 }
