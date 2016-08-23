@@ -28,7 +28,7 @@ public class Feed implements Parcelable{
 
     private Video video;
 
-    private ArrayList<ImageInfo> imageInfos;
+    private ArrayList<ImageInfo> images;
 
     private Member member;
 
@@ -43,7 +43,7 @@ public class Feed implements Parcelable{
                 String school,
                 Member member,
                 Video video,
-                ArrayList<ImageInfo> imageInfos) {
+                ArrayList<ImageInfo> images) {
 
         this.feedId = feedId;
         this.title = title;
@@ -54,7 +54,7 @@ public class Feed implements Parcelable{
         this.view = view;
         this.school = school;
         this.video = video;
-        this.imageInfos = imageInfos;
+        this.images = images;
         this.member = member;
     }
 
@@ -69,7 +69,7 @@ public class Feed implements Parcelable{
         view = in.readInt();
         school = in.readString();
         video = in.readParcelable(Video.class.getClassLoader());
-        imageInfos = in.createTypedArrayList(ImageInfo.CREATOR);
+        images = in.createTypedArrayList(ImageInfo.CREATOR);
         member = in.readParcelable(Member.class.getClassLoader());
     }
 
@@ -84,7 +84,7 @@ public class Feed implements Parcelable{
         dest.writeInt(view);
         dest.writeString(school);
         dest.writeParcelable(video, flags);
-        dest.writeTypedList(imageInfos);
+        dest.writeTypedList(images);
         dest.writeParcelable(member, flags);
     }
 
@@ -145,7 +145,7 @@ public class Feed implements Parcelable{
         return video;
     }
 
-    public ArrayList<ImageInfo> getImageInfos() {
-        return imageInfos;
+    public ArrayList<ImageInfo> getImages() {
+        return images;
     }
 }

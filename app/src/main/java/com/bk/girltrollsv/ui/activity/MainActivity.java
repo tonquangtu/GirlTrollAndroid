@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.ui.activity;
 
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.PagerMainAdapter;
+import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomViewPager;
 import com.bk.girltrollsv.customview.MainSegmentView;
+import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
+import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
 import com.facebook.Profile;
@@ -46,7 +50,11 @@ public class MainActivity extends BaseActivity
     @Bind(R.id.ttx_profile_name)
     TextView txtProfileName;
 
-    private ArrayList<Feed> feeds;
+    private ArrayList<Feed> initFeeds;
+
+    private Paging pagingLoadNewFeed;
+
+    private ArrayList<EventBase> eventCatalogs;
 
     PagerMainAdapter mPagerMainAdapter;
 
@@ -59,11 +67,13 @@ public class MainActivity extends BaseActivity
     @Override
     public void initView() {
 
+        getDataFromSplash();
+
         initToolbar();
 
         initDrawer();
 
-        initProfile();
+//        initProfile();
 
         initSegView();
 
@@ -79,6 +89,15 @@ public class MainActivity extends BaseActivity
     @Override
     public void initData() {
 
+    }
+
+    public void getDataFromSplash() {
+
+        Bundle dataFromSplash = getIntent().getBundleExtra(AppConstant.PACKAGE);
+
+        initFeeds = dataFromSplash.getParcelableArrayList(AppConstant.FEEDS_TAG);
+        pagingLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
+        eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);
     }
 
     public void initToolbar() {
@@ -144,7 +163,7 @@ public class MainActivity extends BaseActivity
 
     public void initViewPager() {
 
-        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), feeds);
+        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagingLoadNewFeed, eventCatalogs);
 
         mViewPagerMain.setAdapter(mPagerMainAdapter);
 

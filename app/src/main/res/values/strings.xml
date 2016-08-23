@@ -10,5 +10,11 @@
     <string name="drawer_open">Open navigation drawer</string>
 
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="like">Thích</string>
+    <string name="comment">Bình luận</string>
+    <string name="share">Chia sẻ</string>
+    <string name="base_school">Gái :</string>
+    <string name="base_like">Thích</string>
+    <string name="base_comment">Bình luận</string>
 
 </resources>

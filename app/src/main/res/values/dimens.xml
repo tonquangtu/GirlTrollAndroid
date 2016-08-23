@@ -16,5 +16,11 @@
     <dimen name="margin_left_feed">16dp</dimen>
     <dimen name="margin_bottom_feed">16dp</dimen>
     <dimen name="text_size_time_feed">11dp</dimen>
+    <dimen name="margin_top_content_feed">20dp</dimen>
+    <dimen name="margin_view">6dp</dimen>
+    <dimen name="margin_left_feed_comment">10dp</dimen>
+    <dimen name="margin_top_view_info_comment_like">6dp</dimen>
+    <dimen name="margin_top_divider_info_comment_like">10dp</dimen>
+    <dimen name="height_progress_item">40dp</dimen>
 
 </resources>

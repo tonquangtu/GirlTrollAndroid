@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     card_view:cardBackgroundColor="@color/background_feed"
     card_view:cardCornerRadius="4dp">
 
@@ -12,12 +12,12 @@
 
         <RelativeLayout
             android:id="@+id/rlTitle"
-            android:layout_marginLeft="@dimen/margin_left_feed"
-            android:layout_marginTop="@dimen/margin_top_feed"
-            android:layout_marginRight="@dimen/margin_right_feed"
-            android:layout_marginBottom="@dimen/margin_bottom_feed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom_feed"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginTop="@dimen/margin_top_feed">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/cir_img_member_feed"
@@ -25,60 +25,163 @@
                 android:layout_height="@dimen/height_member_feed" />
 
             <LinearLayout
-                android:layout_toRightOf="@+id/cir_img_member_feed"
-                android:layout_marginLeft="@dimen/margin_left_feed"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_feed"
+                android:layout_toRightOf="@+id/cir_img_member_feed"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="ton quang tu"
                     android:id="@+id/txt_member_name"
-                    android:textColor="@color/color_title"
-                    android:textStyle="bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="ton quang tu"
+                    android:textColor="@color/color_title"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:text="hfhdhjd"
                     android:id="@+id/txt_time_feed"
-                    android:layout_marginTop="3dp"
-                    android:textSize="@dimen/text_size_time_feed"
-                    android:textColor="@color/color_time_feed"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="hfhdhjd"
+                    android:textColor="@color/color_time_feed"
+                    android:textSize="@dimen/text_size_time_feed" />
 
             </LinearLayout>
 
             <ImageView
 
                 android:id="@+id/img_more"
-                android:layout_alignParentRight="true"
-                android:paddingTop="1dp"
-                android:src="@drawable/icon_more"
-                android:layout_alignParentTop="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingTop="1dp"
+                android:src="@drawable/icon_more_vertical" />
 
         </RelativeLayout>
 
         <TextView
             android:id="@+id/txt_title_feed"
+            android:textColor="@color/color_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/rlTitle"
-            android:text="gai bk ca nha oi"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:text="gai bk ca nha oi" />
+
+        <View
+            android:id="@+id/view_divider_title"
+            android:layout_below="@+id/txt_title_feed"
+            android:layout_marginTop="@dimen/margin_view"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginBottom="@dimen/margin_view"
+            android:background="@color/background_view"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+
+        <TextView
+            android:id="@+id/txt_school"
+            android:layout_below="@+id/view_divider_title"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
             android:layout_marginBottom="@dimen/margin_bottom_feed"
-            android:layout_width="match_parent"
+            android:text="Truong : dai hoc bach khoa ha noi"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        
 
-      <FrameLayout
-          android:id="@+id/frame_container"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
 
-      </FrameLayout>
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_below="@+id/txt_school"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_info_num_comment_like"
+            android:gravity="right"
+            android:layout_below="@+id/frame_container"
+            android:layout_marginTop="@dimen/margin_top_content_feed"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="250 thich"
+                android:id="@+id/txt_num_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:text="300 binh luan"
+                android:id="@+id/txt_num_comment"
+                android:layout_marginLeft="@dimen/margin_left_feed_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_divider_info_comment_like"
+            android:layout_below="@+id/ll_info_num_comment_like"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginTop="@dimen/margin_top_divider_info_comment_like"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_view"/>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:orientation="horizontal"
+            android:layout_below="@+id/view_divider_info_comment_like"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_like"
+                android:drawableLeft="@drawable/icon_unlike"
+                android:textColor="@color/color_text_like"
+                style="?borderlessButtonStyle"
+                android:textAllCaps="false"
+                android:text="@string/like"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_comment"
+                android:drawableLeft="@drawable/icon_comment"
+                android:textColor="@color/color_text_comment"
+                style="?borderlessButtonStyle"
+                android:textAllCaps="false"
+                android:text="@string/comment"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/share_btn"
+                android:textColor="@color/color_text_share"
+                android:drawableLeft="@drawable/icon_facebook"
+                android:textAllCaps="false"
+                style="?attr/borderlessButtonStyle"
+                android:text="@string/share"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

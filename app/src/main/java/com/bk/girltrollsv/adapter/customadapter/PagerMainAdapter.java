@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
+import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.ui.fragment.EventFragment;
 import com.bk.girltrollsv.ui.fragment.HomeFragment;
 import com.bk.girltrollsv.ui.fragment.PersonalFragment;
@@ -29,9 +31,15 @@ public class PagerMainAdapter extends FragmentPagerAdapter {
 
     ArrayList<Feed> initFeeds;
 
-    public PagerMainAdapter(FragmentManager fm, ArrayList<Feed> initFeeds) {
+    Paging pagingLoadNewFeed;
+
+    ArrayList<EventBase> eventCatalogs;
+
+    public PagerMainAdapter(FragmentManager fm, ArrayList<Feed> initFeeds, Paging pagingLoadNewFeed, ArrayList<EventBase> eventCatalogs) {
         super(fm);
         this.initFeeds = initFeeds;
+        this.pagingLoadNewFeed = pagingLoadNewFeed;
+        this.eventCatalogs = eventCatalogs;
     }
 
     @Override
@@ -42,7 +50,7 @@ public class PagerMainAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case HOME_POS :
-                fragment = HomeFragment.newInstance(initFeeds);
+                fragment = HomeFragment.newInstance(initFeeds, pagingLoadNewFeed);
                 break;
             case UPLOAD_FEED_POS :
                 fragment = UploadFeedFragment.newInstance();

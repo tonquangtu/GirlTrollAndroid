@@ -4,19 +4,19 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.model.ImageInfo;
-import com.bk.girltrollsv.model.Video;
+import com.bk.girltrollsv.model.Member;
+import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
-
-import java.util.ArrayList;
+import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,14 +42,34 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.txt_title_feed)
     TextView txtTitleFeed;
 
+    @Bind(R.id.txt_school)
+    TextView txtSchool;
+
+    @Bind(R.id.txt_num_like)
+    TextView txtNumLike;
+
+    @Bind(R.id.txt_num_comment)
+    TextView txtNumComment;
+
+    @Bind(R.id.btn_like)
+    Button btnLike;
+
+    @Bind(R.id.share_btn)
+    ShareButton shareBtn;
+
+    @Bind(R.id.btn_comment)
+    Button btnComment;
+
     @Bind(R.id.frame_container)
     FrameLayout frameFeedContent;
 
     Activity mActivity;
+
     int margin = 4;
 
 
     public FeedViewHolder(View itemView, Activity activity) {
+
         super(itemView);
         ButterKnife.bind(this, itemView);
         mActivity = activity;
@@ -57,138 +77,31 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     public void populate(Feed feed) {
 
+        Member member = feed.getMember();
+        setImageAvatarMember(member.getAvatarUrl());
+        String school = mActivity.getResources().getString(R.string.base_school) + feed.getSchool();
+        String numLike = feed.getLike() + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_like);
+        String numComment = feed.getComment() + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_comment);
+
+        StringUtil.displayText(member.getUsername(), txtMemberName);
+        StringUtil.displayText(feed.getTime(), txtTimeFeed);
+        StringUtil.displayText(feed.getTitle(), txtTitleFeed);
+        StringUtil.displayText(school, txtSchool);
+        StringUtil.displayText(numLike, txtNumLike);
+        StringUtil.displayText(numComment, txtNumComment);
 
     }
 
-    public ViewGroup getLayoutContent(Feed feed) {
 
-        if (feed.getImageInfos() != null && feed.getImageInfos().size() > 0) {
-            return getImageLayoutContent(feed.getImageInfos());
+    public void setImageAvatarMember(String urlAvatarMember) {
 
-        } else if (feed.getVideo() != null) {
-            return getVideoLayoutContent(feed.getVideo());
-        }
-        return null;
-    }
-
-    public ViewGroup getImageLayoutContent(ArrayList<ImageInfo> imageInfos) {
-
-        int size = imageInfos.size();
-
-        if (size == 1) {
-            return getImageLayoutHaveOddImage(imageInfos);
-        } else if (size == 2) {
-            return getLayoutHaveTwoImage(imageInfos);
-        } else if (size % 2 == 0) {
-            return getImageLayoutHaveEvenImage(imageInfos);
-        } else {
-            return getImageLayoutHaveOddImage(imageInfos);
-        }
-
-    }
-
-    public ViewGroup getVideoLayoutContent(Video video) {
-        return null;
-
-    }
-
-    public ViewGroup getImageLayoutHaveOddImage(ArrayList<ImageInfo> imageInfos) {
-
-        int screenWidth = getScreenWidth();
-        int halfScreenWidth = screenWidth / 2;
-        int size = imageInfos.size();
-        int totalRow = size / 2 + 1;
-
-        GridLayout gridContent = new GridLayout(mActivity);
-        gridContent.setRowCount(totalRow);
-        gridContent.setColumnCount(2);
-
-        int rowOrder = 0;
-        ImageView[] imgItems = new ImageView[size];
-        imgItems[0] = setImageViewFullScreenWidth(gridContent, imageInfos.get(0).getUrlImage(),
-                rowOrder, halfScreenWidth, screenWidth);
-
-
-        for (int i = 1; i < size; i++) {
-
-            if (i % 2 == 0) {
-                rowOrder = i / 2;
-                imgItems[i] = setImageViewRight(gridContent, imageInfos.get(i).getUrlImage(),
-                        rowOrder, halfScreenWidth, halfScreenWidth);
-            } else {
-                rowOrder = i / 2 + 1;
-                imgItems[i] = setImageViewLeft(gridContent, imageInfos.get(i).getUrlImage(),
-                        rowOrder, halfScreenWidth, halfScreenWidth);
-            }
-        }
-
-        return gridContent;
-    }
-
-    public ViewGroup getImageLayoutHaveEvenImage(ArrayList<ImageInfo> imageInfos) {
-
-        int screenWidth = getScreenWidth();
-        int halfScreenWidth = screenWidth / 2;
-        int size = imageInfos.size();
-        int totalRow = size / 2;
-
-        GridLayout gridContent = new GridLayout(mActivity);
-        gridContent.setRowCount(totalRow);
-        gridContent.setColumnCount(2);
-
-        int rowOrder;
-        ImageView[] imgItems = new ImageView[size];
-
-        for (int i = 0; i < size; i++) {
-
-            if (i % 2 == 0) {
-                rowOrder = i / 2;
-                imgItems[i] = setImageViewRight(gridContent, imageInfos.get(i).getUrlImage(),
-                        rowOrder, halfScreenWidth, halfScreenWidth);
-            } else {
-                rowOrder = i / 2 + 1;
-                imgItems[i] = setImageViewLeft(gridContent, imageInfos.get(i).getUrlImage(),
-                        rowOrder, halfScreenWidth, halfScreenWidth);
-            }
-        }
-
-        return gridContent;
-
-    }
-
-    public GridLayout getLayoutHaveOneImage(ArrayList<ImageInfo> imageInfos) {
-
-        int screenWidth = getScreenWidth();
-        GridLayout gridContent = new GridLayout(mActivity);
-        gridContent.setRowCount(1);
-        gridContent.setColumnCount(2);
-
-        ImageView imgItem = setImageViewFullScreenWidth(gridContent, imageInfos.get(0).getUrlImage(),
-                0, screenWidth, screenWidth);
-
-        return gridContent;
-    }
-
-    public GridLayout getLayoutHaveTwoImage(ArrayList<ImageInfo> imageInfos) {
-
-        int screenWidth = getScreenWidth();
-        int haftScreenWidth = screenWidth / 2;
-
-        GridLayout gridContent = new GridLayout(mActivity);
-        gridContent.setRowCount(1);
-        gridContent.setColumnCount(2);
-
-        ImageView imgItem1 = setImageViewLeft(gridContent, imageInfos.get(0).getUrlImage(),
-                0, screenWidth, haftScreenWidth);
-        ImageView imgItem2 = setImageViewRight(gridContent, imageInfos.get(1).getUrlImage(),
-                0, screenWidth, haftScreenWidth);
-
-        return gridContent;
+        int height = (int) mActivity.getResources().getDimension(R.dimen.height_member_feed);
+        int width = (int) mActivity.getResources().getDimension(R.dimen.width_member_feed);
+        LoadUtil.loadImageResize(urlAvatarMember, cirImgMemberFeed, height, width);
     }
 
 
-    public ImageView setImageViewLeft(GridLayout gridContent, String urlImage,
-                                      int rowCount, int height, int width) {
+    public ImageView setImageViewLeft(GridLayout gridContent, int rowCount, int height, int width) {
 
         GridLayout.Spec row = GridLayout.spec(rowCount);
         GridLayout.Spec col = GridLayout.spec(0);
@@ -199,15 +112,13 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
-        LoadUtil.loadImageResize(urlImage, imgItem, layoutParams.width, layoutParams.height);
 
         gridContent.addView(imgItem, layoutParams);
         return imgItem;
     }
 
 
-    public ImageView setImageViewRight(GridLayout gridContent, String urlImage,
-                                       int rowCount, int height, int width) {
+    public ImageView setImageViewRight(GridLayout gridContent, int rowCount, int height, int width) {
 
         GridLayout.Spec row = GridLayout.spec(rowCount);
         GridLayout.Spec col = GridLayout.spec(1);
@@ -218,14 +129,12 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
-        LoadUtil.loadImageResize(urlImage, imgItem, layoutParams.width, layoutParams.height);
 
         gridContent.addView(imgItem, layoutParams);
         return imgItem;
     }
 
-    public ImageView setImageViewFullScreenWidth(GridLayout gridContent, String urlImage,
-                                                 int rowCount, int height, int width) {
+    public ImageView setImageViewFullScreenWidth(GridLayout gridContent,int rowCount, int height, int width) {
 
         GridLayout.Spec row = GridLayout.spec(rowCount);
         GridLayout.Spec col = GridLayout.spec(0, 2);
@@ -236,13 +145,11 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
-        LoadUtil.loadImageResize(urlImage, imgItem, layoutParams.width, layoutParams.height);
 
         gridContent.addView(imgItem, layoutParams);
         return imgItem;
 
     }
-
 
     public int getScreenWidth() {
         Point size = new Point();

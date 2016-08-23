@@ -43,6 +43,9 @@ public class SpaceItem extends RecyclerView.ItemDecoration {
             } else if (position == lastPos) {
                 outRect.bottom = 0;
                 outRect.top = space;
+            } else {
+                outRect.top = space;
+                outRect.bottom = space;
             }
         }
     }
