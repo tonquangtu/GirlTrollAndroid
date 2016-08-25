@@ -27,6 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         setContentView(setContentViewId());
         ButterKnife.bind(this);
+        handleIntent(intent);
         initView();
         initData();
     }
@@ -72,4 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Setup your data
      */
     public abstract void initData();
+
+    public void handleIntent(Intent intent){
+
+    }
 }

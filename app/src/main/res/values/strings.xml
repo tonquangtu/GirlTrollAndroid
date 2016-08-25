@@ -17,4 +17,6 @@
     <string name="base_like">Thích</string>
     <string name="base_comment">Bình luận</string>
 
+    <string name="bare_url">https://girltroll.com/</string>
+
 </resources>

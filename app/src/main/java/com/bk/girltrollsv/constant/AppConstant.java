@@ -28,4 +28,8 @@ public class AppConstant {
     public static String URL_BASE = "http://192.168.43.209/GirlTroll/";
 
     public static String SPACE = " ";
+
+    public static final String FEED_ID_TAG = "FEED_ID";
+
+    public static final String FEED_TITLE_TAG = "FEED_TITLE";
 }
