@@ -20,7 +20,13 @@
     <dimen name="margin_view">6dp</dimen>
     <dimen name="margin_left_feed_comment">10dp</dimen>
     <dimen name="margin_top_view_info_comment_like">6dp</dimen>
-    <dimen name="margin_top_divider_info_comment_like">10dp</dimen>
-    <dimen name="height_progress_item">40dp</dimen>
+    <dimen name="margin_top_divider_info_comment_like">8dp</dimen>
+    <dimen name="height_progress_item">52dp</dimen>
+    <dimen name="height_play_button">52dip</dimen>
+    <dimen name="width_play_button">71dip</dimen>
+    <dimen name="text_size_num_comment_like">24px</dimen>
+    <dimen name="margin_bottom_control_video">2dp</dimen>
+    <dimen name="margin_left_control_video">6dp</dimen>
+    <dimen name="margin_right_control_video">2dp</dimen>
 
 </resources>

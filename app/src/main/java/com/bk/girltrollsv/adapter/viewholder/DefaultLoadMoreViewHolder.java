@@ -18,13 +18,12 @@ public class DefaultLoadMoreViewHolder extends RecyclerView.ViewHolder {
     public static final int LAYOUT_ID = R.layout.load_more;
 
     @Bind(R.id.pb_loader)
-    ProgressBar pgLoader;
+    public ProgressBar pgLoader;
 
 
     public DefaultLoadMoreViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        pgLoader.setIndeterminate(true);
     }
 
 }

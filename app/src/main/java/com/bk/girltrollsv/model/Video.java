@@ -16,18 +16,24 @@ public class Video  implements Parcelable{
 
     private int type;
 
-    public Video(String feedId, String videoId, String urlVideo, int type) {
-        this.feedId = feedId;
-        this.videoId = videoId;
-        this.urlVideo = urlVideo;
-        this.type = type;
-    }
+    private String urlVideoThumbnail;
+
 
     protected Video(Parcel in) {
         feedId = in.readString();
         videoId = in.readString();
         urlVideo = in.readString();
         type = in.readInt();
+        urlVideoThumbnail = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(feedId);
+        dest.writeString(videoId);
+        dest.writeString(urlVideo);
+        dest.writeInt(type);
+        dest.writeString(urlVideoThumbnail);
     }
 
     public static final Creator<Video> CREATOR = new Creator<Video>() {
@@ -41,6 +47,12 @@ public class Video  implements Parcelable{
             return new Video[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 
     public String getFeedId() {
         return feedId;
@@ -58,16 +70,8 @@ public class Video  implements Parcelable{
         return type;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(feedId);
-        dest.writeString(videoId);
-        dest.writeString(urlVideo);
-        dest.writeInt(type);
+    public String getUrlVideoThumbnail() {
+        return urlVideoThumbnail;
     }
 }

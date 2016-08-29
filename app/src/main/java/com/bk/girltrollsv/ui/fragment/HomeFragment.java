@@ -1,18 +1,22 @@
 package com.bk.girltrollsv.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
+import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
 
@@ -39,6 +43,7 @@ public class HomeFragment extends BaseFragment {
 
     RVFeedsAdapter feedsAdapter;
 
+    Activity mActivity;
 
     public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
 
@@ -66,7 +71,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        mActivity = getActivity();
         initRv();
     }
 
@@ -91,6 +96,38 @@ public class HomeFragment extends BaseFragment {
                 handleLoadMore();
             }
         });
+
+        feedsAdapter.setItemListener(new FeedItemOnClickListener() {
+            @Override
+            public void onClickImage(int posFeed, int posImage, View view) {
+
+            }
+
+            @Override
+            public void onClickVideo(int posFeed, View view) {
+                handleClickVideo(posFeed);
+            }
+
+            @Override
+            public void onClickLike(int posFeed, View view) {
+
+            }
+
+            @Override
+            public void onClickComment(int posFeed, View view) {
+
+            }
+
+            @Override
+            public void onClickShare(int posFeed, View view) {
+
+            }
+
+            @Override
+            public void onClickMore(int posFeed, View view) {
+
+            }
+        });
     }
 
     public void handleLoadMore() {
@@ -109,7 +146,7 @@ public class HomeFragment extends BaseFragment {
         } else {
             afterFeedId = String.valueOf(AppConstant.DEFAULT_FEED_ID);
         }
-        Log.e("tuton", afterFeedId);
+
         dataToServer.put(AppConstant.CURRENT_FEED_ID_TAG, afterFeedId);
         dataToServer.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
 
@@ -132,8 +169,21 @@ public class HomeFragment extends BaseFragment {
             public void onFailure(Call<FeedResponse> call, Throwable t) {
                 feedsAdapter.removeLastItem();
                 feedsAdapter.endLoadingMore();
+
             }
         });
 
     }
+
+    public void handleClickVideo(int posFeed) {
+
+        Feed feed = feedsAdapter.getFeeds().get(posFeed);
+        Intent intent = new Intent(mActivity, VideoActivity.class);
+        Bundle data = new Bundle();
+        data.putParcelable(AppConstant.FEED_TAG, feed);
+        intent.putExtra(AppConstant.PACKAGE, data);
+        mActivity.startActivity(intent);
+
+    }
+
 }

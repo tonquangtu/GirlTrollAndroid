@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -67,8 +68,6 @@ public class MainActivity extends BaseActivity
     @Override
     public void initView() {
 
-        getDataFromSplash();
-
         initToolbar();
 
         initDrawer();
@@ -91,10 +90,10 @@ public class MainActivity extends BaseActivity
 
     }
 
-    public void getDataFromSplash() {
+    @Override
+    public void handleIntent(Intent intent) {
 
-        Bundle dataFromSplash = getIntent().getBundleExtra(AppConstant.PACKAGE);
-
+        Bundle dataFromSplash = intent.getBundleExtra(AppConstant.PACKAGE);
         initFeeds = dataFromSplash.getParcelableArrayList(AppConstant.FEEDS_TAG);
         pagingLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
         eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);

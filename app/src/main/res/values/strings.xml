@@ -16,5 +16,9 @@
     <string name="base_school">Gái :</string>
     <string name="base_like">Thích</string>
     <string name="base_comment">Bình luận</string>
+    <string name="download_video">Tải về</string>
+    <string name="report">Báo xấu</string>
+    <string name="description_zoom">Zoom</string>
+    <string name="description_full_screen">Full scrren</string>
 
 </resources>

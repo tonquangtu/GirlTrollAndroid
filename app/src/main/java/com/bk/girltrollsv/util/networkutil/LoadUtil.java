@@ -1,6 +1,5 @@
 package com.bk.girltrollsv.util.networkutil;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bk.girltrollsv.BaseApplication;
@@ -14,16 +13,23 @@ import java.util.Random;
  */
 public class LoadUtil {
 
-    final static int [] PLACE_HOLDER = new int [] {
-            R.drawable.place_holder_feed_1,
-            R.drawable.place_holder_feed_2,
-            R.drawable.place_holder_feed_3,
-            R.drawable.place_holder_feed_4
+    final static int[] PLACE_HOLDER_XML = new int[]{
+            R.drawable.place_holder_1,
+            R.drawable.place_holder_2,
+            R.drawable.place_holder_3,
+            R.drawable.place_holder_4
+    };
+
+    final static int[] PLACE_HOLDER_IMAGE = new int[]{
+            R.drawable.place_holder_feed_5,
+            R.drawable.place_holder_feed_6,
+            R.drawable.place_holder_feed_7,
+            R.drawable.place_holder_feed_8
     };
 
     public static void loadImage(String url, ImageView img) {
 
-        if(url != null && url.length() > 0) {
+        if (url != null && url.length() > 0) {
 
             Picasso.with(BaseApplication.getContext())
                     .load(url)
@@ -32,19 +38,30 @@ public class LoadUtil {
         }
     }
 
-    public static void loadImageResize(String url, ImageView  img, int width, int height) {
+    public static void loadImageResize(String url, ImageView imgDes, int width, int height) {
 
-        Log.e("tuton", url);
-        int randIndex = new Random().nextInt(PLACE_HOLDER.length);
-        if(url != null && url.length() > 0) {
+        int rand = new Random().nextInt(PLACE_HOLDER_XML.length);
+        loadImageResizeWithPlaceHolder(url, imgDes, PLACE_HOLDER_XML[rand], width, height);
+    }
+
+    public static void loadAvatar(String url, ImageView imgDes, int width, int height) {
+
+        int rand = new Random().nextInt(PLACE_HOLDER_IMAGE.length);
+        loadImageResizeWithPlaceHolder(url, imgDes, PLACE_HOLDER_IMAGE[rand], width, height);
+    }
+
+    private static void loadImageResizeWithPlaceHolder(String url, ImageView imgDes, int resIdPlaceHolder,
+                                                       int width, int height) {
+
+        if (imgDes != null && url != null && url.length() > 0) {
 
             Picasso.with(BaseApplication.getContext())
                     .load(url)
                     .resize(width, height)
                     .onlyScaleDown()
                     .centerCrop()
-                    .placeholder(PLACE_HOLDER[randIndex])
-                    .into(img);
+                    .placeholder(resIdPlaceHolder)
+                    .into(imgDes);
 
         }
     }

@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Member;
@@ -37,7 +39,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     TextView txtTimeFeed;
 
     @Bind(R.id.img_more)
-    ImageView imgMore;
+    ImageButton imgBtnMore;
 
     @Bind(R.id.txt_title_feed)
     TextView txtTitleFeed;
@@ -65,6 +67,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     Activity mActivity;
 
+    FeedItemOnClickListener listener;
+
     int margin = 4;
 
 
@@ -73,6 +77,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mActivity = activity;
+
+        initListen();
     }
 
     public void populate(Feed feed) {
@@ -97,7 +103,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         int height = (int) mActivity.getResources().getDimension(R.dimen.height_member_feed);
         int width = (int) mActivity.getResources().getDimension(R.dimen.width_member_feed);
-        LoadUtil.loadImageResize(urlAvatarMember, cirImgMemberFeed, height, width);
+        LoadUtil.loadAvatar(urlAvatarMember, cirImgMemberFeed, width, height);
     }
 
 
@@ -113,7 +119,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
 
-        gridContent.addView(imgItem, layoutParams);
+        gridContent.addView(imgItem);
         return imgItem;
     }
 
@@ -130,7 +136,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
 
-        gridContent.addView(imgItem, layoutParams);
+        gridContent.addView(imgItem);
         return imgItem;
     }
 
@@ -146,15 +152,59 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         ImageView imgItem = new ImageView(mActivity);
         imgItem.setLayoutParams(layoutParams);
 
-        gridContent.addView(imgItem, layoutParams);
+        gridContent.addView(imgItem);
         return imgItem;
 
     }
 
-    public int getScreenWidth() {
+    public  int getScreenWidth() {
         Point size = new Point();
         mActivity.getWindowManager().getDefaultDisplay().getSize(size);
         return size.x;
+    }
+
+    public void setListener(FeedItemOnClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void initListen() {
+
+        imgBtnMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickMore(getLayoutPosition(), v);
+                }
+            }
+        });
+
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickLike(getLayoutPosition(), v);
+                }
+            }
+        });
+
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickComment(getLayoutPosition(), v);
+                }
+            }
+        });
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickComment(getLayoutPosition(), v);
+                }
+            }
+        });
+
     }
 
 }

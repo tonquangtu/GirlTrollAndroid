@@ -39,11 +39,21 @@ public class FourImageFeedViewHolder extends FeedViewHolder {
         for (int i = 0; i < totalImage; i++) {
 
             rowOrder = i / 2;
+            final int indexImage = i;
             if (i % 2 == 0) {
                 imgItems[i] = setImageViewLeft(gridContent, rowOrder, halfScreenWidth, halfScreenWidth);
             } else {
                 imgItems[i] = setImageViewRight(gridContent, rowOrder, halfScreenWidth, halfScreenWidth);
             }
+
+            imgItems[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        listener.onClickImage(getLayoutPosition(), indexImage, v);
+                    }
+                }
+            });
         }
     }
 

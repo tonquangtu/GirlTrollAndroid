@@ -1,6 +1,8 @@
 package com.bk.girltrollsv.network;
 
 import com.bk.girltrollsv.constant.AppConstant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,9 +18,13 @@ public class ConfigNetwork {
 
         if(serverAPI == null) {
 
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             Retrofit.Builder builder = new Retrofit.Builder();
             builder.baseUrl(AppConstant.URL_BASE);
-            builder.addConverterFactory(GsonConverterFactory.create());
+            builder.addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit = builder.build();
             serverAPI = retrofit.create(ServerAPI.class);
         }

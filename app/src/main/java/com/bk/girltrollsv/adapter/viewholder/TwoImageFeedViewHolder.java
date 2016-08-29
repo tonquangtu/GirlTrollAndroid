@@ -37,6 +37,26 @@ public class TwoImageFeedViewHolder extends FeedViewHolder {
 
         imgItemLeft = setImageViewLeft(gridContent, 0, screenWidth, haftScreenWidth);
         imgItemRight = setImageViewRight(gridContent, 0, screenWidth, haftScreenWidth);
+
+        imgItemLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickImage(getLayoutPosition(), 0, v);
+                }
+            }
+        });
+
+        imgItemRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickImage(getLayoutPosition(), 1, v);
+                }
+            }
+        });
+
+
     }
 
     public void populate(Feed feed) {

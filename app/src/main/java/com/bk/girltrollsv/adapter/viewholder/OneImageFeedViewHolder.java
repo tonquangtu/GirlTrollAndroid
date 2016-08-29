@@ -31,6 +31,15 @@ public class OneImageFeedViewHolder extends FeedViewHolder {
         gridContent.setRowCount(1);
         gridContent.setColumnCount(2);
         imgItem = setImageViewFullScreenWidth(gridContent, 0, screenWidth, screenWidth);
+
+        imgItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClickImage(getLayoutPosition(), 0, v);
+                }
+            }
+        });
     }
 
     public void populate(Feed feed) {

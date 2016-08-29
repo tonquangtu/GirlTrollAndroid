@@ -39,6 +39,20 @@ public class ThreeImageFeedViewHolder extends FeedViewHolder {
         imgItems[0] = setImageViewFullScreenWidth(gridContent,0, halfScreenWidth, screenWidth);
         imgItems[1] = setImageViewLeft(gridContent, 1, halfScreenWidth, halfScreenWidth);
         imgItems[2] = setImageViewRight(gridContent, 1, halfScreenWidth, halfScreenWidth);
+
+        for (int i = 0; i < 3; i++) {
+            final int indexImage = i;
+            imgItems[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null) {
+                        listener.onClickImage(getLayoutPosition(), indexImage, v);
+                    }
+                }
+            });
+        }
+
+
     }
 
     public void populate(Feed feed) {

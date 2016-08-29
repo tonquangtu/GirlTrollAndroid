@@ -23,9 +23,9 @@ public class AppConstant {
 
     public static int SUCCESS = 1;
 
-    public static int DEFAULT_LIMIT = 6;
+    public static int DEFAULT_LIMIT = 4;
 
-    public static String URL_BASE = "http://192.168.43.209/GirlTroll/";
+    public static String URL_BASE = "http://girltroll.890m.com/";
 
     public static String SPACE = " ";
 }

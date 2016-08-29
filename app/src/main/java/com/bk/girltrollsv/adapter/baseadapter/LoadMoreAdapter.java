@@ -67,6 +67,8 @@ public abstract class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
     protected void onBindLoadMoreViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+//        ((DefaultLoadMoreViewHolder)holder).pgLoader.setIndeterminate(true);
     }
 
     public abstract void onBindDefaultViewHolder(RecyclerView.ViewHolder holder, int position);

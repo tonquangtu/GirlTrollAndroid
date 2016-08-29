@@ -20,6 +20,10 @@
     <color name="blue_grey_400">#78909C</color>
     <color name="blue_grey_300">#90A4AE</color>
     <color name="blue_grey_100">#CFD8DC</color>
+    <color name="pink_900">#880E4F</color>
+    <color name="brown_700">#5D4037</color>
+    <color name="teal_800">#00695C</color>
+    <color name="blue_grey_800">#37474F</color>
 
     <!--Colors for app-->
     <color name="background_main_ui">@color/blue_grey_100</color>
@@ -44,10 +48,16 @@
 
     <color name="background_view">@color/deep_purple_300</color>
 
-    <color name="color_text_comment">@color/grey_600</color>
+    <color name="color_text_comment">@color/grey_700</color>
 
-    <color name="color_text_like">@color/grey_600</color>
+    <color name="color_text_like">@color/grey_700</color>
 
-    <color name="color_text_share">@color/grey_600</color>
+    <color name="color_text_share">@color/grey_700</color>
+
+    <color name="background_view_video">@color/black</color>
+
+    <color name="color_text_view_video">@color/white</color>
+
+
 
 </resources>

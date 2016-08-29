@@ -15,10 +15,10 @@ import com.bk.girltrollsv.adapter.viewholder.OneImageFeedViewHolder;
 import com.bk.girltrollsv.adapter.viewholder.ThreeImageFeedViewHolder;
 import com.bk.girltrollsv.adapter.viewholder.TwoImageFeedViewHolder;
 import com.bk.girltrollsv.adapter.viewholder.VideoViewHolder;
+import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.ImageInfo;
-import com.bk.girltrollsv.util.Utils;
 
 import java.util.ArrayList;
 
@@ -34,6 +34,8 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
     RecyclerView mRecyclerView;
 
     OnLoadMoreListener onLoadMoreListener;
+
+    FeedItemOnClickListener itemListener;
 
     boolean isLoadingMore = false;
 
@@ -103,26 +105,28 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
     public RecyclerView.ViewHolder onDefaultCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mActivity).inflate(R.layout.card_view_feed, parent, false);
+        FeedViewHolder holder;
 
         if (viewType == ITEM_HAVE_ONE_IMAGE) {
-            return new OneImageFeedViewHolder(view, mActivity);
+            holder = new OneImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_HAVE_TWO_IMAGE) {
-            return new TwoImageFeedViewHolder(view, mActivity);
+            holder =  new TwoImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_HAVE_THREE_IMAGE) {
-            return new ThreeImageFeedViewHolder(view, mActivity);
+            holder = new ThreeImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_HAVE_FOUR_IMAGE) {
-            return new FourImageFeedViewHolder(view, mActivity);
+            holder = new FourImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_VIDEO_FEED) {
-            return new VideoViewHolder(view, mActivity);
+            holder = new VideoViewHolder(view, mActivity);
 
         } else {
-            return new FeedViewHolder(view, mActivity);
+            holder = new FeedViewHolder(view, mActivity);
         }
-
+        holder.setListener(itemListener);
+        return holder;
     }
 
     @Override
@@ -206,20 +210,8 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
 
         if (moreFeeds != null && moreFeeds.size() > 0) {
             final int currentSize = totalItem();
-            long start = System.currentTimeMillis();
-
             feeds.addAll(moreFeeds);
-            if (System.currentTimeMillis() - start > TIME_THRESHOLD) {
-                notifyItemRangeInserted(currentSize, moreFeeds.size());
-
-            } else {
-                Utils.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyItemRangeInserted(currentSize, moreFeeds.size());
-                    }
-                }, TIME_THRESHOLD);
-            }
+            notifyItemRangeInserted(currentSize, moreFeeds.size());
         }
     }
 
@@ -236,5 +228,8 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
         notifyItemRemoved(totalItem());
     }
 
+    public void setItemListener(FeedItemOnClickListener itemListener) {
+        this.itemListener = itemListener;
+    }
 
 }

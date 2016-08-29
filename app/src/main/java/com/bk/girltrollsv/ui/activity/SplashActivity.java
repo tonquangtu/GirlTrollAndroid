@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.constant.AppConstant;
@@ -119,8 +118,8 @@ public class SplashActivity extends AppCompatActivity {
 
     public void handleLaunchingMainActivity() {
 
-        if(isLoadNewFeedComplete && isLoadEventCatalogComplete) {
-            Log.e("tuton", "vao4");
+        if( isLoadEventCatalogComplete) {
+
             Intent intent = new Intent(this, MainActivity.class);
             Bundle dataToMain = new Bundle();
 
