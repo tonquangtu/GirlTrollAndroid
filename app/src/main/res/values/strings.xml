@@ -21,4 +21,6 @@
     <string name="description_zoom">Zoom</string>
     <string name="description_full_screen">Full scrren</string>
 
+    <string name="bare_url">https://girltroll.com/</string>
+
 </resources>
