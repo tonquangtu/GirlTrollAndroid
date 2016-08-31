@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,6 +20,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bk.girltrollsv.BaseApplication;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -223,15 +227,15 @@ public class Utils {
     public static boolean checkPermission(Activity activity, String idPermission, int requestPermissionCode) {
 
         boolean isPermission = true;
-        if(ContextCompat.checkSelfPermission(activity, idPermission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(activity, idPermission) != PackageManager.PERMISSION_GRANTED) {
             isPermission = false;
             // Should show an explanation
-            if(ActivityCompat.shouldShowRequestPermissionRationale(activity,idPermission)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, idPermission)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-            }else {
-                ActivityCompat.requestPermissions(activity, new String [] {idPermission}, requestPermissionCode);
+            } else {
+                ActivityCompat.requestPermissions(activity, new String[]{idPermission}, requestPermissionCode);
             }
         }
         return isPermission;
@@ -248,4 +252,20 @@ public class Utils {
         activity.getWindowManager().getDefaultDisplay().getSize(size);
         return size.y;
     }
+
+    public static boolean checkInternetAvailable() {
+
+        ConnectivityManager cm = (ConnectivityManager) BaseApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+
+        if (info != null && info.isConnected() && info.isAvailable()) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
+
 }

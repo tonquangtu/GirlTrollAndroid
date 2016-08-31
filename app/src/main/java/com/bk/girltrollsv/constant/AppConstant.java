@@ -19,7 +19,7 @@ public class AppConstant {
 
     public static String LIMIT_TAG = "limit";
 
-    public static int DEFAULT_FEED_ID = -1;
+    public static String DEFAULT_FEED_ID = "-1";
 
     public static int SUCCESS = 1;
 

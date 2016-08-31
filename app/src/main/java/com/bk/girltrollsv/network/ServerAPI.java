@@ -28,5 +28,8 @@ public interface ServerAPI {
     @GET("event")
     Call<EventCatalogResponse> callLoadEventCatalog();
 
+    @GET("feed/refresh")
+    Call<FeedResponse> callRefreshNewFeed(@QueryMap Map<String, String> tag);
+
 
 }

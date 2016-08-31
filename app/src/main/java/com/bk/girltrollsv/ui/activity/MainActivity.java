@@ -163,9 +163,7 @@ public class MainActivity extends BaseActivity
     public void initViewPager() {
 
         mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagingLoadNewFeed, eventCatalogs);
-
         mViewPagerMain.setAdapter(mPagerMainAdapter);
-
     }
 
 

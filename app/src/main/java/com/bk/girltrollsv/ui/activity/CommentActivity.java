@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,7 +25,6 @@ import android.widget.RelativeLayout;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.constant.AppConstant;
-import com.bk.girltrollsv.util.StringUtil;
 
 import butterknife.Bind;
 
@@ -52,7 +50,6 @@ public class CommentActivity extends BaseActivity {
     private WebView webView, childView = null;
 
 
-
     @Override
     public int setContentViewId() {
         return R.layout.activity_comment;
@@ -62,8 +59,8 @@ public class CommentActivity extends BaseActivity {
     public void handleIntent(Intent intent) {
 
         Bundle bundle = intent.getBundleExtra(AppConstant.PACKAGE);
-        //PATH_URL = bundle.getString(AppConstant.FEED_ID_TAG);
-        PATH_URL = "1";
+        PATH_URL = bundle.getString(AppConstant.FEED_ID_TAG);
+
         //title = bundle.getString(AppConstant.FEED_TITLE_TAG);
     }
 

@@ -3,8 +3,10 @@ package com.bk.girltrollsv.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.bk.girltrollsv.R;
@@ -16,9 +18,11 @@ import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.ui.activity.CommentActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
+import com.bk.girltrollsv.util.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +41,9 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.rvFeeds)
     RecyclerView rvFeeds;
 
+    @Bind(R.id.swipe_refresh_layout_new_feed)
+    SwipeRefreshLayout mRefreshNewFeed;
+
     ArrayList<Feed> initFeeds;
 
     Paging pagingLoadNewFeed;
@@ -44,6 +51,8 @@ public class HomeFragment extends BaseFragment {
     RVFeedsAdapter feedsAdapter;
 
     Activity mActivity;
+
+    boolean isRefreshing = false;
 
     public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
 
@@ -73,6 +82,7 @@ public class HomeFragment extends BaseFragment {
     protected void initView() {
         mActivity = getActivity();
         initRv();
+        initRefreshLayout();
     }
 
     public void initRv() {
@@ -110,17 +120,12 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onClickLike(int posFeed, View view) {
-
+                handleClickLike(posFeed);
             }
 
             @Override
             public void onClickComment(int posFeed, View view) {
-
-            }
-
-            @Override
-            public void onClickShare(int posFeed, View view) {
-
+                handleClickComment(posFeed);
             }
 
             @Override
@@ -132,7 +137,11 @@ public class HomeFragment extends BaseFragment {
 
     public void handleLoadMore() {
 
-        loadMoreNewFeed();
+        if(Utils.checkInternetAvailable()) {
+            loadMoreNewFeed();
+        } else {
+            Utils.toastShort(mActivity, R.string.no_network);
+        }
     }
 
     public void loadMoreNewFeed() {
@@ -156,7 +165,7 @@ public class HomeFragment extends BaseFragment {
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
 
                 feedsAdapter.removeLastItem();
-                if(response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null) {
 
                     feedsAdapter.insertLastItems(response.body().getData());
                     pagingLoadNewFeed.setAfter(response.body().getPaging().getAfter());
@@ -175,6 +184,83 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    public void initRefreshLayout() {
+
+        mRefreshNewFeed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handleRefreshNewFeed();
+            }
+        });
+    }
+
+    public void handleRefreshNewFeed() {
+
+        if (!isRefreshing) {
+            if (Utils.checkInternetAvailable()) {
+                refreshNewFeed();
+            } else {
+                Utils.toastShort(mActivity, R.string.no_network);
+                mRefreshNewFeed.setRefreshing(false);
+            }
+        } else {
+            mRefreshNewFeed.setRefreshing(false);
+        }
+    }
+
+    public void refreshNewFeed() {
+
+        isRefreshing = true;
+        String firstIdFeed;
+        if (feedsAdapter.getFeeds().size() > 0) {
+            firstIdFeed = feedsAdapter.getFeeds().get(0).getFeedId();
+        } else {
+            firstIdFeed = AppConstant.DEFAULT_FEED_ID;
+        }
+
+        Map<String, String> dataToServer = new HashMap<>();
+        dataToServer.put(AppConstant.CURRENT_FEED_ID_TAG, firstIdFeed);
+        dataToServer.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
+        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(dataToServer);
+        call.enqueue(new Callback<FeedResponse>() {
+            @Override
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+
+
+                if (response.isSuccessful()) {
+                    FeedResponse body = response.body();
+                    if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
+                        if (body.getData() != null && body.getData().size() > 0) {
+                            if (feedsAdapter.getFeeds().size() == 0) {
+                                pagingLoadNewFeed.setAfter(body.getPaging().getAfter());
+                                pagingLoadNewFeed.setBefore(body.getPaging().getBefore());
+
+                                Log.e("tuton", "after:" + body.getPaging().getAfter());
+                                Log.e("tuton", "before:" + body.getPaging().getBefore());
+
+                            }
+                            feedsAdapter.insertItems(body.getData(), 0);
+                            rvFeeds.scrollToPosition(0);
+                            Log.e("tuton", "size:" + feedsAdapter.totalItem());
+                            Log.e("tuton", "feedId:" + body.getData().get(0).getFeedId());
+                        }
+                    }
+                }
+                isRefreshing = false;
+                mRefreshNewFeed.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                isRefreshing = false;
+                mRefreshNewFeed.setRefreshing(false);
+                t.printStackTrace();
+            }
+        });
+    }
+
+
     public void handleClickVideo(int posFeed) {
 
         Feed feed = feedsAdapter.getFeeds().get(posFeed);
@@ -184,6 +270,26 @@ public class HomeFragment extends BaseFragment {
         intent.putExtra(AppConstant.PACKAGE, data);
         mActivity.startActivity(intent);
 
+    }
+
+    public void handleClickComment(int positionFeed) {
+
+        Feed feed = feedsAdapter.getFeeds().get(positionFeed);
+        if (feed != null) {
+
+            Bundle data = new Bundle();
+            data.putString(AppConstant.FEED_ID_TAG, feed.getFeedId());
+            Intent intent = new Intent(mActivity, CommentActivity.class);
+            intent.putExtra(AppConstant.PACKAGE, data);
+            mActivity.startActivity(intent);
+        }
+    }
+
+    public void handleClickLike(int positionFeed) {
+
+        // check login
+        // if login then like. change image and start animation
+        // sent info like to server.
     }
 
 }

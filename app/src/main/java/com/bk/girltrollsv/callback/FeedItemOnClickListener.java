@@ -15,7 +15,5 @@ public interface FeedItemOnClickListener {
 
     void onClickComment(int posFeed, View view);
 
-    void onClickShare(int posFeed, View view);
-
     void onClickMore(int posFeed, View view);
 }

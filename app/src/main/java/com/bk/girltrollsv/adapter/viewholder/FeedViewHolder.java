@@ -2,6 +2,7 @@ package com.bk.girltrollsv.adapter.viewholder;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Member;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
@@ -95,6 +97,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         StringUtil.displayText(school, txtSchool);
         StringUtil.displayText(numLike, txtNumLike);
         StringUtil.displayText(numComment, txtNumComment);
+
+        shareBtn.setShareContent(getShareContent(feed));
 
     }
 
@@ -196,15 +200,30 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(listener != null) {
-                    listener.onClickComment(getLayoutPosition(), v);
-                }
-            }
-        });
+    }
 
+    public ShareLinkContent getShareContent(Feed feed) {
+
+        String title = feed.getTitle();
+        String description = mActivity.getResources().getString(R.string.share_description);
+        String url;
+
+        if(feed.getImages() != null && feed.getImages().size() > 0) {
+            url = feed.getImages().get(0).getUrlImage();
+        } else if(feed.getVideo() != null) {
+            url = feed.getVideo().getUrlVideo();
+        } else {
+            url = AppConstant.URL_BASE;
+        }
+
+        Uri uri = Uri.parse(url);
+        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                .setContentTitle(title)
+                .setContentDescription(description)
+                .setContentUrl(uri)
+                .build();
+
+        return linkContent;
     }
 
 }

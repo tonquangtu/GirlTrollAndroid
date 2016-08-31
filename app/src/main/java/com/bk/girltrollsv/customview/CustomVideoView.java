@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.customview;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -8,9 +9,11 @@ import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.bk.girltrollsv.callback.OnFullScreenListener;
 import com.bk.girltrollsv.model.Video;
 import com.bk.girltrollsv.util.Utils;
 
@@ -35,6 +38,10 @@ public class CustomVideoView {
 
     ProgressBar mProgress;
 
+    boolean mIsFullScreen = false;
+
+    OnFullScreenListener mFullScreenListener;
+
     public CustomVideoView(Activity activity, FrameLayout container) {
 
         this.mActivity = activity;
@@ -52,15 +59,15 @@ public class CustomVideoView {
 
     private void initSurfaceView() {
 
+        float ratio = 0.75f;
         int width = Utils.getScreenWidth(mActivity);
-        int height = 3 * width / 4;
+        int height = (int) (width * ratio);
 
         mSurfaceView = new SurfaceView(mActivity);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
         mSurfaceView.setLayoutParams(layoutParams);
         frameContainer.addView(mSurfaceView);
 
-        mSurfaceView.setVisibility(View.VISIBLE);
     }
 
     public void initMediaPlayer(Video video) {
@@ -117,7 +124,6 @@ public class CustomVideoView {
         public void onPrepared(MediaPlayer mp) {
 
             mProgress.setVisibility(View.GONE);
-            mSurfaceView.setVisibility(View.VISIBLE);
             mMediaController.setMediaPlayer(mediaPlayerControl);
             mMediaController.setAnchorView(frameContainer);
             mPlayer.start();
@@ -178,17 +184,56 @@ public class CustomVideoView {
 
         @Override
         public boolean isFullScreen() {
-            return false;
+            return mIsFullScreen;
         }
 
         @Override
         public void toggleFullScreen() {
 
+            handleToggleFullScreen();
         }
     };
 
     public CustomMediaController getMediaController() {
         return mMediaController;
+    }
+
+    public void handleToggleFullScreen() {
+
+        int width;
+        int height;
+
+        if (!mIsFullScreen) {
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            width = Utils.getScreenWidth(mActivity);
+            height = Utils.getScreenHeight(mActivity);
+            changeSizeSurfaceView(width, height);
+
+        } else {
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            float ratio = 0.75f;
+            width = Utils.getScreenWidth(mActivity);
+            height = (int) (width * ratio);
+            changeSizeSurfaceView(width, height);
+        }
+        mIsFullScreen = !mIsFullScreen;
+        mFullScreenListener.onFullScreenChange(mIsFullScreen);
+    }
+
+    public void changeSizeSurfaceView(int width, int height) {
+
+        ViewGroup.LayoutParams layoutParamsSurfaceView = mSurfaceView.getLayoutParams();
+        layoutParamsSurfaceView.width = width;
+        layoutParamsSurfaceView.height = height;
+
+        ViewGroup.LayoutParams layoutParamsFrameContainer = frameContainer.getLayoutParams();
+        layoutParamsFrameContainer.width = width;
+        layoutParamsFrameContainer.height = height;
+
+    }
+
+    public void setFullScreenListener(OnFullScreenListener fullScreenListener) {
+        this.mFullScreenListener = fullScreenListener;
     }
 
 }

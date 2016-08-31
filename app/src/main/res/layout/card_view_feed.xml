@@ -177,7 +177,7 @@
             <com.facebook.share.widget.ShareButton
                 android:id="@+id/share_btn"
                 android:textColor="@color/color_text_share"
-                android:drawableLeft="@drawable/icon_facebook"
+                android:drawableLeft="@drawable/com_facebook_button_icon_blue"
                 android:textAllCaps="false"
                 style="?attr/borderlessButtonStyle"
                 android:text="@string/share"

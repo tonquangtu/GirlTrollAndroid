@@ -118,7 +118,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void handleLaunchingMainActivity() {
 
-        if( isLoadEventCatalogComplete) {
+        if( isLoadEventCatalogComplete && isLoadNewFeedComplete) {
 
             Intent intent = new Intent(this, MainActivity.class);
             Bundle dataToMain = new Bundle();

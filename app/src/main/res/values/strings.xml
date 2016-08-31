@@ -23,4 +23,8 @@
 
     <string name="bare_url">https://girltroll.com/</string>
 
+    <string name="no_network">Không có kết nối mạng</string>
+
+    <string name="share_description">Ngắm gái xinh các trường cùng GirlTrollSV</string>
+
 </resources>

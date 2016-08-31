@@ -7,12 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.callback.OnFullScreenListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomVideoView;
 import com.bk.girltrollsv.model.Feed;
@@ -37,11 +40,20 @@ public class VideoActivity extends BaseActivity {
     @Bind(R.id.txt_title_feed)
     TextView txtTitleFeed;
 
+    @Bind(R.id.view_divider_info_comment_like)
+    View viewDivider;
+
     @Bind(R.id.txt_num_like)
     TextView txtNumLike;
 
     @Bind(R.id.txt_num_comment)
     TextView txtNumComment;
+
+    @Bind(R.id.ll_comment_like_share)
+    LinearLayout llCommentLikeShare;
+
+    @Bind(R.id.ll_info_num_comment_like)
+    LinearLayout llInfoNumCommentLike;
 
     @Bind(R.id.btn_like)
     Button btnLike;
@@ -83,7 +95,8 @@ public class VideoActivity extends BaseActivity {
 
         initFrameContainer();
 
-        mCustomVideoView = new CustomVideoView(this, frameContainer);
+        initVideoView();
+
     }
 
     @Override
@@ -92,6 +105,8 @@ public class VideoActivity extends BaseActivity {
         if (mFeed == null || video == null) {
             return;
         }
+        mCustomVideoView.initMediaPlayer(video);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(mFeed.getMember().getUsername());
         actionBar.setSubtitle(mFeed.getTime());
@@ -101,8 +116,7 @@ public class VideoActivity extends BaseActivity {
 
         StringUtil.displayText(like, txtNumLike);
         StringUtil.displayText(comment, txtNumComment);
-
-        mCustomVideoView.initMediaPlayer(video);
+        StringUtil.displayText(mFeed.getTitle(), txtTitleFeed);
 
     }
 
@@ -116,7 +130,7 @@ public class VideoActivity extends BaseActivity {
 
     public void initFrameContainer() {
 
-        float ratio = 3 / 4.0f;
+        float ratio = 0.75f;
         int width = Utils.getScreenWidth(this);
         int height = (int) (ratio * width);
         frameContainer = new FrameLayout(this);
@@ -128,6 +142,20 @@ public class VideoActivity extends BaseActivity {
 
     }
 
+    public void initVideoView() {
+
+        mCustomVideoView = new CustomVideoView(this, frameContainer);
+        mCustomVideoView.setFullScreenListener(new OnFullScreenListener() {
+            @Override
+            public void onFullScreenChange(boolean isFull) {
+                if (isFull) {
+                    setVisibilityControl(View.GONE);
+                } else {
+                    setVisibilityControl(View.VISIBLE);
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -174,5 +202,16 @@ public class VideoActivity extends BaseActivity {
     public void report() {
 
     }
+
+    public void setVisibilityControl(int visibility) {
+
+        mToolbar.setVisibility(visibility);
+        llCommentLikeShare.setVisibility(visibility);
+        llInfoNumCommentLike.setVisibility(visibility);
+        txtTitleFeed.setVisibility(visibility);
+        viewDivider.setVisibility(visibility);
+
+    }
+
 
 }

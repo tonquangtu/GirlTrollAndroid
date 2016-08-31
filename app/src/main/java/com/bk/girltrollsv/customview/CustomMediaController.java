@@ -38,12 +38,9 @@ public class CustomMediaController extends FrameLayout {
     private TextView mCurrentTime;
     private boolean mShowing;
     private boolean mDragging;
-    private static final int sDefaultTimeout = 3000;
+    private static final int sDefaultTimeout = 2000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
-    private boolean mUseFastForward;
-    private boolean mFromXml;
-    private boolean mListenersSet;
     StringBuilder mFormatBuilder;
     Formatter mFormatter;
 
@@ -51,22 +48,17 @@ public class CustomMediaController extends FrameLayout {
     private ImageButton mFullScreenButton;
     private Handler mHandler = new MessageHandler(this);
 
-    public CustomMediaController(Context context, boolean useFastForward) {
-        super(context);
-        mContext = context;
-        mUseFastForward = useFastForward;
-    }
-
     public CustomMediaController(Context context) {
-        this(context, true);
+        super(context);
+        mRoot = null;
+        mContext = context;
     }
 
     public CustomMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRoot = null;
         mContext = context;
-        mUseFastForward = true;
-        mFromXml = true;
+
     }
 
     @Override
@@ -194,7 +186,7 @@ public class CustomMediaController extends FrameLayout {
         // cause the progress bar to be updated even if mShowing
         // was already true.  This happens, for example, if we're
         // paused with the progress bar showing the user hits play.
-        Message msg = mHandler.obtainMessage();
+        Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
             mHandler.removeMessages(FADE_OUT);
             mHandler.sendMessageDelayed(msg, timeout);
@@ -266,7 +258,7 @@ public class CustomMediaController extends FrameLayout {
 
     public boolean onTouchEvent(MotionEvent event) {
 
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             show();
         }
         return true;
@@ -275,7 +267,7 @@ public class CustomMediaController extends FrameLayout {
     @Override
     public boolean onTrackballEvent(MotionEvent ev) {
 
-        if(ev.getAction() == MotionEvent.ACTION_DOWN) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             show();
         }
         return false;
@@ -342,7 +334,7 @@ public class CustomMediaController extends FrameLayout {
 
     private View.OnClickListener mFullScreenListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Log.e("tuton", "vao full");
+
             doToggleFullscreen();
             show(sDefaultTimeout);
         }
@@ -392,7 +384,7 @@ public class CustomMediaController extends FrameLayout {
         if (mPlayer == null) {
             return;
         }
-
+        updateFullScreen();
         mPlayer.toggleFullScreen();
     }
 
@@ -410,12 +402,12 @@ public class CustomMediaController extends FrameLayout {
             mHandler.removeMessages(SHOW_PROGRESS);
         }
 
-        public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
+        public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
             if (mPlayer == null) {
                 return;
             }
 
-            if (!fromuser) {
+            if (!fromUser) {
                 // We're not interested in programmatically generated changes to
                 // the progress bar's position.
                 return;

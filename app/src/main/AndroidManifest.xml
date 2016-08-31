@@ -3,6 +3,7 @@
     package="com.bk.girltrollsv">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".BaseApplication"
@@ -40,7 +41,11 @@
         </activity>
 
         <activity android:name=".ui.activity.VideoActivity"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/VideoTheme"/>
+
+        <activity android:name=".ui.activity.CommentActivity"
+            />
 
     </application>
 

@@ -228,6 +228,16 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
         notifyItemRemoved(totalItem());
     }
 
+    public void insertItems(ArrayList<Feed> moreFeeds, int start) {
+
+        if(moreFeeds != null && moreFeeds.size() > 0 && start >= 0 && start <= totalItem()) {
+            feeds.addAll(start, moreFeeds);
+            notifyItemRangeInserted(start, moreFeeds.size());
+        }
+
+    }
+
+
     public void setItemListener(FeedItemOnClickListener itemListener) {
         this.itemListener = itemListener;
     }
