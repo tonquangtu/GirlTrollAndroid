@@ -32,4 +32,8 @@ public class AppConstant {
     public static final String FEED_ID_TAG = "FEED_ID";
 
     public static final String FEED_TITLE_TAG = "FEED_TITLE";
+
+    public static final int LIKE = 1;
+
+    public static final int UN_LIKE = 0;
 }

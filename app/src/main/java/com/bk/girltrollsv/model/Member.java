@@ -6,36 +6,26 @@ import android.os.Parcelable;
 /**
  * Created by Dell on 16-Aug-16.
  */
-public class Member implements Parcelable {
-
-    private String memberId;
-
-    private String username;
+public class Member extends BaseInfoMember implements Parcelable {
 
     private String rank;
 
     private int like;
 
-    private String avatarUrl;
-
     private int totalImage;
 
     protected Member(Parcel in) {
-        memberId = in.readString();
-        username = in.readString();
+        super(in);
         rank = in.readString();
         like = in.readInt();
-        avatarUrl = in.readString();
         totalImage = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(memberId);
-        dest.writeString(username);
+        super.writeToParcel(dest, flags);
         dest.writeString(rank);
         dest.writeInt(like);
-        dest.writeString(avatarUrl);
         dest.writeInt(totalImage);
     }
 
@@ -56,24 +46,12 @@ public class Member implements Parcelable {
         }
     };
 
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
     public String getRank() {
         return rank;
     }
 
     public int getLike() {
         return like;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
     }
 
     public int getTotalImage() {

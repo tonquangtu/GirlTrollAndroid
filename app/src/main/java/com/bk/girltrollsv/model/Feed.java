@@ -16,6 +16,8 @@ public class Feed implements Parcelable{
 
     private String time;
 
+    private int isLike;
+
     private int like;
 
     private int comment;
@@ -36,6 +38,7 @@ public class Feed implements Parcelable{
     public Feed(String feedId,
                 String title,
                 String time,
+                int isLike,
                 int like,
                 int comment,
                 int share,
@@ -48,6 +51,7 @@ public class Feed implements Parcelable{
         this.feedId = feedId;
         this.title = title;
         this.time = time;
+        this.isLike = isLike;
         this.like = like;
         this.comment = comment;
         this.share = share;
@@ -63,6 +67,7 @@ public class Feed implements Parcelable{
         feedId = in.readString();
         title = in.readString();
         time = in.readString();
+        isLike = in.readInt();
         like = in.readInt();
         comment = in.readInt();
         share = in.readInt();
@@ -78,6 +83,7 @@ public class Feed implements Parcelable{
         dest.writeString(feedId);
         dest.writeString(title);
         dest.writeString(time);
+        dest.writeInt(isLike);
         dest.writeInt(like);
         dest.writeInt(comment);
         dest.writeInt(share);
@@ -147,5 +153,9 @@ public class Feed implements Parcelable{
 
     public ArrayList<ImageInfo> getImages() {
         return images;
+    }
+
+    public int getIsLike() {
+        return isLike;
     }
 }

@@ -2,6 +2,7 @@ package com.bk.girltrollsv.adapter.viewholder;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -99,7 +100,14 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         StringUtil.displayText(numComment, txtNumComment);
 
         shareBtn.setShareContent(getShareContent(feed));
+        Drawable drawable;
+        if (feed.getIsLike() == AppConstant.UN_LIKE) {
+            drawable = mActivity.getResources().getDrawable(R.drawable.icon_unlike);
 
+        } else {
+            drawable = mActivity.getResources().getDrawable(R.drawable.icon_like);
+        }
+        btnLike.setCompoundDrawables(drawable, null, null, null);
     }
 
 
@@ -182,20 +190,21 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        btnLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(listener != null) {
-                    listener.onClickLike(getLayoutPosition(), v);
-                }
-            }
-        });
-
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
                     listener.onClickComment(getLayoutPosition(), v);
+                }
+            }
+        });
+
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(listener != null) {
+                    listener.onClickLike(getLayoutPosition(), v);
                 }
             }
         });

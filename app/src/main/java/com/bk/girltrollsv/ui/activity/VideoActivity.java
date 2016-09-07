@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Video;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
@@ -96,6 +98,8 @@ public class VideoActivity extends BaseActivity {
         initFrameContainer();
 
         initVideoView();
+
+        initLikeCommentShare();
 
     }
 
@@ -213,5 +217,33 @@ public class VideoActivity extends BaseActivity {
 
     }
 
+    public void initLikeCommentShare() {
+
+        
+        btnShare.setShareContent(getShareContent(mFeed));
+
+    }
+
+    public ShareLinkContent getShareContent(Feed feed) {
+
+        String title = feed.getTitle();
+        String description = this.getResources().getString(R.string.share_description);
+        String url;
+
+        if(feed.getVideo() != null) {
+            url = feed.getVideo().getUrlVideo();
+        } else {
+            url = AppConstant.URL_BASE;
+        }
+
+        Uri uri = Uri.parse(url);
+        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                .setContentTitle(title)
+                .setContentDescription(description)
+                .setContentUrl(uri)
+                .build();
+
+        return linkContent;
+    }
 
 }
