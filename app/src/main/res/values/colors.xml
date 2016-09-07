@@ -58,6 +58,10 @@
 
     <color name="color_text_view_video">@color/white</color>
 
+    <color name="color_text_error_load_feed">@color/white</color>
+
+    <color name="color_button_reload_feed">@color/brown_700</color>
+
 
 
 </resources>

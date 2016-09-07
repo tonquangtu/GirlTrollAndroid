@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +45,12 @@ public class HomeFragment extends BaseFragment {
 
     @Bind(R.id.swipe_refresh_layout_new_feed)
     SwipeRefreshLayout mRefreshNewFeed;
+
+    @Bind(R.id.ll_error_load_feed)
+    LinearLayout llErrorLoadFeed;
+
+    @Bind(R.id.btn_reload_feed)
+    Button btnReload;
 
     ArrayList<Feed> initFeeds;
 
@@ -83,6 +91,12 @@ public class HomeFragment extends BaseFragment {
         mActivity = getActivity();
         initRv();
         initRefreshLayout();
+
+        if (initFeeds == null || initFeeds.size() == 0) {
+            rvFeeds.setVisibility(View.GONE);
+        } else {
+            llErrorLoadFeed.setVisibility(View.GONE);
+        }
     }
 
     public void initRv() {
@@ -137,7 +151,7 @@ public class HomeFragment extends BaseFragment {
 
     public void handleLoadMore() {
 
-        if(Utils.checkInternetAvailable()) {
+        if (Utils.checkInternetAvailable()) {
             loadMoreNewFeed();
         } else {
             Utils.toastShort(mActivity, R.string.no_network);
@@ -226,7 +240,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
 
-
                 if (response.isSuccessful()) {
                     FeedResponse body = response.body();
                     if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
@@ -234,15 +247,9 @@ public class HomeFragment extends BaseFragment {
                             if (feedsAdapter.getFeeds().size() == 0) {
                                 pagingLoadNewFeed.setAfter(body.getPaging().getAfter());
                                 pagingLoadNewFeed.setBefore(body.getPaging().getBefore());
-
-                                Log.e("tuton", "after:" + body.getPaging().getAfter());
-                                Log.e("tuton", "before:" + body.getPaging().getBefore());
-
                             }
                             feedsAdapter.insertItems(body.getData(), 0);
                             rvFeeds.scrollToPosition(0);
-                            Log.e("tuton", "size:" + feedsAdapter.totalItem());
-                            Log.e("tuton", "feedId:" + body.getData().get(0).getFeedId());
                         }
                     }
                 }
@@ -290,6 +297,13 @@ public class HomeFragment extends BaseFragment {
         // check login
         // if login then like. change image and start animation
         // sent info like to server.
+    }
+
+    @OnClick(R.id.btn_reload_feed)
+    public void onClickReloadFeed(View view) {
+
+        mRefreshNewFeed.setRefreshing(true);
+        refreshNewFeed();
     }
 
 }

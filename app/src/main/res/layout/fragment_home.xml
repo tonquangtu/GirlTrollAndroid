@@ -4,6 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/ll_error_load_feed"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/icon_error_load"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/color_text_error_load_feed"
+            android:text="@string/error_load_feed"
+            android:layout_marginTop="@dimen/margin_top_txt_error_load"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_reload_feed"
+            android:textColor="@color/color_text_error_load_feed"
+            android:background="@color/color_button_reload_feed"
+            android:textAllCaps="false"
+            android:text="@string/button_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvFeeds"
         android:clipToPadding="false"
