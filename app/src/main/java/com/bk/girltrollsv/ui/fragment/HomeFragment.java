@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.bk.girltrollsv.R;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,9 +46,6 @@ public class HomeFragment extends BaseFragment {
 
     @Bind(R.id.ll_error_load_feed)
     LinearLayout llErrorLoadFeed;
-
-    @Bind(R.id.btn_reload_feed)
-    Button btnReload;
 
     ArrayList<Feed> initFeeds;
 
@@ -95,7 +90,7 @@ public class HomeFragment extends BaseFragment {
         if (initFeeds == null || initFeeds.size() == 0) {
             rvFeeds.setVisibility(View.GONE);
         } else {
-            llErrorLoadFeed.setVisibility(View.GONE);
+            llErrorLoadFeed.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -297,13 +292,10 @@ public class HomeFragment extends BaseFragment {
         // check login
         // if login then like. change image and start animation
         // sent info like to server.
+
+
+
     }
 
-    @OnClick(R.id.btn_reload_feed)
-    public void onClickReloadFeed(View view) {
-
-        mRefreshNewFeed.setRefreshing(true);
-        refreshNewFeed();
-    }
 
 }

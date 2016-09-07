@@ -36,4 +36,10 @@ public class AppConstant {
     public static final int LIKE = 1;
 
     public static final int UN_LIKE = 0;
+
+    public static final String MY_ID = "MY_ID";
+
+    public static final String MY_USERNAME = "MY_USERNAME";
+
+    public static final String MY_AVATAR_URL = "MY_AVATAR_URL";
 }

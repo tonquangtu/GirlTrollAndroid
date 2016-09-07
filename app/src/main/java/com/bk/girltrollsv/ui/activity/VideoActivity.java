@@ -21,8 +21,8 @@ import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomVideoView;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Video;
+import com.bk.girltrollsv.util.ScreenHelper;
 import com.bk.girltrollsv.util.StringUtil;
-import com.bk.girltrollsv.util.Utils;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
@@ -135,7 +135,7 @@ public class VideoActivity extends BaseActivity {
     public void initFrameContainer() {
 
         float ratio = 0.75f;
-        int width = Utils.getScreenWidth(this);
+        int width = ScreenHelper.getScreenWidthInPx();
         int height = (int) (ratio * width);
         frameContainer = new FrameLayout(this);
 

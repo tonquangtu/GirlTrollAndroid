@@ -25,15 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_reload_feed"
-            android:textColor="@color/color_text_error_load_feed"
-            android:background="@color/color_button_reload_feed"
-            android:textAllCaps="false"
-            android:text="@string/button_reload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
 
