@@ -29,5 +29,6 @@
     <dimen name="margin_left_control_video">6dp</dimen>
     <dimen name="margin_right_control_video">2dp</dimen>
     <dimen name="margin_top_txt_error_load">12dp</dimen>
+    <dimen name="text_size_error_load">16dp</dimen>
 
 </resources>

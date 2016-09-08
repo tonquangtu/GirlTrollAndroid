@@ -26,7 +26,7 @@
     <string name="no_network">Không có kết nối mạng</string>
 
     <string name="share_description">Ngắm gái xinh các trường cùng GirlTrollSV</string>
-    <string name="error_load_feed">Không tải được dữ liệu, vuốt từ trên xuống dưới để tải lại</string>
+    <string name="error_load_feed">Không kéo được mấy em chân dài sv về (.^.) !\n Vuốt từ trên xuống để kéo lại mấy em </string>
     <string name="button_reload">Tải lại</string>
 
 </resources>

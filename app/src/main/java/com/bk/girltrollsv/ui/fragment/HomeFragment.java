@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -84,14 +85,16 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         mActivity = getActivity();
-        initRv();
-        initRefreshLayout();
 
         if (initFeeds == null || initFeeds.size() == 0) {
             rvFeeds.setVisibility(View.GONE);
         } else {
-            llErrorLoadFeed.setVisibility(View.INVISIBLE);
+            llErrorLoadFeed.setVisibility(View.GONE);
         }
+        initRv();
+        initRefreshLayout();
+
+
     }
 
     public void initRv() {
@@ -199,22 +202,27 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 handleRefreshNewFeed();
+                mRefreshNewFeed.setRefreshing(true);
             }
         });
     }
 
     public void handleRefreshNewFeed() {
 
-        if (!isRefreshing) {
-            if (Utils.checkInternetAvailable()) {
-                refreshNewFeed();
-            } else {
-                Utils.toastShort(mActivity, R.string.no_network);
-                mRefreshNewFeed.setRefreshing(false);
-            }
-        } else {
-            mRefreshNewFeed.setRefreshing(false);
-        }
+        Log.e("tuton", "vao day");
+//        if (!isRefreshing) {
+//            if (Utils.checkInternetAvailable()) {
+//                refreshNewFeed();
+//            } else {
+////                makeRefreshViewHide();
+//                Utils.toastShort(mActivity, R.string.no_network);
+//                Log.e("tuton", "vao day1");
+//
+//            }
+//        } else {
+////            mRefreshNewFeed.setRefreshing(false);
+//            Log.e("tuton", "vao day2");
+//        }
     }
 
     public void refreshNewFeed() {
@@ -240,8 +248,12 @@ public class HomeFragment extends BaseFragment {
                     if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
                         if (body.getData() != null && body.getData().size() > 0) {
                             if (feedsAdapter.getFeeds().size() == 0) {
+
                                 pagingLoadNewFeed.setAfter(body.getPaging().getAfter());
                                 pagingLoadNewFeed.setBefore(body.getPaging().getBefore());
+                                rvFeeds.setVisibility(View.VISIBLE);
+                                llErrorLoadFeed.setVisibility(View.GONE);
+
                             }
                             feedsAdapter.insertItems(body.getData(), 0);
                             rvFeeds.scrollToPosition(0);
@@ -296,6 +308,32 @@ public class HomeFragment extends BaseFragment {
 
 
     }
+
+    public void makeRefreshViewHide() {
+
+        Log.e("tuton", "vao day");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefreshNewFeed.setRefreshing(false);
+                    }
+                });
+            }
+        });
+        thread.start();
+
+    }
+
+
+
 
 
 }

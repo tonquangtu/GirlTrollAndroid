@@ -4,37 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ll_error_load_feed"
-        android:gravity="center"
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/icon_error_load"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvFeeds"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/height_segment_view_bottom_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:textColor="@color/color_text_error_load_feed"
-            android:text="@string/error_load_feed"
-            android:layout_marginTop="@dimen/margin_top_txt_error_load"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        </android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_error_load_feed"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:src="@drawable/icon_error_load"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvFeeds"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/height_segment_view_bottom_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <TextView
+                android:textColor="@color/color_text_error_load_feed"
+                android:text="@string/error_load_feed"
+                android:layout_marginTop="@dimen/margin_top_txt_error_load"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_top_txt_error_load"
+                android:layout_marginRight="@dimen/margin_top_txt_error_load"
+                android:textSize="@dimen/text_size_error_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

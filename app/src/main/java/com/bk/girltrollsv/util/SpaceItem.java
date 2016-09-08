@@ -1,7 +1,6 @@
 package com.bk.girltrollsv.util;
 
 import android.graphics.Rect;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -24,11 +23,11 @@ public class SpaceItem extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
         int position = parent.getChildLayoutPosition(view);
-        int lastPos = -1;
-
-        if(parent.getLayoutManager() instanceof  LinearLayoutManager) {
-            lastPos = ((LinearLayoutManager)parent.getLayoutManager()).findLastVisibleItemPosition();
-        }
+//        int lastPos = -1;
+//
+//        if(parent.getLayoutManager() instanceof  LinearLayoutManager) {
+//            lastPos = ((LinearLayoutManager)parent.getLayoutManager()).findLastVisibleItemPosition();
+//        }
 
         if(type == VERTICAL) {
 
@@ -40,9 +39,6 @@ public class SpaceItem extends RecyclerView.ItemDecoration {
                 outRect.top = 0;
                 outRect.bottom = space;
 
-            } else if (position == lastPos) {
-                outRect.bottom = 0;
-                outRect.top = space;
             } else {
                 outRect.top = space;
                 outRect.bottom = space;
