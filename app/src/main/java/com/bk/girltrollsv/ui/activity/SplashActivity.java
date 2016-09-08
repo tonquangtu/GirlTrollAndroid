@@ -118,13 +118,13 @@ public class SplashActivity extends AppCompatActivity {
 
     public void handleLaunchingMainActivity() {
 
-        if( isLoadEventCatalogComplete && isLoadNewFeedComplete) {
+        if( isLoadNewFeedComplete) {
 
             Intent intent = new Intent(this, MainActivity.class);
             Bundle dataToMain = new Bundle();
 
             dataToMain.putParcelable(AppConstant.PAGING_TAG, paging);
-            dataToMain.putParcelableArrayList(AppConstant.EVENT_CATALOG_TAG, eventCatalogs);
+//            dataToMain.putParcelableArrayList(AppConstant.EVENT_CATALOG_TAG, eventCatalogs);
             dataToMain.putParcelableArrayList(AppConstant.FEEDS_TAG, initFeeds);
 
             intent.putExtra(AppConstant.PACKAGE, dataToMain);
@@ -149,7 +149,7 @@ public class SplashActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
 
             loadInitNewFeed();
-            loadEventCatalog();
+//            loadEventCatalog();
             return null;
         }
     }

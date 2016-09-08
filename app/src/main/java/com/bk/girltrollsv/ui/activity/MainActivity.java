@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity
         Bundle dataFromSplash = intent.getBundleExtra(AppConstant.PACKAGE);
         initFeeds = dataFromSplash.getParcelableArrayList(AppConstant.FEEDS_TAG);
         pagingLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
-        eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);
+//        eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);
     }
 
     public void initToolbar() {

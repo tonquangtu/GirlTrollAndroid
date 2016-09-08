@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +48,10 @@ public class HomeFragment extends BaseFragment {
 
     @Bind(R.id.ll_error_load_feed)
     LinearLayout llErrorLoadFeed;
+
+    @Bind(R.id.pgbReload)
+    ProgressBar pgbReload;
+
 
     ArrayList<Feed> initFeeds;
 
@@ -66,12 +71,10 @@ public class HomeFragment extends BaseFragment {
         args.putParcelable(AppConstant.PAGING_TAG, pagingLoadNewFeed);
         homeFragment.setArguments(args);
         return homeFragment;
-
     }
 
     @Override
     protected void handleArguments(Bundle arguments) {
-
         initFeeds = arguments.getParcelableArrayList(AppConstant.FEEDS_TAG);
         pagingLoadNewFeed = arguments.getParcelable(AppConstant.PAGING_TAG);
 
@@ -85,16 +88,14 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         mActivity = getActivity();
-
-        if (initFeeds == null || initFeeds.size() == 0) {
-            rvFeeds.setVisibility(View.GONE);
-        } else {
-            llErrorLoadFeed.setVisibility(View.GONE);
-        }
         initRv();
         initRefreshLayout();
 
-
+        if (initFeeds == null || initFeeds.size() == 0) {
+            mRefreshNewFeed.setVisibility(View.GONE);
+        } else {
+            llErrorLoadFeed.setVisibility(View.GONE);
+        }
     }
 
     public void initRv() {
@@ -159,19 +160,7 @@ public class HomeFragment extends BaseFragment {
     public void loadMoreNewFeed() {
 
         feedsAdapter.insertLastItem(null);
-
-        String afterFeedId;
-        Map<String, String> dataToServer = new HashMap<>();
-        if (!StringUtil.isEmpty(pagingLoadNewFeed.getAfter())) {
-            afterFeedId = pagingLoadNewFeed.getAfter();
-        } else {
-            afterFeedId = String.valueOf(AppConstant.DEFAULT_FEED_ID);
-        }
-
-        dataToServer.put(AppConstant.CURRENT_FEED_ID_TAG, afterFeedId);
-        dataToServer.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
-
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(dataToServer);
+        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(getTagLoadMore());
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
@@ -190,7 +179,6 @@ public class HomeFragment extends BaseFragment {
             public void onFailure(Call<FeedResponse> call, Throwable t) {
                 feedsAdapter.removeLastItem();
                 feedsAdapter.endLoadingMore();
-
             }
         });
 
@@ -198,36 +186,55 @@ public class HomeFragment extends BaseFragment {
 
     public void initRefreshLayout() {
 
+        mRefreshNewFeed.setColorSchemeResources(R.color.green_600, R.color.red_600, R.color.blue_grey_600);
         mRefreshNewFeed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 handleRefreshNewFeed();
-                mRefreshNewFeed.setRefreshing(true);
             }
         });
     }
 
     public void handleRefreshNewFeed() {
 
-        Log.e("tuton", "vao day");
-//        if (!isRefreshing) {
-//            if (Utils.checkInternetAvailable()) {
-//                refreshNewFeed();
-//            } else {
-////                makeRefreshViewHide();
-//                Utils.toastShort(mActivity, R.string.no_network);
-//                Log.e("tuton", "vao day1");
-//
-//            }
-//        } else {
-////            mRefreshNewFeed.setRefreshing(false);
-//            Log.e("tuton", "vao day2");
-//        }
+        if (!isRefreshing) {
+            if (Utils.checkInternetAvailable()) {
+                refreshNewFeed();
+
+            } else {
+                Utils.toastShort(mActivity, R.string.no_network);
+                mRefreshNewFeed.setRefreshing(false);
+            }
+        } else {
+            mRefreshNewFeed.setRefreshing(false);
+        }
     }
 
     public void refreshNewFeed() {
 
         isRefreshing = true;
+        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(getTagRefresh());
+        call.enqueue(new Callback<FeedResponse>() {
+            @Override
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+
+                if (response.isSuccessful()) {
+                    addDataToFirstList(response.body());
+                }
+                isRefreshing = false;
+                mRefreshNewFeed.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                isRefreshing = false;
+                mRefreshNewFeed.setRefreshing(false);
+            }
+        });
+    }
+
+    public Map<String, String> getTagRefresh() {
+
         String firstIdFeed;
         if (feedsAdapter.getFeeds().size() > 0) {
             firstIdFeed = feedsAdapter.getFeeds().get(0).getFeedId();
@@ -235,45 +242,46 @@ public class HomeFragment extends BaseFragment {
             firstIdFeed = AppConstant.DEFAULT_FEED_ID;
         }
 
-        Map<String, String> dataToServer = new HashMap<>();
-        dataToServer.put(AppConstant.CURRENT_FEED_ID_TAG, firstIdFeed);
-        dataToServer.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(dataToServer);
-        call.enqueue(new Callback<FeedResponse>() {
-            @Override
-            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
-
-                if (response.isSuccessful()) {
-                    FeedResponse body = response.body();
-                    if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
-                        if (body.getData() != null && body.getData().size() > 0) {
-                            if (feedsAdapter.getFeeds().size() == 0) {
-
-                                pagingLoadNewFeed.setAfter(body.getPaging().getAfter());
-                                pagingLoadNewFeed.setBefore(body.getPaging().getBefore());
-                                rvFeeds.setVisibility(View.VISIBLE);
-                                llErrorLoadFeed.setVisibility(View.GONE);
-
-                            }
-                            feedsAdapter.insertItems(body.getData(), 0);
-                            rvFeeds.scrollToPosition(0);
-                        }
-                    }
-                }
-                isRefreshing = false;
-                mRefreshNewFeed.setRefreshing(false);
-
-            }
-
-            @Override
-            public void onFailure(Call<FeedResponse> call, Throwable t) {
-                isRefreshing = false;
-                mRefreshNewFeed.setRefreshing(false);
-                t.printStackTrace();
-            }
-        });
+        Map<String, String> tagRefresh = new HashMap<>();
+        tagRefresh.put(AppConstant.CURRENT_FEED_ID_TAG, firstIdFeed);
+        tagRefresh.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
+        return tagRefresh;
     }
 
+    public Map<String, String> getTagLoadMore() {
+
+        String afterFeedId;
+        Map<String, String> tagLoadMore = new HashMap<>();
+        if (!StringUtil.isEmpty(pagingLoadNewFeed.getAfter())) {
+            afterFeedId = pagingLoadNewFeed.getAfter();
+        } else {
+            afterFeedId = String.valueOf(AppConstant.DEFAULT_FEED_ID);
+        }
+
+        tagLoadMore.put(AppConstant.CURRENT_FEED_ID_TAG, afterFeedId);
+        tagLoadMore.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
+        return tagLoadMore;
+    }
+
+    public void addDataToFirstList(FeedResponse dataAdd) {
+
+        if (dataAdd != null && dataAdd.getSuccess() == AppConstant.SUCCESS) {
+            ArrayList<Feed> feedAdds = dataAdd.getData();
+            if (feedAdds != null && feedAdds.size() > 0) {
+                if (feedsAdapter.getFeeds().size() == 0) {
+
+                    pagingLoadNewFeed.setAfter(dataAdd.getPaging().getAfter());
+                    pagingLoadNewFeed.setBefore(dataAdd.getPaging().getBefore());
+                    visibleControl(View.VISIBLE, View.GONE);
+                }
+                feedsAdapter.insertItems(feedAdds, 0);
+                rvFeeds.scrollToPosition(0);
+
+            } else if (feedsAdapter.getFeeds().size() == 0) {
+                visibleControl(View.GONE, View.VISIBLE);
+            }
+        }
+    }
 
     public void handleClickVideo(int posFeed) {
 
@@ -305,35 +313,46 @@ public class HomeFragment extends BaseFragment {
         // if login then like. change image and start animation
         // sent info like to server.
 
-
-
     }
 
-    public void makeRefreshViewHide() {
+    @OnClick(R.id.btn_reload)
+    public void onClickReload(View view) {
+        if (Utils.checkInternetAvailable()) {
+            visibleControl(View.GONE, View.GONE);
+            pgbReload.setVisibility(View.VISIBLE);
+            handleReload();
+        } else {
+            Utils.toastShort(mActivity, R.string.no_network);
+        }
+    }
 
-        Log.e("tuton", "vao day");
-        Thread thread = new Thread(new Runnable() {
+    public void handleReload() {
+
+        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(getTagRefresh());
+        call.enqueue(new Callback<FeedResponse>() {
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+
+                pgbReload.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    addDataToFirstList(response.body());
                 }
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRefreshNewFeed.setRefreshing(false);
-                    }
-                });
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                pgbReload.setVisibility(View.GONE);
+                visibleControl(View.GONE, View.VISIBLE);
             }
         });
-        thread.start();
+
 
     }
 
-
-
+    public void visibleControl(int refreshVisibility, int errorVisibility) {
+        mRefreshNewFeed.setVisibility(refreshVisibility);
+        llErrorLoadFeed.setVisibility(errorVisibility);
+    }
 
 
 }
