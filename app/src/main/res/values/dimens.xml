@@ -11,9 +11,9 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="height_member_feed">40dp</dimen>
     <dimen name="width_member_feed">40dp</dimen>
-    <dimen name="margin_right_feed">16dp</dimen>
+    <dimen name="margin_right_feed">10dp</dimen>
     <dimen name="margin_top_feed">16dp</dimen>
-    <dimen name="margin_left_feed">16dp</dimen>
+    <dimen name="margin_left_feed">10dp</dimen>
     <dimen name="margin_bottom_feed">16dp</dimen>
     <dimen name="text_size_time_feed">11dp</dimen>
     <dimen name="margin_top_content_feed">20dp</dimen>
@@ -31,5 +31,6 @@
     <dimen name="margin_top_txt_error_load">12dp</dimen>
     <dimen name="text_size_error_load">16dp</dimen>
     <dimen name="margin_top_image_error_load">24dp</dimen>
+    <dimen name="margin_left_avatar_feed">12dp</dimen>
 
 </resources>

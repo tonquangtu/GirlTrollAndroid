@@ -158,4 +158,12 @@ public class Feed implements Parcelable{
     public int getIsLike() {
         return isLike;
     }
+
+    public void setNumLike(int numLike) {
+        this.like = numLike;
+    }
+
+    public void setLikeState(int isLike) {
+        this.isLike = isLike;
+    }
 }

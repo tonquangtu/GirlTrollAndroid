@@ -42,4 +42,10 @@ public class AppConstant {
     public static final String MY_USERNAME = "MY_USERNAME";
 
     public static final String MY_AVATAR_URL = "MY_AVATAR_URL";
+
+    public static final String MEMBER_ID = "memberId";
+
+    public static final String FEED_ID = "feedId";
+
+    public static final String TYPE = "type";
 }

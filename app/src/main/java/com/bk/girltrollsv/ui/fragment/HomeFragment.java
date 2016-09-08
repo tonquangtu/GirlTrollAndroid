@@ -17,10 +17,12 @@ import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
+import com.bk.girltrollsv.model.dataserver.MyResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.CommentActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
+import com.bk.girltrollsv.util.AccountUtil;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
@@ -132,9 +134,10 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onClickLike(int posFeed, View view) {
-                handleClickLike(posFeed);
+            public void onClickLike(int posFeed, View view, OnUpdateLikeView onUpdateLikeView) {
+                handleClickLike(posFeed, onUpdateLikeView);
             }
+
 
             @Override
             public void onClickComment(int posFeed, View view) {
@@ -307,13 +310,49 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    public void handleClickLike(int positionFeed) {
+    public void handleClickLike(int positionFeed, FeedItemOnClickListener.OnUpdateLikeView onUpdateLikeView) {
 
-        // check login
-        // if login then like. change image and start animation
-        // sent info like to server.
+        String accountId = AccountUtil.getAccountId();
+        if (accountId != null) {
+            makeLike(positionFeed, onUpdateLikeView, accountId);
 
+        } else {
+            // haven't login
+        }
+        makeLike(positionFeed, onUpdateLikeView, accountId);
     }
+
+    public void makeLike(int posFeed, FeedItemOnClickListener.OnUpdateLikeView updateLikeView, String accountId) {
+
+        Feed feed = feedsAdapter.getFeeds().get(posFeed);
+        if (feed.getIsLike() == AppConstant.UN_LIKE) {
+            feed.setLikeState(AppConstant.LIKE);
+            feed.setNumLike(feed.getLike() + 1);
+        } else {
+            feed.setLikeState(AppConstant.UN_LIKE);
+            feed.setNumLike(feed.getLike() - 1);
+        }
+        updateLikeView.onUpdateView(feed.getIsLike(), feed.getLike());
+
+        Map<String, String> tag = new HashMap<>();
+        tag.put(AppConstant.MEMBER_ID, accountId);
+        tag.put(AppConstant.FEED_ID, feed.getFeedId());
+        tag.put(AppConstant.TYPE, feed.getIsLike() + "");
+        Call<MyResponse> call = ConfigNetwork.getServerAPI().callLike(tag);
+        call.enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                // do something
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+                // show error
+            }
+        });
+        // sent to server
+    }
+
 
     @OnClick(R.id.btn_reload)
     public void onClickReload(View view) {

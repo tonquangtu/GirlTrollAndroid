@@ -53,7 +53,7 @@
             <ImageButton
 
                 android:id="@+id/img_more"
-                android:layout_width="30dp"
+                android:layout_width="20dp"
                 android:layout_height="30dp"
                 android:gravity="top"
                 android:layout_alignParentRight="true"
@@ -150,16 +150,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btn_like"
-                android:drawableLeft="@drawable/icon_unlike"
-                android:textColor="@color/color_text_like"
-                style="?borderlessButtonStyle"
-                android:textAllCaps="false"
-                android:text="@string/like"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/icon_unlike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btn_like"
+                    android:textColor="@color/color_text_like"
+                    android:gravity="center"
+                    style="?borderlessButtonStyle"
+                    android:textAllCaps="false"
+                    android:text="@string/like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_comment"

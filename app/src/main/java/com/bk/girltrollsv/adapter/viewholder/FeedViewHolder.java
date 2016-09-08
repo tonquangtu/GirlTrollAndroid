@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
@@ -107,7 +109,13 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         } else {
             drawable = mActivity.getResources().getDrawable(R.drawable.icon_like);
         }
-        btnLike.setCompoundDrawables(drawable, null, null, null);
+
+        if (drawable != null) {
+            int h = drawable.getIntrinsicHeight();
+            int w = drawable.getIntrinsicWidth();
+            drawable.setBounds(0, 0, w, h);
+            btnLike.setCompoundDrawables(drawable, null, null, null);
+        }
     }
 
 
@@ -204,7 +212,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
 
                 if(listener != null) {
-                    listener.onClickLike(getLayoutPosition(), v);
+                    listener.onClickLike(getLayoutPosition(), v, onUpdateLikeView);
                 }
             }
         });
@@ -234,5 +242,30 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         return linkContent;
     }
+
+    private FeedItemOnClickListener.OnUpdateLikeView onUpdateLikeView = new FeedItemOnClickListener.OnUpdateLikeView() {
+        @Override
+        public void onUpdateView(int likeState, int numLike) {
+
+            String likeLine = numLike + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_like);
+            StringUtil.displayText(likeLine, txtNumLike);
+
+            Drawable drawable;
+            if (likeState == AppConstant.LIKE) {
+                drawable = mActivity.getResources().getDrawable(R.drawable.icon_like);
+
+            } else {
+                drawable = mActivity.getResources().getDrawable(R.drawable.icon_unlike);
+            }
+            if (drawable != null) {
+                int h = drawable.getIntrinsicHeight();
+                int w = drawable.getIntrinsicWidth();
+                drawable.setBounds(0, 0, w, h);
+                btnLike.setCompoundDrawables(drawable, null, null, null);
+            }
+            Animation animationScale = AnimationUtils.loadAnimation(mActivity, R.anim.scale_like);
+            btnLike.startAnimation(animationScale);
+        }
+    };
 
 }

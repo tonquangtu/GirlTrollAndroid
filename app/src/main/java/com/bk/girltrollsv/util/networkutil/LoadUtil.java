@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.util.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.Random;
@@ -52,9 +53,10 @@ public class LoadUtil {
 
     private static void loadImageResizeWithPlaceHolder(String url, ImageView imgDes, int resIdPlaceHolder,
                                                        int width, int height) {
-
-        if (imgDes != null && url != null && url.length() > 0) {
-
+        if (StringUtil.isEmpty(url)) {
+            url = null;
+        }
+        if (imgDes != null ) {
             Picasso.with(BaseApplication.getContext())
                     .load(url)
                     .resize(width, height)

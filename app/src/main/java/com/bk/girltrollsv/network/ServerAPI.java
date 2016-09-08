@@ -3,6 +3,7 @@ package com.bk.girltrollsv.network;
 import com.bk.girltrollsv.model.dataserver.EventCatalogResponse;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.LoginResponse;
+import com.bk.girltrollsv.model.dataserver.MyResponse;
 
 import java.util.Map;
 
@@ -30,6 +31,9 @@ public interface ServerAPI {
 
     @GET("feed/refresh")
     Call<FeedResponse> callRefreshNewFeed(@QueryMap Map<String, String> tag);
+
+    @GET("feed/like")
+    Call<MyResponse> callLike(@QueryMap Map<String, String> tag);
 
 
 }
