@@ -17,6 +17,8 @@ public interface FeedItemOnClickListener {
 
     void onClickMore(int posFeed, View view);
 
+    void onClickShare(int posFeed, View view);
+
     public interface OnUpdateLikeView {
         void onUpdateView(int likeState, int numLike);
     }

@@ -2,6 +2,7 @@ package com.bk.girltrollsv.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ import com.bk.girltrollsv.util.AccountUtil;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,6 +150,11 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClickMore(int posFeed, View view) {
 
+            }
+
+            @Override
+            public void onClickShare(int posFeed, View view) {
+                handleShareFeed(posFeed);
             }
         });
     }
@@ -353,6 +361,38 @@ public class HomeFragment extends BaseFragment {
         // sent to server
     }
 
+    public void handleShareFeed(int posFeed) {
+        ShareDialog shareDialog = new ShareDialog(mActivity);
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+
+            Feed feed = feedsAdapter.getFeeds().get(posFeed);
+            shareDialog.show(getShareContent(feed));
+        }
+    }
+
+    public ShareLinkContent getShareContent(Feed feed) {
+
+        String title = feed.getTitle();
+        String description = mActivity.getResources().getString(R.string.share_description);
+        String url;
+
+        if(feed.getImages() != null && feed.getImages().size() > 0) {
+            url = feed.getImages().get(0).getUrlImage();
+        } else if(feed.getVideo() != null) {
+            url = feed.getVideo().getUrlVideo();
+        } else {
+            url = AppConstant.URL_BASE;
+        }
+
+        Uri uri = Uri.parse(url);
+        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                .setContentTitle(title)
+                .setContentDescription(description)
+                .setContentUrl(uri)
+                .build();
+
+        return linkContent;
+    }
 
     @OnClick(R.id.btn_reload)
     public void onClickReload(View view) {

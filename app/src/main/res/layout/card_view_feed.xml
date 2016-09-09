@@ -143,60 +143,41 @@
             android:background="@color/background_view"/>
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginLeft="@dimen/margin_left_feed"
             android:orientation="horizontal"
             android:layout_below="@+id/view_divider_info_comment_like"
+            android:gravity="left|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:src="@drawable/icon_unlike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/btn_like"
-                    android:textColor="@color/color_text_like"
-                    android:gravity="center"
-                    style="?borderlessButtonStyle"
-                    android:textAllCaps="false"
-                    android:text="@string/like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_comment"
-                android:drawableLeft="@drawable/icon_comment"
-                android:textColor="@color/color_text_comment"
+            <ImageButton
+                android:id="@+id/img_like"
+                android:src="@drawable/icon_unlike"
+                android:scaleType="center"
                 style="?borderlessButtonStyle"
-                android:textAllCaps="false"
-                android:text="@string/comment"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content" />
 
 
-            <com.facebook.share.widget.ShareButton
-                android:id="@+id/share_btn"
-                android:textColor="@color/color_text_share"
-                android:drawableLeft="@drawable/com_facebook_button_icon_blue"
-                android:textAllCaps="false"
-                style="?attr/borderlessButtonStyle"
-                android:text="@string/share"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/img_btn_comment"
+                android:src="@drawable/icon_comment"
+                style="?borderlessButtonStyle"
+                android:layout_marginLeft="6dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content" />
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/img_btn_share"
+                android:src="@drawable/com_facebook_button_icon_blue"
+                style="?borderlessButtonStyle"
+                android:layout_marginLeft="6dp"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     </RelativeLayout>
 

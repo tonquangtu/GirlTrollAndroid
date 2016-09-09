@@ -2,13 +2,10 @@ package com.bk.girltrollsv.adapter.viewholder;
 
 import android.app.Activity;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -22,8 +19,6 @@ import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Member;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,14 +53,14 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.txt_num_comment)
     TextView txtNumComment;
 
-    @Bind(R.id.btn_like)
-    Button btnLike;
+    @Bind(R.id.img_like)
+    ImageButton imgLike;
 
-    @Bind(R.id.share_btn)
-    ShareButton shareBtn;
+    @Bind(R.id.img_btn_share)
+    ImageButton imgBtnShare;
 
-    @Bind(R.id.btn_comment)
-    Button btnComment;
+    @Bind(R.id.img_btn_comment)
+    ImageButton imgBtnComment;
 
     @Bind(R.id.frame_container)
     FrameLayout frameFeedContent;
@@ -101,20 +96,11 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         StringUtil.displayText(numLike, txtNumLike);
         StringUtil.displayText(numComment, txtNumComment);
 
-        shareBtn.setShareContent(getShareContent(feed));
-        Drawable drawable;
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
-            drawable = mActivity.getResources().getDrawable(R.drawable.icon_unlike);
+           imgLike.setImageResource(R.drawable.icon_unlike);
 
         } else {
-            drawable = mActivity.getResources().getDrawable(R.drawable.icon_like);
-        }
-
-        if (drawable != null) {
-            int h = drawable.getIntrinsicHeight();
-            int w = drawable.getIntrinsicWidth();
-            drawable.setBounds(0, 0, w, h);
-            btnLike.setCompoundDrawables(drawable, null, null, null);
+            imgLike.setImageResource(R.drawable.icon_like);
         }
     }
 
@@ -198,7 +184,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        btnComment.setOnClickListener(new View.OnClickListener() {
+        imgBtnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
@@ -207,7 +193,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        btnLike.setOnClickListener(new View.OnClickListener() {
+        imgLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -217,31 +203,18 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
+        imgBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onClickShare(getLayoutPosition(), v);
+                }
+            }
+        });
+
     }
 
-    public ShareLinkContent getShareContent(Feed feed) {
 
-        String title = feed.getTitle();
-        String description = mActivity.getResources().getString(R.string.share_description);
-        String url;
-
-        if(feed.getImages() != null && feed.getImages().size() > 0) {
-            url = feed.getImages().get(0).getUrlImage();
-        } else if(feed.getVideo() != null) {
-            url = feed.getVideo().getUrlVideo();
-        } else {
-            url = AppConstant.URL_BASE;
-        }
-
-        Uri uri = Uri.parse(url);
-        ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                .setContentTitle(title)
-                .setContentDescription(description)
-                .setContentUrl(uri)
-                .build();
-
-        return linkContent;
-    }
 
     private FeedItemOnClickListener.OnUpdateLikeView onUpdateLikeView = new FeedItemOnClickListener.OnUpdateLikeView() {
         @Override
@@ -250,21 +223,14 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             String likeLine = numLike + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_like);
             StringUtil.displayText(likeLine, txtNumLike);
 
-            Drawable drawable;
-            if (likeState == AppConstant.LIKE) {
-                drawable = mActivity.getResources().getDrawable(R.drawable.icon_like);
+            if (likeState == AppConstant.UN_LIKE) {
+                imgLike.setImageResource(R.drawable.icon_unlike);
 
             } else {
-                drawable = mActivity.getResources().getDrawable(R.drawable.icon_unlike);
-            }
-            if (drawable != null) {
-                int h = drawable.getIntrinsicHeight();
-                int w = drawable.getIntrinsicWidth();
-                drawable.setBounds(0, 0, w, h);
-                btnLike.setCompoundDrawables(drawable, null, null, null);
+                imgLike.setImageResource(R.drawable.icon_like);
             }
             Animation animationScale = AnimationUtils.loadAnimation(mActivity, R.anim.scale_like);
-            btnLike.startAnimation(animationScale);
+            imgLike.startAnimation(animationScale);
         }
     };
 
