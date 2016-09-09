@@ -3,8 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/background_feed"
-    >
+    card_view:cardBackgroundColor="@color/background_feed">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,131 +52,133 @@
             <ImageButton
 
                 android:id="@+id/img_more"
+                style="?borderlessButtonStyle"
                 android:layout_width="20dp"
                 android:layout_height="30dp"
-                android:gravity="top"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                style="?borderlessButtonStyle"
+                android:gravity="top"
                 android:src="@drawable/icon_more_vertical" />
 
         </RelativeLayout>
 
         <TextView
             android:id="@+id/txt_title_feed"
-            android:textColor="@color/color_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rlTitle"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
-            android:text="gai bk ca nha oi" />
+            android:text="gai bk ca nha oi"
+            android:textColor="@color/color_title" />
 
         <View
             android:id="@+id/view_divider_title"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
             android:layout_below="@+id/txt_title_feed"
-            android:layout_marginTop="@dimen/margin_view"
+            android:layout_marginBottom="@dimen/margin_view"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
-            android:layout_marginBottom="@dimen/margin_view"
-            android:background="@color/background_view"
-            android:layout_width="match_parent"
-            android:layout_height="1px"/>
+            android:layout_marginTop="@dimen/margin_view"
+            android:background="@color/background_view" />
 
         <TextView
             android:id="@+id/txt_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/view_divider_title"
+            android:layout_marginBottom="@dimen/margin_bottom_feed"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
-            android:layout_marginBottom="@dimen/margin_bottom_feed"
-            android:text="Truong : dai hoc bach khoa ha noi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="Truong : dai hoc bach khoa ha noi" />
 
 
         <FrameLayout
             android:id="@+id/frame_container"
-            android:layout_below="@+id/txt_school"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_school">
 
         </FrameLayout>
 
         <LinearLayout
             android:id="@+id/ll_info_num_comment_like"
-            android:gravity="right"
-            android:layout_below="@+id/frame_container"
-            android:layout_marginTop="@dimen/margin_top_content_feed"
-            android:layout_marginLeft="@dimen/margin_left_feed"
-            android:layout_marginRight="@dimen/margin_right_feed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/frame_container"
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:layout_marginTop="@dimen/margin_top_content_feed"
+            android:gravity="right"
             android:orientation="horizontal">
 
             <TextView
-                android:text="250 thich"
-                android:textSize="@dimen/text_size_time_feed"
                 android:id="@+id/txt_num_like"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="250 thich"
+                android:textSize="@dimen/text_size_time_feed" />
 
 
             <TextView
-                android:text="300 binh luan"
-                android:textSize="@dimen/text_size_time_feed"
                 android:id="@+id/txt_num_comment"
-                android:layout_marginLeft="@dimen/margin_left_feed_comment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_feed_comment"
+                android:text="300 binh luan"
+                android:textSize="@dimen/text_size_time_feed" />
 
         </LinearLayout>
 
         <View
             android:id="@+id/view_divider_info_comment_like"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
             android:layout_below="@+id/ll_info_num_comment_like"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_marginRight="@dimen/margin_right_feed"
             android:layout_marginTop="@dimen/margin_top_divider_info_comment_like"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_view"/>
+            android:background="@color/background_view" />
 
-        <LinearLayout
-            android:layout_marginRight="@dimen/margin_right_feed"
-            android:layout_marginLeft="@dimen/margin_left_feed"
-            android:orientation="horizontal"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/view_divider_info_comment_like"
-            android:gravity="left|center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_marginLeft="@dimen/margin_left_feed"
+            android:layout_marginRight="@dimen/margin_right_feed"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/img_like"
-                android:src="@drawable/icon_unlike"
-                android:scaleType="center"
+                android:id="@+id/img_btn_like"
                 style="?borderlessButtonStyle"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content" />
-
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:scaleType="center"
+                android:src="@drawable/icon_unlike" />
 
             <ImageButton
                 android:id="@+id/img_btn_comment"
-                android:src="@drawable/icon_comment"
                 style="?borderlessButtonStyle"
-                android:layout_marginLeft="6dp"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/img_btn_like"
+                android:src="@drawable/icon_comment" />
 
-            <ImageButton
-                android:id="@+id/img_btn_share"
-                android:src="@drawable/com_facebook_button_icon_blue"
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/share_button"
                 style="?borderlessButtonStyle"
-                android:layout_marginLeft="6dp"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+                android:text="@string/share"
+                android:textAllCaps="false"
+                android:textColor="@color/color_text_share" />
 
-    </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

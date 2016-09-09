@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -17,8 +15,10 @@ import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Member;
+import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
+import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,11 +53,11 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.txt_num_comment)
     TextView txtNumComment;
 
-    @Bind(R.id.img_like)
-    ImageButton imgLike;
+    @Bind(R.id.img_btn_like)
+    ImageButton imgBtnLike;
 
-    @Bind(R.id.img_btn_share)
-    ImageButton imgBtnShare;
+    @Bind(R.id.share_button)
+    ShareButton shareButton;
 
     @Bind(R.id.img_btn_comment)
     ImageButton imgBtnComment;
@@ -71,13 +71,11 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     int margin = 4;
 
-
     public FeedViewHolder(View itemView, Activity activity) {
 
         super(itemView);
         ButterKnife.bind(this, itemView);
         mActivity = activity;
-
         initListen();
     }
 
@@ -97,21 +95,18 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         StringUtil.displayText(numComment, txtNumComment);
 
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
-           imgLike.setImageResource(R.drawable.icon_unlike);
-
+           imgBtnLike.setImageResource(R.drawable.icon_unlike);
         } else {
-            imgLike.setImageResource(R.drawable.icon_like);
+            imgBtnLike.setImageResource(R.drawable.icon_like);
         }
+        shareButton.setShareContent(LikeCommentShareUtil.getShareContent(mActivity, feed));
     }
 
-
     public void setImageAvatarMember(String urlAvatarMember) {
-
         int height = (int) mActivity.getResources().getDimension(R.dimen.height_member_feed);
         int width = (int) mActivity.getResources().getDimension(R.dimen.width_member_feed);
         LoadUtil.loadAvatar(urlAvatarMember, cirImgMemberFeed, width, height);
     }
-
 
     public ImageView setImageViewLeft(GridLayout gridContent, int rowCount, int height, int width) {
 
@@ -128,7 +123,6 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         gridContent.addView(imgItem);
         return imgItem;
     }
-
 
     public ImageView setImageViewRight(GridLayout gridContent, int rowCount, int height, int width) {
 
@@ -160,7 +154,6 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
         gridContent.addView(imgItem);
         return imgItem;
-
     }
 
     public  int getScreenWidth() {
@@ -193,45 +186,15 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        imgLike.setOnClickListener(new View.OnClickListener() {
+        imgBtnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(listener != null) {
-                    listener.onClickLike(getLayoutPosition(), v, onUpdateLikeView);
+                    listener.onClickLike(getLayoutPosition(), imgBtnLike, txtNumLike);
                 }
             }
         });
-
-        imgBtnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onClickShare(getLayoutPosition(), v);
-                }
-            }
-        });
-
     }
-
-
-
-    private FeedItemOnClickListener.OnUpdateLikeView onUpdateLikeView = new FeedItemOnClickListener.OnUpdateLikeView() {
-        @Override
-        public void onUpdateView(int likeState, int numLike) {
-
-            String likeLine = numLike + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_like);
-            StringUtil.displayText(likeLine, txtNumLike);
-
-            if (likeState == AppConstant.UN_LIKE) {
-                imgLike.setImageResource(R.drawable.icon_unlike);
-
-            } else {
-                imgLike.setImageResource(R.drawable.icon_like);
-            }
-            Animation animationScale = AnimationUtils.loadAnimation(mActivity, R.anim.scale_like);
-            imgLike.startAnimation(animationScale);
-        }
-    };
 
 }

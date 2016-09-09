@@ -2,14 +2,15 @@ package com.bk.girltrollsv.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
@@ -18,17 +19,13 @@ import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
-import com.bk.girltrollsv.model.dataserver.MyResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
-import com.bk.girltrollsv.ui.activity.CommentActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
-import com.bk.girltrollsv.util.AccountUtil;
+import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +54,6 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.pgbReload)
     ProgressBar pgbReload;
 
-
     ArrayList<Feed> initFeeds;
 
     Paging pagingLoadNewFeed;
@@ -69,7 +65,6 @@ public class HomeFragment extends BaseFragment {
     boolean isRefreshing = false;
 
     public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
-
         HomeFragment homeFragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(AppConstant.FEEDS_TAG, feeds);
@@ -82,7 +77,6 @@ public class HomeFragment extends BaseFragment {
     protected void handleArguments(Bundle arguments) {
         initFeeds = arguments.getParcelableArrayList(AppConstant.FEEDS_TAG);
         pagingLoadNewFeed = arguments.getParcelable(AppConstant.PAGING_TAG);
-
     }
 
     @Override
@@ -106,25 +100,21 @@ public class HomeFragment extends BaseFragment {
     public void initRv() {
 
         int spaceBetweenItems = 10;
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         SpaceItem spaceItem = new SpaceItem(spaceBetweenItems, SpaceItem.VERTICAL);
-
         rvFeeds.setLayoutManager(layoutManager);
         rvFeeds.addItemDecoration(spaceItem);
 
         // must set adapter after setLayoutManager
         feedsAdapter = new RVFeedsAdapter(getActivity(), rvFeeds, initFeeds);
         rvFeeds.setAdapter(feedsAdapter);
-
         feedsAdapter.setLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 handleLoadMore();
             }
         });
-
         feedsAdapter.setItemListener(new FeedItemOnClickListener() {
             @Override
             public void onClickImage(int posFeed, int posImage, View view) {
@@ -137,24 +127,21 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onClickLike(int posFeed, View view, OnUpdateLikeView onUpdateLikeView) {
-                handleClickLike(posFeed, onUpdateLikeView);
+            public void onClickLike(int posFeed, ImageButton imgBtnLike, TextView txtNumLike) {
+                Feed feed = feedsAdapter.getFeeds().get(posFeed);
+                LikeCommentShareUtil.handleClickLike(mActivity, feed, imgBtnLike, txtNumLike, R.drawable.icon_unlike);
             }
 
 
             @Override
             public void onClickComment(int posFeed, View view) {
-                handleClickComment(posFeed);
+                Feed feed = feedsAdapter.getFeeds().get(posFeed);
+                LikeCommentShareUtil.handleClickComment(mActivity, feed);
             }
 
             @Override
             public void onClickMore(int posFeed, View view) {
 
-            }
-
-            @Override
-            public void onClickShare(int posFeed, View view) {
-                handleShareFeed(posFeed);
             }
         });
     }
@@ -178,7 +165,6 @@ public class HomeFragment extends BaseFragment {
 
                 feedsAdapter.removeLastItem();
                 if (response.isSuccessful() && response.body() != null) {
-
                     feedsAdapter.insertLastItems(response.body().getData());
                     pagingLoadNewFeed.setAfter(response.body().getPaging().getAfter());
                     pagingLoadNewFeed.setBefore(response.body().getPaging().getBefore());
@@ -192,11 +178,9 @@ public class HomeFragment extends BaseFragment {
                 feedsAdapter.endLoadingMore();
             }
         });
-
     }
 
     public void initRefreshLayout() {
-
         mRefreshNewFeed.setColorSchemeResources(R.color.green_600, R.color.red_600, R.color.blue_grey_600);
         mRefreshNewFeed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -211,7 +195,6 @@ public class HomeFragment extends BaseFragment {
         if (!isRefreshing) {
             if (Utils.checkInternetAvailable()) {
                 refreshNewFeed();
-
             } else {
                 Utils.toastShort(mActivity, R.string.no_network);
                 mRefreshNewFeed.setRefreshing(false);
@@ -252,7 +235,6 @@ public class HomeFragment extends BaseFragment {
         } else {
             firstIdFeed = AppConstant.DEFAULT_FEED_ID;
         }
-
         Map<String, String> tagRefresh = new HashMap<>();
         tagRefresh.put(AppConstant.CURRENT_FEED_ID_TAG, firstIdFeed);
         tagRefresh.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
@@ -268,7 +250,6 @@ public class HomeFragment extends BaseFragment {
         } else {
             afterFeedId = String.valueOf(AppConstant.DEFAULT_FEED_ID);
         }
-
         tagLoadMore.put(AppConstant.CURRENT_FEED_ID_TAG, afterFeedId);
         tagLoadMore.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
         return tagLoadMore;
@@ -305,97 +286,9 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    public void handleClickComment(int positionFeed) {
-
-        Feed feed = feedsAdapter.getFeeds().get(positionFeed);
-        if (feed != null) {
-
-            Bundle data = new Bundle();
-            data.putString(AppConstant.FEED_ID_TAG, feed.getFeedId());
-            Intent intent = new Intent(mActivity, CommentActivity.class);
-            intent.putExtra(AppConstant.PACKAGE, data);
-            mActivity.startActivity(intent);
-        }
-    }
-
-    public void handleClickLike(int positionFeed, FeedItemOnClickListener.OnUpdateLikeView onUpdateLikeView) {
-
-        String accountId = AccountUtil.getAccountId();
-        if (accountId != null) {
-            makeLike(positionFeed, onUpdateLikeView, accountId);
-
-        } else {
-            // haven't login
-        }
-        makeLike(positionFeed, onUpdateLikeView, accountId);
-    }
-
-    public void makeLike(int posFeed, FeedItemOnClickListener.OnUpdateLikeView updateLikeView, String accountId) {
-
-        Feed feed = feedsAdapter.getFeeds().get(posFeed);
-        if (feed.getIsLike() == AppConstant.UN_LIKE) {
-            feed.setLikeState(AppConstant.LIKE);
-            feed.setNumLike(feed.getLike() + 1);
-        } else {
-            feed.setLikeState(AppConstant.UN_LIKE);
-            feed.setNumLike(feed.getLike() - 1);
-        }
-        updateLikeView.onUpdateView(feed.getIsLike(), feed.getLike());
-
-        Map<String, String> tag = new HashMap<>();
-        tag.put(AppConstant.MEMBER_ID, accountId);
-        tag.put(AppConstant.FEED_ID, feed.getFeedId());
-        tag.put(AppConstant.TYPE, feed.getIsLike() + "");
-        Call<MyResponse> call = ConfigNetwork.getServerAPI().callLike(tag);
-        call.enqueue(new Callback<MyResponse>() {
-            @Override
-            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                // do something
-            }
-
-            @Override
-            public void onFailure(Call<MyResponse> call, Throwable t) {
-                // show error
-            }
-        });
-        // sent to server
-    }
-
-    public void handleShareFeed(int posFeed) {
-        ShareDialog shareDialog = new ShareDialog(mActivity);
-        if (ShareDialog.canShow(ShareLinkContent.class)) {
-
-            Feed feed = feedsAdapter.getFeeds().get(posFeed);
-            shareDialog.show(getShareContent(feed));
-        }
-    }
-
-    public ShareLinkContent getShareContent(Feed feed) {
-
-        String title = feed.getTitle();
-        String description = mActivity.getResources().getString(R.string.share_description);
-        String url;
-
-        if(feed.getImages() != null && feed.getImages().size() > 0) {
-            url = feed.getImages().get(0).getUrlImage();
-        } else if(feed.getVideo() != null) {
-            url = feed.getVideo().getUrlVideo();
-        } else {
-            url = AppConstant.URL_BASE;
-        }
-
-        Uri uri = Uri.parse(url);
-        ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                .setContentTitle(title)
-                .setContentDescription(description)
-                .setContentUrl(uri)
-                .build();
-
-        return linkContent;
-    }
-
     @OnClick(R.id.btn_reload)
     public void onClickReload(View view) {
+
         if (Utils.checkInternetAvailable()) {
             visibleControl(View.GONE, View.GONE);
             pgbReload.setVisibility(View.VISIBLE);
@@ -424,8 +317,6 @@ public class HomeFragment extends BaseFragment {
                 visibleControl(View.GONE, View.VISIBLE);
             }
         });
-
-
     }
 
     public void visibleControl(int refreshVisibility, int errorVisibility) {

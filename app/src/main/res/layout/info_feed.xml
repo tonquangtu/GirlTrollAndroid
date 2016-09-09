@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_info_feed"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_title_feed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_top_feed"
+        android:layout_marginLeft="@dimen/margin_left_feed"
+        android:layout_marginRight="@dimen/margin_right_feed"
+        android:text="gai bk ca nha oi"
+        android:textColor="@color/color_text_view_video" />
+
+    <LinearLayout
+        android:id="@+id/ll_info_num_comment_like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_top_divider_info_comment_like"
+        android:layout_marginLeft="@dimen/margin_left_feed"
+        android:layout_marginRight="@dimen/margin_right_feed"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_num_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="250 thich"
+            android:textColor="@color/color_text_view_video"
+            android:textSize="@dimen/text_size_time_feed" />
+
+        <TextView
+            android:id="@+id/txt_num_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_feed_comment"
+            android:text="300 binh luan"
+            android:textColor="@color/color_text_view_video"
+            android:textSize="@dimen/text_size_time_feed" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_divider_info_comment_like"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/margin_top_divider_info_comment_like"
+        android:layout_marginLeft="@dimen/margin_left_feed"
+        android:layout_marginRight="@dimen/margin_right_feed"
+        android:background="@color/background_view" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_left_feed"
+        android:layout_marginRight="@dimen/margin_right_feed"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/img_btn_like"
+            style="?borderlessButtonStyle"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:scaleType="center"
+            android:src="@drawable/icon_unlike_white" />
+
+        <ImageButton
+            android:id="@+id/img_btn_comment"
+            style="?borderlessButtonStyle"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_btn_like"
+            android:src="@drawable/icon_comment_white" />
+
+        <com.facebook.share.widget.ShareButton
+            android:id="@+id/share_button"
+            style="?borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+            android:text="@string/share"
+            android:textAllCaps="false"
+            android:textColor="@color/color_text_view_video" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,7 +1,6 @@
 package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -9,8 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,12 +20,13 @@ import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomVideoView;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.Video;
+import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.ScreenHelper;
 import com.bk.girltrollsv.util.StringUtil;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class VideoActivity extends BaseActivity {
 
@@ -42,29 +42,20 @@ public class VideoActivity extends BaseActivity {
     @Bind(R.id.txt_title_feed)
     TextView txtTitleFeed;
 
-    @Bind(R.id.view_divider_info_comment_like)
-    View viewDivider;
-
     @Bind(R.id.txt_num_like)
     TextView txtNumLike;
 
     @Bind(R.id.txt_num_comment)
     TextView txtNumComment;
 
-    @Bind(R.id.ll_comment_like_share)
-    LinearLayout llCommentLikeShare;
+    @Bind(R.id.img_btn_like)
+    ImageButton imgBtnLike;
 
-    @Bind(R.id.ll_info_num_comment_like)
-    LinearLayout llInfoNumCommentLike;
+    @Bind(R.id.share_button)
+    ShareButton shareButton;
 
-    @Bind(R.id.btn_like)
-    Button btnLike;
-
-    @Bind(R.id.btn_comment)
-    Button btnComment;
-
-    @Bind(R.id.share_btn)
-    ShareButton btnShare;
+    @Bind(R.id.ll_info_feed)
+    LinearLayout llInfoFeed;
 
     CustomVideoView mCustomVideoView;
 
@@ -82,12 +73,11 @@ public class VideoActivity extends BaseActivity {
 
     @Override
     public void handleIntent(Intent intent) {
-        mFeed = intent.getBundleExtra(AppConstant.PACKAGE).getParcelable(AppConstant.FEED_TAG);
 
+        mFeed = intent.getBundleExtra(AppConstant.PACKAGE).getParcelable(AppConstant.FEED_TAG);
         if (mFeed != null) {
             video = mFeed.getVideo();
         }
-
     }
 
     @Override
@@ -99,8 +89,6 @@ public class VideoActivity extends BaseActivity {
 
         initVideoView();
 
-        initLikeCommentShare();
-
     }
 
     @Override
@@ -110,18 +98,15 @@ public class VideoActivity extends BaseActivity {
             return;
         }
         mCustomVideoView.initMediaPlayer(video);
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(mFeed.getMember().getUsername());
         actionBar.setSubtitle(mFeed.getTime());
-
-        String like = mFeed.getLike() + AppConstant.SPACE + getString(R.string.base_like);
         String comment = mFeed.getComment() + AppConstant.SPACE + getString(R.string.base_comment);
-
-        StringUtil.displayText(like, txtNumLike);
         StringUtil.displayText(comment, txtNumComment);
         StringUtil.displayText(mFeed.getTitle(), txtTitleFeed);
 
+        shareButton.setShareContent(LikeCommentShareUtil.getShareContent(this, mFeed));
+        setLikeInfo();
     }
 
     public void initToolbar() {
@@ -143,7 +128,6 @@ public class VideoActivity extends BaseActivity {
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         frameContainer.setLayoutParams(layoutParams);
         mRootView.addView(frameContainer);
-
     }
 
     public void initVideoView() {
@@ -185,7 +169,6 @@ public class VideoActivity extends BaseActivity {
             case R.id.report_menu:
                 report();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -210,40 +193,29 @@ public class VideoActivity extends BaseActivity {
     public void setVisibilityControl(int visibility) {
 
         mToolbar.setVisibility(visibility);
-        llCommentLikeShare.setVisibility(visibility);
-        llInfoNumCommentLike.setVisibility(visibility);
+        llInfoFeed.setVisibility(visibility);
         txtTitleFeed.setVisibility(visibility);
-        viewDivider.setVisibility(visibility);
-
     }
 
-    public void initLikeCommentShare() {
-
-        
-        btnShare.setShareContent(getShareContent(mFeed));
-
+    @OnClick(R.id.img_btn_like)
+    public void onClickLike(View view) {
+        LikeCommentShareUtil.handleClickLike(this, mFeed, imgBtnLike,
+                txtNumLike, R.drawable.icon_unlike_white);
     }
 
-    public ShareLinkContent getShareContent(Feed feed) {
+    @OnClick(R.id.img_btn_comment)
+    public void onClickComment(View view) {
+        LikeCommentShareUtil.handleClickComment(this, mFeed);
+    }
 
-        String title = feed.getTitle();
-        String description = this.getResources().getString(R.string.share_description);
-        String url;
-
-        if(feed.getVideo() != null) {
-            url = feed.getVideo().getUrlVideo();
+    public void setLikeInfo() {
+        String like = mFeed.getLike() + AppConstant.SPACE + getString(R.string.base_like);
+        StringUtil.displayText(like, txtNumLike);
+        if (mFeed.getIsLike() == AppConstant.UN_LIKE) {
+            imgBtnLike.setImageResource(R.drawable.icon_unlike_white);
         } else {
-            url = AppConstant.URL_BASE;
+            imgBtnLike.setImageResource(R.drawable.icon_like);
         }
-
-        Uri uri = Uri.parse(url);
-        ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                .setContentTitle(title)
-                .setContentDescription(description)
-                .setContentUrl(uri)
-                .build();
-
-        return linkContent;
     }
 
 }
