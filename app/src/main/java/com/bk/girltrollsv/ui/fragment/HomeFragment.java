@@ -201,6 +201,7 @@ public class HomeFragment extends BaseFragment {
                 handleRefreshNewFeed();
             }
         });
+
     }
 
     public void handleRefreshNewFeed() {
