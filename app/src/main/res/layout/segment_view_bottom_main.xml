@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bk.girltrollsv.customview.MainSegmentView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bk.girltrollsv.customview.MainSegmentView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/segment_view_bottom_main"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_segment_view_bottom_main"
-    android:background="@drawable/background_bottom_segment"
+    android:background="@drawable/background_segment_bottom"
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
@@ -15,10 +14,24 @@
 
         <ImageView
             android:id="@+id/img_home_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/height_segment_image"
+            android:layout_height="@dimen/width_segment_image"
             android:layout_centerInParent="true"
             android:src="@drawable/icon_home_press" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/img_catalog"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/height_segment_image"
+            android:layout_height="@dimen/width_segment_image"
+            android:src="@drawable/icon_menu" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -28,10 +41,10 @@
 
         <ImageView
             android:id="@+id/img_upload_new_feed_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/height_segment_image"
+            android:layout_height="@dimen/width_segment_image"
             android:layout_centerInParent="true"
-            android:src="@drawable/icon_upload_new_feed" />
+            android:src="@drawable/icon_upload" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -41,8 +54,8 @@
 
         <ImageView
             android:id="@+id/img_event_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/height_segment_image"
+            android:layout_height="@dimen/width_segment_image"
             android:layout_centerInParent="true"
             android:scaleType="centerInside"
             android:src="@drawable/icon_event" />
@@ -55,8 +68,8 @@
 
         <ImageView
             android:id="@+id/img_personal_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/height_segment_image"
+            android:layout_height="@dimen/width_segment_image"
             android:layout_centerInParent="true"
             android:src="@drawable/icon_personal" />
     </RelativeLayout>

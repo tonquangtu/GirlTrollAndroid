@@ -29,5 +29,17 @@
     <string name="error_load_feed">Không kéo được mấy em chân dài sv về (.^.) ! </string>
     <string name="button_reload">Tải lại</string>
     <string name="text_button_reload">Tải lại</string>
+    <string name="title_app">GirlTrollSv</string>
+    <string name="description_app1">Tham gia cộng đồng GirlTrollSv</string>
+    <string name="description_app2">Khám phá nữ sinh Việt</string>
+
+    <string name="text_login_facebook">Tiếp tục với Facebook</string>
+    <string name="text_login_normal">Đăng nhập</string>
+    <string name="text_sign_up">Tạo tài khoản</string>
+    <string name="text_or">hoặc</string>
+    <string name="text_hint_username">Tên tài khoản</string>
+    <string name="text_hint_password">Mật khẩu</string>
+    <string name="login">Đăng nhập GirlTrollSv</string>
+    <string name="loading">Loading...</string>
 
 </resources>

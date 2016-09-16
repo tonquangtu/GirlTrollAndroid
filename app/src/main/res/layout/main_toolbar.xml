@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="@dimen/height_segment_view_bottom_main"
     android:layout_alignParentTop="true"
     android:background="@color/colorPrimary"
+    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     app:theme="@style/AppTheme.ToolbarOverlay">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/logo_small" />
+
+
+        <ImageButton
+            android:id="@+id/img_btn_upload_photo"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/margin_right_upload_photo"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/icon_upload_photo" />
+
+    </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>

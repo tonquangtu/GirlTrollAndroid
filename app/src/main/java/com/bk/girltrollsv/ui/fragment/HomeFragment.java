@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,12 +15,14 @@ import android.widget.TextView;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
+import com.bk.girltrollsv.callback.HidingScrollListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
@@ -99,7 +101,7 @@ public class HomeFragment extends BaseFragment {
 
     public void initRv() {
 
-        int spaceBetweenItems = 10;
+        int spaceBetweenItems = 15;
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         SpaceItem spaceItem = new SpaceItem(spaceBetweenItems, SpaceItem.VERTICAL);
@@ -127,9 +129,9 @@ public class HomeFragment extends BaseFragment {
             }
 
             @Override
-            public void onClickLike(int posFeed, ImageButton imgBtnLike, TextView txtNumLike) {
+            public void onClickLike(int posFeed, View viewLike, TextView txtNumLike) {
                 Feed feed = feedsAdapter.getFeeds().get(posFeed);
-                LikeCommentShareUtil.handleClickLike(mActivity, feed, imgBtnLike, txtNumLike, R.drawable.icon_unlike);
+                LikeCommentShareUtil.handleClickLike(mActivity, feed, viewLike, txtNumLike, R.drawable.icon_unlike);
             }
 
 
@@ -144,6 +146,12 @@ public class HomeFragment extends BaseFragment {
 
             }
         });
+
+        if (mActivity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) mActivity;
+            final Toolbar toolbar = mainActivity.getToolbar();
+            rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, toolbar));
+        }
     }
 
     public void handleLoadMore() {
@@ -181,7 +189,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void initRefreshLayout() {
-        mRefreshNewFeed.setColorSchemeResources(R.color.green_600, R.color.red_600, R.color.blue_grey_600);
+        mRefreshNewFeed.setColorSchemeResources (
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light );
+        mRefreshNewFeed.setProgressViewOffset(true, 100, 260);
         mRefreshNewFeed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

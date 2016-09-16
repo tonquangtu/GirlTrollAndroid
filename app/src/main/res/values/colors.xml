@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/blue_grey_200</color>
-    <color name="colorPrimaryDark">@color/blue_grey_300</color>
+    <color name="colorPrimary">@color/red_A700</color>
+    <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">@color/blue_grey_700</color>
 
     <color name="black">#000000</color>
@@ -28,11 +28,17 @@
     <color name="yellow_600">#FDD835</color>
     <color name="blue_grey_600">#546E7A</color>
     <color name="background_btn_reload">#0084ff</color>
+    <color name="red_900">#B71C1C</color>
+    <color name="red_A100">#FF8A80</color>
+    <color name="red_A200">#FF5252</color>
+    <color name="red_A400">#FF1744</color>
+    <color name="red_A700">#D50000</color>
+
 
     <!--Colors for app-->
     <color name="background_main_ui">@color/blue_grey_100</color>
 
-    <color name="background_splash">@color/blue_grey_400</color>
+    <color name="background_splash">@color/colorPrimary</color>
 
     <color name="color_title">@color/black</color>
 
@@ -50,7 +56,7 @@
 
     <color name="color_time_feed">@color/grey_700</color>
 
-    <color name="background_view">@color/deep_purple_300</color>
+    <color name="background_view">@color/colorPrimary</color>
 
     <color name="color_text_comment">@color/grey_700</color>
 
@@ -66,6 +72,27 @@
 
     <color name="color_button_reload_feed">@color/brown_700</color>
 
+    <color name="color_title_app">@color/white</color>
+
+    <color name="background_login">@color/blue_grey_300</color>
+
+    <color name="color_btn_login">@color/red_900</color>
+
+    <color name="color_facebook_btn">#4267B2</color>
+
+    <color name="color_username">@color/grey_200</color>
+
+    <color name="color_stroke_username">@color/grey_200</color>
+
+    <color name="text_color_hint_username">@color/grey_200</color>
+
+    <color name="color_text_description_app">@color/white</color>
+
+    <color name="color_text_slogan">@color/white</color>
+
+    <color name="color_pgb_loader">@color/white</color>
+
+    <color name="background_bottom_segment">#F2FFFFFF</color>
 
 
 </resources>

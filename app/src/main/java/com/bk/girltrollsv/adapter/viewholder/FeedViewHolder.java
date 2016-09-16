@@ -54,13 +54,13 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     TextView txtNumComment;
 
     @Bind(R.id.img_btn_like)
-    ImageButton imgBtnLike;
+    ImageView imgLike;
 
     @Bind(R.id.share_button)
     ShareButton shareButton;
 
     @Bind(R.id.img_btn_comment)
-    ImageButton imgBtnComment;
+    ImageView imgComment;
 
     @Bind(R.id.frame_container)
     FrameLayout frameFeedContent;
@@ -95,9 +95,9 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         StringUtil.displayText(numComment, txtNumComment);
 
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
-           imgBtnLike.setImageResource(R.drawable.icon_unlike);
+           imgLike.setImageResource(R.drawable.icon_unlike);
         } else {
-            imgBtnLike.setImageResource(R.drawable.icon_like);
+            imgLike.setImageResource(R.drawable.icon_like);
         }
         shareButton.setShareContent(LikeCommentShareUtil.getShareContent(mActivity, feed));
     }
@@ -177,7 +177,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        imgBtnComment.setOnClickListener(new View.OnClickListener() {
+        imgComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
@@ -186,12 +186,12 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        imgBtnLike.setOnClickListener(new View.OnClickListener() {
+        imgLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(listener != null) {
-                    listener.onClickLike(getLayoutPosition(), imgBtnLike, txtNumLike);
+                    listener.onClickLike(getLayoutPosition(), imgLike, txtNumLike);
                 }
             }
         });

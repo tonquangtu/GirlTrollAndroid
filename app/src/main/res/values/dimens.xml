@@ -4,16 +4,16 @@
 
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="height_segment_view_bottom_main">48dp</dimen>
+    <dimen name="height_segment_view_bottom_main">46dp</dimen>
 
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
 
     <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="height_member_feed">40dp</dimen>
-    <dimen name="width_member_feed">40dp</dimen>
-    <dimen name="margin_right_feed">10dp</dimen>
+    <dimen name="height_member_feed">38dp</dimen>
+    <dimen name="width_member_feed">38dp</dimen>
+    <dimen name="margin_right_feed">16dp</dimen>
     <dimen name="margin_top_feed">16dp</dimen>
-    <dimen name="margin_left_feed">10dp</dimen>
+    <dimen name="margin_left_feed">16dp</dimen>
     <dimen name="margin_bottom_feed">16dp</dimen>
     <dimen name="text_size_time_feed">11dp</dimen>
     <dimen name="margin_top_content_feed">20dp</dimen>
@@ -32,5 +32,29 @@
     <dimen name="text_size_error_load">16dp</dimen>
     <dimen name="margin_top_image_error_load">24dp</dimen>
     <dimen name="margin_left_avatar_feed">12dp</dimen>
+    <dimen name="size_title_app">25dp</dimen>
+    <dimen name="size_description_app">20dp</dimen>
+    <dimen name="margin_top_title_app">12dp</dimen>
+    <dimen name="height_btn_login">44dp</dimen>
+    <dimen name="margin_top_divider_login">24dp</dimen>
+    <dimen name="margin_button_btn_sign_up">8dp</dimen>
+    <dimen name="padding_left_right_btn_login">16dp</dimen>
+    <dimen name="margin_bottom_btn_facebook_login">62dp</dimen>
+    <dimen name="margin_devider_btn_login">12dp</dimen>
+    <dimen name="margin_top_btn_login_normal">24dp</dimen>
+    <dimen name="padding_left_username">16dp</dimen>
+    <dimen name="height_btn_sign_up">30dp</dimen>
+    <dimen name="text_size_description_app">20dp</dimen>
+    <dimen name="margin_bottom_description_app">92dp</dimen>
+    <dimen name="margin_bottom_title_app">48dp</dimen>
+    <dimen name="margin_top_sign_up">24dp</dimen>
+    <dimen name="margin_left_lading">6dp</dimen>
+    <dimen name="text_size_slogan">16sp</dimen>
+    <dimen name="height_segment_image">22dp</dimen>
+    <dimen name="width_segment_image">22dp</dimen>
+    <dimen name="size_like_image">34dp</dimen>
+    <dimen name="height_like_comment_share_group">38dp</dimen>
+    <dimen name="margin_left_logo_toolbar">20dp</dimen>
+    <dimen name="margin_right_upload_photo">7dp</dimen>
 
 </resources>

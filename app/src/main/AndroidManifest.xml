@@ -3,7 +3,7 @@
     package="com.bk.girltrollsv">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".BaseApplication"
@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NormalActivityTheme">
+        android:theme="@style/AppTheme.Normal">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -28,7 +28,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -40,13 +40,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.VideoActivity"
+        <activity
+            android:name=".ui.activity.VideoActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/VideoTheme"/>
+            android:theme="@style/VideoTheme" />
 
-        <activity android:name=".ui.activity.CommentActivity"
-            />
+        <activity android:name=".ui.activity.CommentActivity" />
 
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan">
+
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+
+        </activity>
     </application>
 
 </manifest>

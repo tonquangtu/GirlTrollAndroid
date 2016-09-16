@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
@@ -29,37 +30,38 @@ import retrofit2.Response;
  */
 public class LikeCommentShareUtil {
 
-    public static void handleClickLike(Activity activity, Feed feed, ImageButton btnLike, TextView txtNumLike, int idUnLikeIcon) {
+    public static void handleClickLike(Activity activity, Feed feed, View viewLike, TextView txtNumLike, int idUnLikeIcon) {
 
         String accountId = AccountUtil.getAccountId();
         if (accountId != null) {
 
-            changeLikeState(activity, feed, accountId, btnLike, txtNumLike, idUnLikeIcon);
+            changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
         } else {
 
             // open activity to login
         }
-        changeLikeState(activity, feed, accountId, btnLike, txtNumLike, idUnLikeIcon);
+        changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
     }
 
     public static void changeLikeState(Activity activity, Feed feed, String accountId,
-                                       ImageButton btnLike, TextView txtNumLike, int idUnLikeIcon) {
+                                       View viewLike, TextView txtNumLike, int idUnLikeIcon) {
 
+        ImageView imgLike = (ImageView)viewLike;
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
             feed.setLikeState(AppConstant.LIKE);
             feed.setNumLike(feed.getLike() + 1);
-            btnLike.setImageResource(R.drawable.icon_like);
+            imgLike.setImageResource(R.drawable.icon_like);
 
         } else {
             feed.setLikeState(AppConstant.UN_LIKE);
             feed.setNumLike(feed.getLike() - 1);
-            btnLike.setImageResource(idUnLikeIcon);
+            imgLike.setImageResource(idUnLikeIcon);
         }
         String likeLine = feed.getLike() + AppConstant.SPACE + activity.getResources().getString(R.string.base_like);
         StringUtil.displayText(likeLine, txtNumLike);
 
         Animation animation = AnimationUtils.loadAnimation(activity, R.anim.scale_like);
-        btnLike.startAnimation(animation);
+        imgLike.startAnimation(animation);
 
         Map<String, String> tag = new HashMap<>();
         tag.put(AppConstant.MEMBER_ID, accountId);

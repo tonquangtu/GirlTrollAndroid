@@ -1,11 +1,16 @@
 package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.bk.girltrollsv.BaseApplication;
+import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
@@ -30,12 +35,20 @@ public class SplashActivity extends AppCompatActivity {
     ArrayList<EventBase> eventCatalogs;
     boolean isLoadNewFeedComplete = false;
     boolean isLoadEventCatalogComplete = false;
+    ProgressBar pgbLoader;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_splash);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
+        setContentView(R.layout.activity_splash);
+        pgbLoader = (ProgressBar) findViewById(R.id.pgb_loader);
+        pgbLoader.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
 
         new TaskLoadInitData().execute();
         new TaskLoadFacebookSDK().execute();
@@ -118,7 +131,7 @@ public class SplashActivity extends AppCompatActivity {
 
     public void handleLaunchingMainActivity() {
 
-        if( isLoadNewFeedComplete) {
+        if (isLoadNewFeedComplete) {
 
             Intent intent = new Intent(this, MainActivity.class);
             Bundle dataToMain = new Bundle();

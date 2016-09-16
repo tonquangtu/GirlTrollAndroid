@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingTop="@dimen/height_segment_view_bottom_main"
             android:paddingBottom="@dimen/height_segment_view_bottom_main">
 
         </android.support.v7.widget.RecyclerView>
@@ -30,8 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_top_image_error_load"
             android:layout_marginBottom="@dimen/margin_top_image_error_load"
+            android:layout_marginTop="@dimen/margin_top_image_error_load"
             android:src="@drawable/icon_error_load" />
 
         <LinearLayout
@@ -66,10 +67,10 @@
     </LinearLayout>
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/pgbReload"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>
