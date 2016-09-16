@@ -30,7 +30,7 @@
     <dimen name="margin_right_control_video">2dp</dimen>
     <dimen name="margin_top_txt_error_load">12dp</dimen>
     <dimen name="text_size_error_load">16dp</dimen>
-    <dimen name="margin_top_image_error_load">24dp</dimen>
+    <dimen name="margin_top_image_error_load">72dp</dimen>
     <dimen name="margin_left_avatar_feed">12dp</dimen>
     <dimen name="size_title_app">25dp</dimen>
     <dimen name="size_description_app">20dp</dimen>
