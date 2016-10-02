@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Feed implements Parcelable{
 
-    private String feedId;
+    private int feedId;
 
     private String title;
 
@@ -22,29 +22,22 @@ public class Feed implements Parcelable{
 
     private int comment;
 
-    private int share;
-
-    private int view;
-
     private String school;
 
     private Video video;
 
     private ArrayList<ImageInfo> images;
 
-    private Member member;
+    private BaseInfoMember member;
 
-
-    public Feed(String feedId,
+    public Feed(int feedId,
                 String title,
                 String time,
                 int isLike,
                 int like,
                 int comment,
-                int share,
-                int view,
                 String school,
-                Member member,
+                BaseInfoMember member,
                 Video video,
                 ArrayList<ImageInfo> images) {
 
@@ -54,8 +47,6 @@ public class Feed implements Parcelable{
         this.isLike = isLike;
         this.like = like;
         this.comment = comment;
-        this.share = share;
-        this.view = view;
         this.school = school;
         this.video = video;
         this.images = images;
@@ -64,30 +55,26 @@ public class Feed implements Parcelable{
 
 
     protected Feed(Parcel in) {
-        feedId = in.readString();
+        feedId = in.readInt();
         title = in.readString();
         time = in.readString();
         isLike = in.readInt();
         like = in.readInt();
         comment = in.readInt();
-        share = in.readInt();
-        view = in.readInt();
         school = in.readString();
         video = in.readParcelable(Video.class.getClassLoader());
         images = in.createTypedArrayList(ImageInfo.CREATOR);
-        member = in.readParcelable(Member.class.getClassLoader());
+        member = in.readParcelable(BaseInfoMember.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(feedId);
+        dest.writeInt(feedId);
         dest.writeString(title);
         dest.writeString(time);
         dest.writeInt(isLike);
         dest.writeInt(like);
         dest.writeInt(comment);
-        dest.writeInt(share);
-        dest.writeInt(view);
         dest.writeString(school);
         dest.writeParcelable(video, flags);
         dest.writeTypedList(images);
@@ -111,7 +98,7 @@ public class Feed implements Parcelable{
         }
     };
 
-    public String getFeedId() {
+    public int getFeedId() {
         return feedId;
     }
 
@@ -131,19 +118,11 @@ public class Feed implements Parcelable{
         return comment;
     }
 
-    public int getShare() {
-        return share;
-    }
-
-    public int getView() {
-        return view;
-    }
-
     public String getSchool() {
         return school;
     }
 
-    public Member getMember() {
+    public BaseInfoMember getMember() {
         return member;
     }
 

@@ -1,10 +1,10 @@
 package com.bk.girltrollsv.ui.activity;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.bk.girltrollsv.R;
 
@@ -16,10 +16,10 @@ public class LoginActivity extends BaseActivity {
     Toolbar toolbar;
 
     @Bind(R.id.edit_username)
-    EditText editUsername;
+    AppCompatEditText editUsername;
 
     @Bind(R.id.edit_password)
-    EditText editPassword;
+    AppCompatEditText editPassword;
 
     @Bind(R.id.btn_login_normal)
     AppCompatButton acBtnLoginNormal;
@@ -28,7 +28,7 @@ public class LoginActivity extends BaseActivity {
     AppCompatButton acBtnFacebookLogin;
 
     @Bind(R.id.btn_sign_up)
-    Button btnSignUp;
+    AppCompatButton btnSignUp;
 
     @Override
     public int setContentViewId() {
@@ -38,7 +38,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
 
-        setSupportActionBar(toolbar);
+        initToolbar();
+
 
     }
 
@@ -47,6 +48,17 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    public void initToolbar() {
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.text_login_normal);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
+
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

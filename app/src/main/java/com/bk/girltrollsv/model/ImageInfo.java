@@ -8,8 +8,6 @@ import android.os.Parcelable;
  */
 public class ImageInfo implements Parcelable{
 
-    private String feedId;
-
     private String imageId;
 
     private String urlImage;
@@ -20,8 +18,15 @@ public class ImageInfo implements Parcelable{
 
     private String urlImageThumbnail;
 
+    public ImageInfo(String imageId, String urlImage, int type, String linkFace, String urlImageThumbnail) {
+        this.imageId = imageId;
+        this.urlImage = urlImage;
+        this.type = type;
+        this.linkFace = linkFace;
+        this.urlImageThumbnail = urlImageThumbnail;
+    }
+
     protected ImageInfo(Parcel in) {
-        feedId = in.readString();
         imageId = in.readString();
         urlImage = in.readString();
         type = in.readInt();
@@ -31,7 +36,6 @@ public class ImageInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(feedId);
         dest.writeString(imageId);
         dest.writeString(urlImage);
         dest.writeInt(type);
@@ -55,10 +59,6 @@ public class ImageInfo implements Parcelable{
             return new ImageInfo[size];
         }
     };
-
-    public String getFeedId() {
-        return feedId;
-    }
 
     public String getImageId() {
         return imageId;

@@ -14,6 +14,12 @@ public class BaseInfoMember implements Parcelable {
 
     private String avatarUrl;
 
+    public BaseInfoMember(String memberId, String username, String avatarUrl) {
+        this.memberId = memberId;
+        this.username = username;
+        this.avatarUrl = avatarUrl;
+    }
+
     protected BaseInfoMember(Parcel in) {
         memberId = in.readString();
         username = in.readString();

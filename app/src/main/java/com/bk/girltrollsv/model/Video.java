@@ -8,8 +8,6 @@ import android.os.Parcelable;
  */
 public class Video  implements Parcelable{
 
-    private String feedId;
-
     private String videoId;
 
     private String urlVideo;
@@ -18,9 +16,14 @@ public class Video  implements Parcelable{
 
     private String urlVideoThumbnail;
 
+    public Video(String videoId, String urlVideo, int type, String urlVideoThumbnail) {
+        this.videoId = videoId;
+        this.urlVideo = urlVideo;
+        this.type = type;
+        this.urlVideoThumbnail = urlVideoThumbnail;
+    }
 
     protected Video(Parcel in) {
-        feedId = in.readString();
         videoId = in.readString();
         urlVideo = in.readString();
         type = in.readInt();
@@ -29,11 +32,15 @@ public class Video  implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(feedId);
         dest.writeString(videoId);
         dest.writeString(urlVideo);
         dest.writeInt(type);
         dest.writeString(urlVideoThumbnail);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Video> CREATOR = new Creator<Video>() {
@@ -47,16 +54,6 @@ public class Video  implements Parcelable{
             return new Video[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-
-    public String getFeedId() {
-        return feedId;
-    }
 
     public String getVideoId() {
         return videoId;

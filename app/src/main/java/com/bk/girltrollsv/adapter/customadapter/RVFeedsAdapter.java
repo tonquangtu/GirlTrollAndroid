@@ -111,7 +111,7 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
             holder = new OneImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_HAVE_TWO_IMAGE) {
-            holder =  new TwoImageFeedViewHolder(view, mActivity);
+            holder = new TwoImageFeedViewHolder(view, mActivity);
 
         } else if (viewType == ITEM_HAVE_THREE_IMAGE) {
             holder = new ThreeImageFeedViewHolder(view, mActivity);
@@ -179,6 +179,14 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
         isLoadingMore = false;
     }
 
+    public void addProgressLoadMore() {
+        insertLastItem(null);
+    }
+
+    public void removeProgressLoadMore() {
+        removeLastItem();
+    }
+
     public void initLoadMoreEvent() {
 
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
@@ -230,16 +238,29 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
 
     public void insertItems(ArrayList<Feed> moreFeeds, int start) {
 
-        if(moreFeeds != null && moreFeeds.size() > 0 && start >= 0 && start <= totalItem()) {
+        if (moreFeeds != null && moreFeeds.size() > 0 && start >= 0 && start <= totalItem()) {
             feeds.addAll(start, moreFeeds);
             notifyItemRangeInserted(start, moreFeeds.size());
         }
-
     }
 
 
     public void setItemListener(FeedItemOnClickListener itemListener) {
         this.itemListener = itemListener;
+    }
+
+    public int getLastFeedId() {
+
+        int lastFeedId = -1;
+        if (feeds.size() > 0) {
+            int size = feeds.size();
+            if (feeds.get(size - 1) != null) {
+                lastFeedId = feeds.get(size - 1).getFeedId();
+            } else if (size > 1) {
+                lastFeedId = feeds.get(size - 2).getFeedId();
+            }
+        }
+        return lastFeedId;
     }
 
 }

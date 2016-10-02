@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.model.BaseInfoMember;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.model.Member;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.networkutil.LoadUtil;
@@ -81,7 +81,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     public void populate(Feed feed) {
 
-        Member member = feed.getMember();
+        BaseInfoMember member = feed.getMember();
         setImageAvatarMember(member.getAvatarUrl());
         String school = mActivity.getResources().getString(R.string.base_school) + feed.getSchool();
         String numLike = feed.getLike() + AppConstant.SPACE + mActivity.getResources().getString(R.string.base_like);

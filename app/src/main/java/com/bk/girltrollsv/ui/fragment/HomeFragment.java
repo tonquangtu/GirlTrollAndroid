@@ -2,6 +2,7 @@ package com.bk.girltrollsv.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.HidingScrollListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
@@ -26,7 +28,6 @@ import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
-import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
 
 import java.util.ArrayList;
@@ -58,13 +59,13 @@ public class HomeFragment extends BaseFragment {
 
     ArrayList<Feed> initFeeds;
 
-    Paging pagingLoadNewFeed;
-
     RVFeedsAdapter feedsAdapter;
 
     Activity mActivity;
 
     boolean isRefreshing = false;
+
+    boolean mHaveFeedLocal = true;
 
     public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
         HomeFragment homeFragment = new HomeFragment();
@@ -78,7 +79,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void handleArguments(Bundle arguments) {
         initFeeds = arguments.getParcelableArrayList(AppConstant.FEEDS_TAG);
-        pagingLoadNewFeed = arguments.getParcelable(AppConstant.PAGING_TAG);
     }
 
     @Override
@@ -156,44 +156,80 @@ public class HomeFragment extends BaseFragment {
 
     public void handleLoadMore() {
 
-        if (Utils.checkInternetAvailable()) {
-            loadMoreNewFeed();
+        if (mHaveFeedLocal) {
+            loadMoreNewFeedLocal();
+        } else if (Utils.checkInternetAvailable()) {
+            loadMoreNewFeedFromRemote();
         } else {
-            Utils.toastShort(mActivity, R.string.no_network);
+            feedsAdapter.endLoadingMore();
         }
     }
 
-    public void loadMoreNewFeed() {
 
-        feedsAdapter.insertLastItem(null);
+    public void loadMoreNewFeedLocal() {
+
+        feedsAdapter.addProgressLoadMore();
+        new AsyncTask<Void, Void, ArrayList<Feed>>() {
+
+            @Override
+            protected ArrayList<Feed> doInBackground(Void... params) {
+
+                int lastFeedId = feedsAdapter.getLastFeedId();
+                if (lastFeedId != -1) {
+                    return DatabaseUtil.getFeedsPaging(AppConstant.LIMIT_FEED_LOCAL, lastFeedId);
+
+                } else {
+                    return DatabaseUtil.getFeedsOffset(AppConstant.LIMIT_FEED_LOCAL, 0);
+                }
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Feed> feeds) {
+
+                feedsAdapter.removeProgressLoadMore();
+                if (feeds != null && feeds.size() > 0) {
+                    feedsAdapter.insertLastItems(feeds);
+                    mHaveFeedLocal = true;
+                } else {
+                    mHaveFeedLocal = false;
+                }
+                feedsAdapter.endLoadingMore();
+            }
+        }.execute();
+    }
+
+    public void loadMoreNewFeedFromRemote() {
+
+        feedsAdapter.addProgressLoadMore();
         Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(getTagLoadMore());
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
 
-                feedsAdapter.removeLastItem();
+                feedsAdapter.removeProgressLoadMore();
                 if (response.isSuccessful() && response.body() != null) {
                     feedsAdapter.insertLastItems(response.body().getData());
-                    pagingLoadNewFeed.setAfter(response.body().getPaging().getAfter());
-                    pagingLoadNewFeed.setBefore(response.body().getPaging().getBefore());
+                    // insert to database to save local
+                    saveFeedsToLocal(response.body().getData());
                 }
                 feedsAdapter.endLoadingMore();
             }
 
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
-                feedsAdapter.removeLastItem();
+                feedsAdapter.removeProgressLoadMore();
                 feedsAdapter.endLoadingMore();
             }
         });
     }
 
+
     public void initRefreshLayout() {
-        mRefreshNewFeed.setColorSchemeResources (
+        mRefreshNewFeed.setColorSchemeResources(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
-                android.R.color.holo_red_light );
+                android.R.color.holo_red_light);
         mRefreshNewFeed.setProgressViewOffset(true, 100, 260);
         mRefreshNewFeed.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -245,7 +281,7 @@ public class HomeFragment extends BaseFragment {
 
         String firstIdFeed;
         if (feedsAdapter.getFeeds().size() > 0) {
-            firstIdFeed = feedsAdapter.getFeeds().get(0).getFeedId();
+            firstIdFeed = String.valueOf(feedsAdapter.getFeeds().get(0).getFeedId());
         } else {
             firstIdFeed = AppConstant.DEFAULT_FEED_ID;
         }
@@ -257,14 +293,9 @@ public class HomeFragment extends BaseFragment {
 
     public Map<String, String> getTagLoadMore() {
 
-        String afterFeedId;
         Map<String, String> tagLoadMore = new HashMap<>();
-        if (!StringUtil.isEmpty(pagingLoadNewFeed.getAfter())) {
-            afterFeedId = pagingLoadNewFeed.getAfter();
-        } else {
-            afterFeedId = String.valueOf(AppConstant.DEFAULT_FEED_ID);
-        }
-        tagLoadMore.put(AppConstant.CURRENT_FEED_ID_TAG, afterFeedId);
+        String lastFeedId = String.valueOf(feedsAdapter.getLastFeedId());
+        tagLoadMore.put(AppConstant.CURRENT_FEED_ID_TAG, lastFeedId);
         tagLoadMore.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
         return tagLoadMore;
     }
@@ -274,16 +305,15 @@ public class HomeFragment extends BaseFragment {
         if (dataAdd != null && dataAdd.getSuccess() == AppConstant.SUCCESS) {
             ArrayList<Feed> feedAdds = dataAdd.getData();
             if (feedAdds != null && feedAdds.size() > 0) {
-                if (feedsAdapter.getFeeds().size() == 0) {
+                if (feedsAdapter.totalItem() == 0) {
 
-                    pagingLoadNewFeed.setAfter(dataAdd.getPaging().getAfter());
-                    pagingLoadNewFeed.setBefore(dataAdd.getPaging().getBefore());
                     visibleControl(View.VISIBLE, View.GONE);
                 }
                 feedsAdapter.insertItems(feedAdds, 0);
                 rvFeeds.scrollToPosition(0);
+                saveFeedsToLocal(feedAdds);
 
-            } else if (feedsAdapter.getFeeds().size() == 0) {
+            } else if (feedsAdapter.totalItem() == 0) {
                 visibleControl(View.GONE, View.VISIBLE);
             }
         }
@@ -297,7 +327,6 @@ public class HomeFragment extends BaseFragment {
         data.putParcelable(AppConstant.FEED_TAG, feed);
         intent.putExtra(AppConstant.PACKAGE, data);
         mActivity.startActivity(intent);
-
     }
 
     @OnClick(R.id.btn_reload)
@@ -336,6 +365,18 @@ public class HomeFragment extends BaseFragment {
     public void visibleControl(int refreshVisibility, int errorVisibility) {
         mRefreshNewFeed.setVisibility(refreshVisibility);
         llErrorLoadFeed.setVisibility(errorVisibility);
+    }
+
+    public void saveFeedsToLocal(final ArrayList<Feed> feeds) {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                DatabaseUtil.insertNewFeeds(feeds);
+                return null;
+            }
+        }.execute();
     }
 
 

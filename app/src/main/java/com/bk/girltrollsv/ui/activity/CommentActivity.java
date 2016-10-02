@@ -59,7 +59,7 @@ public class CommentActivity extends BaseActivity {
     public void handleIntent(Intent intent) {
 
         Bundle bundle = intent.getBundleExtra(AppConstant.PACKAGE);
-        PATH_URL = bundle.getString(AppConstant.FEED_ID_TAG);
+        PATH_URL = bundle.getInt(AppConstant.FEED_ID_TAG) + "";
 
         //title = bundle.getString(AppConstant.FEED_TITLE_TAG);
     }

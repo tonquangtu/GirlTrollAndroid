@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.util;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.callback.ConfirmDialogListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.MyResponse;
 import com.bk.girltrollsv.network.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.CommentActivity;
+import com.bk.girltrollsv.ui.activity.LoginActivity;
 import com.facebook.share.model.ShareLinkContent;
 
 import java.util.HashMap;
@@ -32,21 +36,24 @@ public class LikeCommentShareUtil {
 
     public static void handleClickLike(Activity activity, Feed feed, View viewLike, TextView txtNumLike, int idUnLikeIcon) {
 
-        String accountId = AccountUtil.getAccountId();
-        if (accountId != null) {
-
-            changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
+        if (Utils.checkInternetAvailable()) {
+            String accountId = AccountUtil.getAccountId();
+            if (accountId != null) {
+                changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
+            } else {
+                keepLikeState(activity, viewLike);
+                confirmLaunchingLogin(activity);
+            }
         } else {
-
-            // open activity to login
+            keepLikeState(activity, viewLike);
+            Utils.toastShort(activity, R.string.no_network);
         }
-        changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
     }
 
     public static void changeLikeState(Activity activity, Feed feed, String accountId,
                                        View viewLike, TextView txtNumLike, int idUnLikeIcon) {
 
-        ImageView imgLike = (ImageView)viewLike;
+        ImageView imgLike = (ImageView) viewLike;
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
             feed.setLikeState(AppConstant.LIKE);
             feed.setNumLike(feed.getLike() + 1);
@@ -65,7 +72,7 @@ public class LikeCommentShareUtil {
 
         Map<String, String> tag = new HashMap<>();
         tag.put(AppConstant.MEMBER_ID, accountId);
-        tag.put(AppConstant.FEED_ID, feed.getFeedId());
+        tag.put(AppConstant.FEED_ID, feed.getFeedId() + "");
         tag.put(AppConstant.TYPE, feed.getIsLike() + "");
         Call<MyResponse> call = ConfigNetwork.getServerAPI().callLike(tag);
         call.enqueue(new Callback<MyResponse>() {
@@ -81,12 +88,42 @@ public class LikeCommentShareUtil {
         });
     }
 
+    public static void keepLikeState(Activity activity, View viewLike) {
+
+        Animation animation = AnimationUtils.loadAnimation(activity, R.anim.scale_like);
+        viewLike.startAnimation(animation);
+    }
+
+    private static void confirmLaunchingLogin(final Activity activity) {
+
+
+        String title = activity.getString(R.string.confirm_login);
+        String message = activity.getString(R.string.message_confirm_login);
+        ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance(title, message);
+        confirmDialog.setPositiveText(R.string.text_login_normal);
+
+        confirmDialog.setListener(new ConfirmDialogListener() {
+            @Override
+            public void onPositivePress(DialogInterface dialog, int which) {
+                Intent intent = new Intent(activity, LoginActivity.class);
+                activity.startActivity(intent);
+            }
+
+            @Override
+            public void onNegativePress(DialogInterface dialog, int which) {
+
+            }
+        });
+        confirmDialog.show(activity.getFragmentManager(), ConfirmDialogFragment.class.getSimpleName());
+    }
+
+
     public static void handleClickComment(Activity activity, Feed feed) {
 
         if (feed != null) {
 
             Bundle data = new Bundle();
-            data.putString(AppConstant.FEED_ID_TAG, feed.getFeedId());
+            data.putInt(AppConstant.FEED_ID_TAG, feed.getFeedId());
             Intent intent = new Intent(activity, CommentActivity.class);
             intent.putExtra(AppConstant.PACKAGE, data);
             activity.startActivity(intent);
@@ -98,9 +135,9 @@ public class LikeCommentShareUtil {
         String description = activity.getResources().getString(R.string.share_description);
         String url;
 
-        if(feed.getImages() != null && feed.getImages().size() > 0) {
+        if (feed.getImages() != null && feed.getImages().size() > 0) {
             url = feed.getImages().get(0).getUrlImage();
-        } else if(feed.getVideo() != null) {
+        } else if (feed.getVideo() != null) {
             url = feed.getVideo().getUrlVideo();
         } else {
             url = AppConstant.URL_BASE;

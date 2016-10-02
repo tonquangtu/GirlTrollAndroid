@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 public class Member extends BaseInfoMember implements Parcelable {
 
-    private String rank;
+    private float rank;
 
     private int like;
 
@@ -16,7 +16,7 @@ public class Member extends BaseInfoMember implements Parcelable {
 
     protected Member(Parcel in) {
         super(in);
-        rank = in.readString();
+        rank = in.readFloat();
         like = in.readInt();
         totalImage = in.readInt();
     }
@@ -24,7 +24,7 @@ public class Member extends BaseInfoMember implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(rank);
+        dest.writeFloat(rank);
         dest.writeInt(like);
         dest.writeInt(totalImage);
     }
@@ -46,7 +46,7 @@ public class Member extends BaseInfoMember implements Parcelable {
         }
     };
 
-    public String getRank() {
+    public float getRank() {
         return rank;
     }
 

@@ -41,5 +41,9 @@
     <string name="text_hint_password">Mật khẩu</string>
     <string name="login">Đăng nhập GirlTrollSv</string>
     <string name="loading">Loading...</string>
+    <string name="accepted">Đồng ý</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="confirm_login">Đăng nhập GirlTrollSv</string>
+    <string name="message_confirm_login">Để thực hiện chưc năng này bạn phải đăng nhập</string>
 
 </resources>

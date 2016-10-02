@@ -12,11 +12,9 @@ import android.widget.ProgressBar;
 import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.constant.AppConstant;
-import com.bk.girltrollsv.model.EventBase;
+import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.model.dataserver.EventCatalogResponse;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
-import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
 import com.facebook.FacebookSdk;
 
@@ -31,12 +29,7 @@ import retrofit2.Response;
 public class SplashActivity extends AppCompatActivity {
 
     ArrayList<Feed> initFeeds;
-    Paging paging;
-    ArrayList<EventBase> eventCatalogs;
-    boolean isLoadNewFeedComplete = false;
-    boolean isLoadEventCatalogComplete = false;
     ProgressBar pgbLoader;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,100 +45,8 @@ public class SplashActivity extends AppCompatActivity {
 
         new TaskLoadInitData().execute();
         new TaskLoadFacebookSDK().execute();
-        // load all thing need
     }
 
-    public void loadInitNewFeed() {
-
-        initFeeds = new ArrayList<>();
-        paging = new Paging();
-
-        // load new feed
-        Map<String, String> tagLoadNewFeed = new HashMap<>();
-        tagLoadNewFeed.put(AppConstant.CURRENT_FEED_ID_TAG, String.valueOf(AppConstant.DEFAULT_FEED_ID));
-        tagLoadNewFeed.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
-
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(tagLoadNewFeed);
-        call.enqueue(new Callback<FeedResponse>() {
-            @Override
-            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
-
-                if (response.isSuccessful()) {
-
-                    FeedResponse body = response.body();
-                    if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
-
-                        if (body.getData() != null && body.getData().size() > 0) {
-                            initFeeds.addAll(body.getData());
-                        }
-                        if (body.getPaging() != null) {
-                            paging.setBefore(body.getPaging().getBefore());
-                            paging.setAfter(body.getPaging().getAfter());
-                        }
-                        isLoadNewFeedComplete = true;
-                        handleLaunchingMainActivity();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FeedResponse> call, Throwable t) {
-                t.printStackTrace();
-                isLoadNewFeedComplete = true;
-                handleLaunchingMainActivity();
-                // show error
-            }
-        });
-    }
-
-    public void loadEventCatalog() {
-
-        eventCatalogs = new ArrayList<>();
-        Call<EventCatalogResponse> call = ConfigNetwork.getServerAPI().callLoadEventCatalog();
-        call.enqueue(new Callback<EventCatalogResponse>() {
-            @Override
-            public void onResponse(Call<EventCatalogResponse> call, Response<EventCatalogResponse> response) {
-
-                if (response.isSuccessful() && response.body() != null) {
-                    EventCatalogResponse body = response.body();
-                    if (body.getSuccess() == AppConstant.SUCCESS
-                            && body.getData() != null
-                            && body.getData().size() > 0) {
-
-                        eventCatalogs.addAll(body.getData());
-                        isLoadEventCatalogComplete = true;
-                        handleLaunchingMainActivity();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<EventCatalogResponse> call, Throwable t) {
-                t.printStackTrace();
-                isLoadEventCatalogComplete = true;
-                handleLaunchingMainActivity();
-                // show error
-            }
-        });
-    }
-
-    public void handleLaunchingMainActivity() {
-
-        if (isLoadNewFeedComplete) {
-
-            Intent intent = new Intent(this, MainActivity.class);
-            Bundle dataToMain = new Bundle();
-
-            dataToMain.putParcelable(AppConstant.PAGING_TAG, paging);
-//            dataToMain.putParcelableArrayList(AppConstant.EVENT_CATALOG_TAG, eventCatalogs);
-            dataToMain.putParcelableArrayList(AppConstant.FEEDS_TAG, initFeeds);
-
-            intent.putExtra(AppConstant.PACKAGE, dataToMain);
-            startActivity(intent);
-            finish();
-
-        }
-    }
 
     private class TaskLoadFacebookSDK extends AsyncTask<Void, Void, Void> {
 
@@ -161,9 +62,82 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            loadInitNewFeed();
-//            loadEventCatalog();
+            handleLoadNewFeed();
             return null;
         }
     }
+
+    public void handleLoadNewFeed() {
+//        int countImage = DatabaseUtil.getCountImage();
+//        int countVideo = DatabaseUtil.getCountVideo();
+//        int countFeed = DatabaseUtil.getCountFeed();
+//        Log.e("tuton", "countImage:" + countImage);
+//        Log.e("tuton", "countVideo:" + countVideo);
+//        Log.e("tuton", "countFeed:" + countFeed);
+        initFeeds = new ArrayList<>();
+        ArrayList<Feed> feeds = DatabaseUtil.getFeedsOffset(AppConstant.LIMIT_FEED_LOCAL, 0);
+        if (feeds != null && feeds.size() > 0) {
+            initFeeds.addAll(feeds);
+            handleLaunchingMainActivity();
+        } else {
+            loadFeedFromRemote();
+        }
+
+
+    }
+
+    public void loadFeedFromRemote() {
+
+        // load new feed
+        Map<String, String> tagLoadNewFeed = new HashMap<>();
+        tagLoadNewFeed.put(AppConstant.CURRENT_FEED_ID_TAG, String.valueOf(AppConstant.DEFAULT_FEED_ID));
+        tagLoadNewFeed.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
+
+        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(tagLoadNewFeed);
+        call.enqueue(new Callback<FeedResponse>() {
+            @Override
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+
+                if (response.isSuccessful()) {
+                    FeedResponse body = response.body();
+                    if (body != null && body.getSuccess() == AppConstant.SUCCESS) {
+
+                        if (body.getData() != null && body.getData().size() > 0) {
+                            initFeeds.addAll(body.getData());
+                        }
+                        new TaskInsertFeeds().execute(initFeeds);
+                        handleLaunchingMainActivity();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+                t.printStackTrace();
+                handleLaunchingMainActivity();
+                // show error
+            }
+        });
+    }
+
+    public void handleLaunchingMainActivity() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle dataToMain = new Bundle();
+        dataToMain.putParcelableArrayList(AppConstant.FEEDS_TAG, initFeeds);
+
+        intent.putExtra(AppConstant.PACKAGE, dataToMain);
+        startActivity(intent);
+        finish();
+    }
+
+    public class TaskInsertFeeds extends AsyncTask<ArrayList<Feed>, Void, Void> {
+
+        @Override
+        protected Void doInBackground(ArrayList<Feed>... params) {
+            DatabaseUtil.insertNewFeeds(params[0]);
+            return null;
+        }
+    }
+
 }

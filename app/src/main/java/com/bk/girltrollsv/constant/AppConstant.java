@@ -5,29 +5,33 @@ package com.bk.girltrollsv.constant;
  */
 public class AppConstant {
 
-    public static String PACKAGE = "PACKAGE";
+    public static final String PACKAGE = "PACKAGE";
 
-    public static String FEEDS_TAG = "FEEDS";
+    public static final String FEEDS_TAG = "FEEDS";
 
-    public static String FEED_TAG = "FEED";
+    public static final String FEED_TAG = "FEED";
 
-    public static String EVENT_CATALOG_TAG = "EVENT_CATALOG";
+    public static final String EVENT_CATALOG_TAG = "EVENT_CATALOG";
 
-    public static String PAGING_TAG = "PAGING";
+    public static final String PAGING_TAG = "PAGING";
 
-    public static String CURRENT_FEED_ID_TAG = "currentFeedId";
+    public static final String CURRENT_FEED_ID_TAG = "currentFeedId";
 
-    public static String LIMIT_TAG = "limit";
+    public static final String LIMIT_TAG = "limit";
 
-    public static String DEFAULT_FEED_ID = "-1";
+    public static final String DEFAULT_FEED_ID = "-1";
 
-    public static int SUCCESS = 1;
+    public static final int SUCCESS = 1;
 
-    public static int DEFAULT_LIMIT = 4;
+    public static final int DEFAULT_LIMIT = 4;
 
-    public static String URL_BASE = "http://girltroll.890m.com/";
+    public static final int MAX_ROW_FEED_TABLE = 100;
 
-    public static String SPACE = " ";
+    public static final int LIMIT_FEED_LOCAL = 8;
+
+    public static final String URL_BASE = "http://girltroll.890m.com/";
+
+    public static final String SPACE = " ";
 
     public static final String FEED_ID_TAG = "FEED_ID";
 

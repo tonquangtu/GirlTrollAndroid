@@ -24,7 +24,6 @@ public class MainSegmentView extends LinearLayout implements View.OnClickListene
 
     ViewGroup mSelectedView;
 
-
     ViewGroup[] tabs;
 
     OnSegmentViewSelectedListener mSegmentSelectedListener;
