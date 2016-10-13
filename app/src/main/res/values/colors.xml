@@ -58,6 +58,8 @@
 
     <color name="background_view">@color/colorPrimary</color>
 
+    <color name="background_divider_video">@color/white</color>
+
     <color name="color_text_comment">@color/grey_700</color>
 
     <color name="color_text_like">@color/grey_700</color>

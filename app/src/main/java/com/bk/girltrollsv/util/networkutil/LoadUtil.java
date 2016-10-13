@@ -1,10 +1,13 @@
 package com.bk.girltrollsv.util.networkutil;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.R;
+import com.bk.girltrollsv.callback.OnLoadImageListener;
 import com.bk.girltrollsv.util.StringUtil;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.Random;
@@ -28,21 +31,41 @@ public class LoadUtil {
             R.drawable.place_holder_feed_8
     };
 
-    public static void loadImage(String url, ImageView img) {
+    public static void loadImage(String url, ImageView img, final OnLoadImageListener listener) {
 
-        if (url != null && url.length() > 0) {
-
-            Picasso.with(BaseApplication.getContext())
-                    .load(url)
-                    .into(img);
-
+        if (StringUtil.isEmpty(url)) {
+            url = null;
         }
+        Picasso.with(BaseApplication.getContext())
+                .load(url)
+                .placeholder(R.drawable.place_holder_black)
+                .into(img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d("trung", "success");
+                        listener.onLoadComplete();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d("trung", "error");
+
+                    }
+                });
+
     }
 
     public static void loadImageResize(String url, ImageView imgDes, int width, int height) {
 
         int rand = new Random().nextInt(PLACE_HOLDER_XML.length);
         loadImageResizeWithPlaceHolder(url, imgDes, PLACE_HOLDER_XML[rand], width, height);
+    }
+
+
+    public static void loadImageFeedResize(String url, ImageView imgDes, int width, int height) {
+
+        int placeHolderId = R.drawable.place_holder_black;
+        loadImageResizeWithPlaceHolder(url, imgDes, placeHolderId, width, height);
     }
 
     public static void loadAvatar(String url, ImageView imgDes, int width, int height) {
@@ -56,7 +79,7 @@ public class LoadUtil {
         if (StringUtil.isEmpty(url)) {
             url = null;
         }
-        if (imgDes != null ) {
+        if (imgDes != null) {
             Picasso.with(BaseApplication.getContext())
                     .load(url)
                     .resize(width, height)

@@ -51,7 +51,7 @@
         android:layout_marginBottom="@dimen/margin_top_divider_info_comment_like"
         android:layout_marginLeft="@dimen/margin_left_feed"
         android:layout_marginRight="@dimen/margin_right_feed"
-        android:background="@color/background_view" />
+        android:background="@color/background_divider_video" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

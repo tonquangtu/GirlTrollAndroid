@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.callback;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -8,7 +9,7 @@ import android.widget.TextView;
  */
 public interface FeedItemOnClickListener {
 
-    void onClickImage(int posFeed, int posImage, View view);
+    void onClickImage(int posFeed, int posImage, ImageView[] views);
 
     void onClickVideo(int posFeed, View view);
 

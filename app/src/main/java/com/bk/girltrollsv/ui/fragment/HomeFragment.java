@@ -3,28 +3,37 @@ package com.bk.girltrollsv.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
+import com.bk.girltrollsv.adapter.customadapter.ViewImageAdapter;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.HidingScrollListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.model.Feed;
+import com.bk.girltrollsv.model.ImageInfo;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
+import com.bk.girltrollsv.util.ScreenHelper;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.StringUtil;
 import com.bk.girltrollsv.util.Utils;
@@ -119,7 +128,12 @@ public class HomeFragment extends BaseFragment {
         });
         feedsAdapter.setItemListener(new FeedItemOnClickListener() {
             @Override
-            public void onClickImage(int posFeed, int posImage, View view) {
+            public void onClickImage(int posFeed, int posImage, ImageView[] views) {
+
+
+                Feed feed = feedsAdapter.getFeeds().get(posFeed);
+                handleClickImage(posImage,feed, views);
+
 
             }
 
@@ -152,6 +166,20 @@ public class HomeFragment extends BaseFragment {
             final Toolbar toolbar = mainActivity.getToolbar();
             rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, toolbar));
         }
+    }
+
+    public void handleClickImage( int posImage, Feed feed, ImageView[] views){
+
+        MainActivity mainActivity = null;
+
+        if (mActivity instanceof MainActivity) {
+
+            mainActivity = (MainActivity) mActivity;
+        }
+
+        DetailImageView detailImageView = mainActivity.getDetailImageView();
+        detailImageView.viewDetailImage(mainActivity.getSupportFragmentManager(), feed, posImage, views);
+
     }
 
     public void handleLoadMore() {
