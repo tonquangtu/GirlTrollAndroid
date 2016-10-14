@@ -151,6 +151,9 @@ public class CustomMediaController extends FrameLayout {
             if (mPauseButton != null && !mPlayer.canPause()) {
                 mPauseButton.setEnabled(false);
             }
+            if (mProgress != null && !mPlayer.canSeekBackward() && !mPlayer.canSeekForward()) {
+                mProgress.setEnabled(false);
+            }
         } catch (IncompatibleClassChangeError ex) {
             // We were given an old version of the interface, that doesn't have
             // the canPause/canSeekXYZ methods. This is OK, it just means we
@@ -502,5 +505,14 @@ public class CustomMediaController extends FrameLayout {
         }
     }
 
+    public void show2() {
+        show(sDefaultTimeout);
+    }
+
+    public void visiblePausePlay(int visibility) {
+        if (mPauseButton != null && mPauseButton.getVisibility() != visibility) {
+            mPauseButton.setVisibility(visibility);
+        }
+    }
 
 }

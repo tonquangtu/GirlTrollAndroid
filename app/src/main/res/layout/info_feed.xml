@@ -51,42 +51,14 @@
         android:layout_marginBottom="@dimen/margin_top_divider_info_comment_like"
         android:layout_marginLeft="@dimen/margin_left_feed"
         android:layout_marginRight="@dimen/margin_right_feed"
-        android:background="@color/background_view" />
+        android:background="@color/background_view_video" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_left_feed"
+    <include
+        android:layout_below="@+id/view_divider_info_comment_like"
+        android:layout_marginLeft="@dimen/margin_left_like_comment"
         android:layout_marginRight="@dimen/margin_right_feed"
-        android:gravity="center_vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_like_comment_share_group"
+        layout="@layout/like_comment_share"/>
 
-        <ImageButton
-            android:id="@+id/img_btn_like"
-            style="?borderlessButtonStyle"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:scaleType="center"
-            android:src="@drawable/icon_unlike_white" />
-
-        <ImageButton
-            android:id="@+id/img_btn_comment"
-            style="?borderlessButtonStyle"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_btn_like"
-            android:src="@drawable/icon_comment_white" />
-
-        <com.facebook.share.widget.ShareButton
-            android:id="@+id/share_button"
-            style="?borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
-            android:text="@string/share"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_view_video" />
-
-    </RelativeLayout>
 </LinearLayout>

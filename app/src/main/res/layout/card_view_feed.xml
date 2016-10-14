@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_left_feed"
             android:layout_toRightOf="@+id/cir_img_member_feed"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linearLayout">
 
             <TextView
                 android:id="@+id/txt_member_name"
@@ -51,10 +52,11 @@
             style="?borderlessButtonStyle"
             android:layout_width="20dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/icon_more_vertical"
             android:layout_alignParentTop="true"
-            android:gravity="top"
-            android:src="@drawable/icon_more_vertical" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
@@ -137,49 +139,13 @@
         android:layout_marginTop="@dimen/margin_top_divider_info_comment_like"
         android:background="@color/background_view" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_like_comment_share_group"
+
+    <include
         android:layout_below="@+id/view_divider_info_comment_like"
-        android:layout_marginLeft="@dimen/margin_left_feed"
+        android:layout_marginLeft="@dimen/margin_left_like_comment"
         android:layout_marginRight="@dimen/margin_right_feed"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/img_btn_like"
-            android:layout_width="@dimen/size_like_image"
-            android:layout_height="@dimen/size_like_image"
-            android:layout_alignParentLeft="true"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:src="@drawable/icon_unlike" />
-
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/img_btn_comment"
-            android:layout_width="@dimen/size_like_image"
-            android:layout_height="@dimen/size_like_image"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:layout_toRightOf="@+id/img_btn_like"
-            android:layout_marginLeft="14dp"
-            android:src="@drawable/icon_comment" />
-
-        <com.facebook.share.widget.ShareButton
-
-            android:id="@+id/share_button"
-            style="?borderlessButtonStyle"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@drawable/com_facebook_button_icon_blue"
-            android:text="@string/share"
-            android:textAllCaps="false"
-            android:textColor="@color/color_text_share" />
-
-    </RelativeLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_like_comment_share_group"
+        layout="@layout/like_comment_share"/>
 
 </RelativeLayout>

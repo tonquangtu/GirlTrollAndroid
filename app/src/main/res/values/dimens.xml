@@ -56,5 +56,7 @@
     <dimen name="height_like_comment_share_group">38dp</dimen>
     <dimen name="margin_left_logo_toolbar">20dp</dimen>
     <dimen name="margin_right_upload_photo">7dp</dimen>
+    <dimen name="margin_left_like_comment">12dp</dimen>
+    <dimen name="margin_bottom_info_feed">6dp</dimen>
 
 </resources>

@@ -3,34 +3,25 @@
     android:id="@+id/rlRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_view_video">
+    android:background="@color/background_video_activity">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+    <include
+        layout="@layout/toolbar_with_title"
         android:layout_alignParentTop="true"
-        android:background="@color/background_view_video"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:theme="@style/AppTheme.ToolbarOverlay">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-    </android.support.v7.widget.Toolbar>
-
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/frame_container"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="300dp"-->
-    <!--android:layout_gravity="center">-->
-
-    <!--</FrameLayout>-->
+    <SurfaceView
+        android:id="@+id/surface_view_video"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
 
     <include
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_bottom_info_feed"
         layout="@layout/info_feed"/>
 
 </RelativeLayout>

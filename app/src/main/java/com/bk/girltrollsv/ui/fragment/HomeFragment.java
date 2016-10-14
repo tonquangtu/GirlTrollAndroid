@@ -24,7 +24,6 @@ import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
-import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
@@ -56,6 +55,10 @@ public class HomeFragment extends BaseFragment {
 
     @Bind(R.id.pgbReload)
     ProgressBar pgbReload;
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
 
     ArrayList<Feed> initFeeds;
 
@@ -138,7 +141,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClickComment(int posFeed, View view) {
                 Feed feed = feedsAdapter.getFeeds().get(posFeed);
-                LikeCommentShareUtil.handleClickComment(mActivity, feed);
+                LikeCommentShareUtil.handleClickComment(mActivity, feed, view);
             }
 
             @Override
@@ -147,11 +150,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        if (mActivity instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) mActivity;
-            final Toolbar toolbar = mainActivity.getToolbar();
-            rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, toolbar));
-        }
+        rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, mToolbar));
     }
 
     public void handleLoadMore() {

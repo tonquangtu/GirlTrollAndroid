@@ -7,9 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,8 +37,11 @@ public class VideoActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-//    @Bind(R.id.frame_container)
-//    FrameLayout frameContainer;
+    @Bind(R.id.toolbar_txt_member_name)
+    TextView txtMember;
+
+    @Bind(R.id.toolbar_txt_time)
+    TextView txtTime;
 
     @Bind(R.id.txt_title_feed)
     TextView txtTitleFeed;
@@ -49,13 +53,19 @@ public class VideoActivity extends BaseActivity {
     TextView txtNumComment;
 
     @Bind(R.id.img_btn_like)
-    ImageButton imgBtnLike;
+    ImageView imgLike;
+
+    @Bind(R.id.img_btn_comment)
+    ImageView imgComment;
 
     @Bind(R.id.share_button)
     ShareButton shareButton;
 
     @Bind(R.id.ll_info_feed)
     LinearLayout llInfoFeed;
+
+    @Bind(R.id.surface_view_video)
+    SurfaceView surfaceView;
 
     CustomVideoView mCustomVideoView;
 
@@ -89,6 +99,7 @@ public class VideoActivity extends BaseActivity {
 
         initVideoView();
 
+        initLikeCommentShare();
     }
 
     @Override
@@ -97,10 +108,6 @@ public class VideoActivity extends BaseActivity {
         if (mFeed == null || video == null) {
             return;
         }
-        mCustomVideoView.initMediaPlayer(video);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(mFeed.getMember().getUsername());
-        actionBar.setSubtitle(mFeed.getTime());
         String comment = mFeed.getComment() + AppConstant.SPACE + getString(R.string.base_comment);
         StringUtil.displayText(comment, txtNumComment);
         StringUtil.displayText(mFeed.getTitle(), txtTitleFeed);
@@ -115,6 +122,10 @@ public class VideoActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        StringUtil.displayText(mFeed.getMember().getUsername(), txtMember);
+        StringUtil.displayText(mFeed.getTime(), txtTime);
     }
 
     public void initFrameContainer() {
@@ -123,7 +134,6 @@ public class VideoActivity extends BaseActivity {
         int width = ScreenHelper.getScreenWidthInPx();
         int height = (int) (ratio * width);
         frameContainer = new FrameLayout(this);
-
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         frameContainer.setLayoutParams(layoutParams);
@@ -132,7 +142,7 @@ public class VideoActivity extends BaseActivity {
 
     public void initVideoView() {
 
-        mCustomVideoView = new CustomVideoView(this, frameContainer);
+        mCustomVideoView = new CustomVideoView(this, frameContainer, surfaceView,  video);
         mCustomVideoView.setFullScreenListener(new OnFullScreenListener() {
             @Override
             public void onFullScreenChange(boolean isFull) {
@@ -143,6 +153,12 @@ public class VideoActivity extends BaseActivity {
                 }
             }
         });
+
+    }
+
+    public void initLikeCommentShare() {
+        imgComment.setImageResource(R.drawable.icon_comment_white);
+        shareButton.setTextColor(getResources().getColor(R.color.white));
     }
 
     @Override
@@ -179,7 +195,6 @@ public class VideoActivity extends BaseActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.view_video_menu, menu);
         return true;
-
     }
 
     public void downloadVideo() {
@@ -197,25 +212,42 @@ public class VideoActivity extends BaseActivity {
         txtTitleFeed.setVisibility(visibility);
     }
 
-    @OnClick(R.id.img_btn_like)
+    @OnClick(R.id.ll_like)
     public void onClickLike(View view) {
-        LikeCommentShareUtil.handleClickLike(this, mFeed, imgBtnLike,
+        LikeCommentShareUtil.handleClickLike(this, mFeed, imgLike,
                 txtNumLike, R.drawable.icon_unlike_white);
     }
 
-    @OnClick(R.id.img_btn_comment)
+    @OnClick(R.id.ll_comment)
     public void onClickComment(View view) {
-        LikeCommentShareUtil.handleClickComment(this, mFeed);
+        LikeCommentShareUtil.handleClickComment(this, mFeed, imgComment);
     }
 
     public void setLikeInfo() {
         String like = mFeed.getLike() + AppConstant.SPACE + getString(R.string.base_like);
         StringUtil.displayText(like, txtNumLike);
         if (mFeed.getIsLike() == AppConstant.UN_LIKE) {
-            imgBtnLike.setImageResource(R.drawable.icon_unlike_white);
+            imgLike.setImageResource(R.drawable.icon_unlike_white);
         } else {
-            imgBtnLike.setImageResource(R.drawable.icon_like);
+            imgLike.setImageResource(R.drawable.icon_like);
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        mCustomVideoView.release();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        mCustomVideoView.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mCustomVideoView.play();
+        super.onResume();
+    }
 }

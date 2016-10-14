@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.callback.ConfirmDialogListener;
 import com.bk.girltrollsv.constant.AppConstant;
@@ -118,15 +119,21 @@ public class LikeCommentShareUtil {
     }
 
 
-    public static void handleClickComment(Activity activity, Feed feed) {
+    public static void handleClickComment(final Activity activity, final Feed feed,View commentView) {
 
         if (feed != null) {
-
-            Bundle data = new Bundle();
-            data.putInt(AppConstant.FEED_ID_TAG, feed.getFeedId());
-            Intent intent = new Intent(activity, CommentActivity.class);
-            intent.putExtra(AppConstant.PACKAGE, data);
-            activity.startActivity(intent);
+            Animation animationComment = AnimationUtils.loadAnimation(BaseApplication.getContext(), R.anim.scale_comment);
+            commentView.startAnimation(animationComment);
+            Utils.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Bundle data = new Bundle();
+                    data.putInt(AppConstant.FEED_ID_TAG, feed.getFeedId());
+                    Intent intent = new Intent(activity, CommentActivity.class);
+                    intent.putExtra(AppConstant.PACKAGE, data);
+                    activity.startActivity(intent);
+                }
+            }, 100);
         }
     }
 
@@ -144,12 +151,10 @@ public class LikeCommentShareUtil {
         }
 
         Uri uri = Uri.parse(url);
-        ShareLinkContent linkContent = new ShareLinkContent.Builder()
+        return new ShareLinkContent.Builder()
                 .setContentTitle(title)
                 .setContentDescription(description)
                 .setContentUrl(uri)
                 .build();
-
-        return linkContent;
     }
 }

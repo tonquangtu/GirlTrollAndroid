@@ -3,7 +3,6 @@ package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bk.girltrollsv.R;
@@ -23,9 +22,6 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.view_root_main)
     View mViewRoot;
-
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
 
     @Bind(R.id.custom_vp_main)
     CustomViewPager mViewPagerMain;
@@ -105,17 +101,8 @@ public class MainActivity extends BaseActivity {
         mViewPagerMain.setAdapter(mPagerMainAdapter);
     }
 
-    public Toolbar getToolbar() {
-        return mToolbar;
-    }
-
     public View getViewRoot() {
         return mViewRoot;
     }
-
-    public int getToolbarHeight() {
-        return mToolbar.getLayoutParams().height;
-    }
-
 
 }

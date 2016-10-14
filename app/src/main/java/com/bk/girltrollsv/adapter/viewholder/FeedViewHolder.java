@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
@@ -64,6 +65,12 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.frame_container)
     FrameLayout frameFeedContent;
+
+    @Bind(R.id.ll_like)
+    LinearLayout llLike;
+
+    @Bind(R.id.ll_comment)
+    LinearLayout llComment;
 
     Activity mActivity;
 
@@ -177,16 +184,16 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        imgComment.setOnClickListener(new View.OnClickListener() {
+        llComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
-                    listener.onClickComment(getLayoutPosition(), v);
+                    listener.onClickComment(getLayoutPosition(), imgComment);
                 }
             }
         });
 
-        imgLike.setOnClickListener(new View.OnClickListener() {
+        llLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

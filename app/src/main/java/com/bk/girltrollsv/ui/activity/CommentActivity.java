@@ -151,7 +151,7 @@ public class CommentActivity extends BaseActivity {
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setDisplayZoomControls(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        clearCookies(this);
+        //clearCookies(this);
 
         if (Build.VERSION.SDK_INT >= 21) {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

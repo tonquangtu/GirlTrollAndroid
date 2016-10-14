@@ -56,7 +56,7 @@
 
     <color name="color_time_feed">@color/grey_700</color>
 
-    <color name="background_view">@color/colorPrimary</color>
+    <color name="background_view">@color/black</color>
 
     <color name="color_text_comment">@color/grey_700</color>
 
@@ -64,7 +64,7 @@
 
     <color name="color_text_share">@color/grey_700</color>
 
-    <color name="background_view_video">@color/black</color>
+    <color name="background_view_video">@color/white</color>
 
     <color name="color_text_view_video">@color/white</color>
 
@@ -93,6 +93,10 @@
     <color name="color_pgb_loader">@color/white</color>
 
     <color name="background_bottom_segment">#F2FFFFFF</color>
+
+    <color name="background_video_activity">@color/black</color>
+
+    <color name="color_video_title">@color/white</color>
 
 
 </resources>

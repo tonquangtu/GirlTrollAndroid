@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_like_comment_share_group"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/ll_like"
+        android:gravity="center_vertical"
+        android:layout_width="40dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_btn_like"
+            android:layout_width="@dimen/size_like_image"
+            android:layout_height="@dimen/size_like_image"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/icon_unlike_white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_comment"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/ll_like"
+        android:layout_width="60dp"
+        android:layout_height="match_parent">
+        <ImageView
+
+            android:id="@+id/img_btn_comment"
+            android:layout_width="@dimen/size_like_image"
+            android:layout_height="@dimen/size_like_image"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:src="@drawable/icon_comment" />
+    </LinearLayout>
+
+    <com.facebook.share.widget.ShareButton
+
+        android:id="@+id/share_button"
+        style="?borderlessButtonStyle"
+        android:gravity="center|center_vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawableLeft="@drawable/com_facebook_button_icon_blue"
+        android:text="@string/share"
+        android:textAllCaps="false"
+        android:textColor="@color/color_text_share" />
+
+</RelativeLayout>
