@@ -1,10 +1,7 @@
-package com.bk.girltrollsv.model.dataserver;
+package com.bk.girltrollsv.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.bk.girltrollsv.model.EventBase;
-import com.bk.girltrollsv.model.ImageInfo;
 
 import java.util.ArrayList;
 

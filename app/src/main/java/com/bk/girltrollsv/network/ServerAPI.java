@@ -17,8 +17,8 @@ import retrofit2.http.QueryMap;
  */
 public interface ServerAPI {
 
-    @POST("login")
-    Call<LoginResponse> callLogin(@QueryMap Map<String, String> tag);
+    @POST("login/facebook")
+    Call<LoginResponse> callFacebookLogin(@QueryMap Map<String, String> tag);
 
     @GET("feed/new")
     Call<FeedResponse> callLoadNewFeed(@QueryMap Map<String, String> tag);

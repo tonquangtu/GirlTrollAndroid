@@ -40,8 +40,15 @@
     </style>
 
     <style name = "LoginTheme" parent="AppTheme.Normal">
-        <item name="android:fitsSystemWindows">true</item>
-
+        <!--<item name="android:fitsSystemWindows">true</item>-->
     </style>
+
+
+    <style name="ProgressDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <item name="colorAccent">@color/green_600</item>
+    <item name="android:textColorPrimary">@color/black</item>
+    <item name="android:background">@color/white</item>
+    </style>
+
 
 </resources>

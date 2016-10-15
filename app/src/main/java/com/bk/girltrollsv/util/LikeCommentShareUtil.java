@@ -107,6 +107,9 @@ public class LikeCommentShareUtil {
             @Override
             public void onPositivePress(DialogInterface dialog, int which) {
                 Intent intent = new Intent(activity, LoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(AppConstant.FLAG_LOGIN_FINISH, AppConstant.FINISH_WHEN_COMPLETE);
+                intent.putExtra(AppConstant.PACKAGE, bundle);
                 activity.startActivity(intent);
             }
 
@@ -134,6 +137,7 @@ public class LikeCommentShareUtil {
                     activity.startActivity(intent);
                 }
             }, 100);
+
         }
     }
 

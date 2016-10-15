@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_splash);
         pgbLoader = (ProgressBar) findViewById(R.id.pgb_loader);
-        pgbLoader.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
+        pgbLoader.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
 
         new TaskLoadInitData().execute();
         new TaskLoadFacebookSDK().execute();

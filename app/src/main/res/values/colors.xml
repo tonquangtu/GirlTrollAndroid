@@ -98,5 +98,7 @@
 
     <color name="color_video_title">@color/white</color>
 
+    <color name="color_progress_bar">@color/green_600</color>
+
 
 </resources>

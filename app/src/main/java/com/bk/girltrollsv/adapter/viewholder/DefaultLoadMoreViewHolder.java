@@ -27,7 +27,7 @@ public class DefaultLoadMoreViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
         pgLoader.getIndeterminateDrawable().
-                setColorFilter(BaseApplication.getContext().getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
+                setColorFilter(BaseApplication.getContext().getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
     }
 
 }

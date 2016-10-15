@@ -8,25 +8,42 @@ import android.os.Parcelable;
  */
 public class Member extends BaseInfoMember implements Parcelable {
 
-    private float rank;
+    private String gmail;
+
+    private int rank;
 
     private int like;
 
     private int totalImage;
 
+    private int active;
+
+    public Member(String memberId, String username, String avatarUrl, String gmail, int rank, int like, int totalImage, int active) {
+        super(memberId, username, avatarUrl);
+        this.gmail = gmail;
+        this.rank = rank;
+        this.like = like;
+        this.totalImage = totalImage;
+        this.active = active;
+    }
+
     protected Member(Parcel in) {
         super(in);
-        rank = in.readFloat();
+        gmail = in.readString();
+        rank = in.readInt();
         like = in.readInt();
         totalImage = in.readInt();
+        active = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeFloat(rank);
+        dest.writeString(gmail);
+        dest.writeInt(rank);
         dest.writeInt(like);
         dest.writeInt(totalImage);
+        dest.writeInt(active);
     }
 
     @Override
@@ -46,7 +63,7 @@ public class Member extends BaseInfoMember implements Parcelable {
         }
     };
 
-    public float getRank() {
+    public int getRank() {
         return rank;
     }
 
@@ -56,5 +73,13 @@ public class Member extends BaseInfoMember implements Parcelable {
 
     public int getTotalImage() {
         return totalImage;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public String getGmail() {
+        return gmail;
     }
 }

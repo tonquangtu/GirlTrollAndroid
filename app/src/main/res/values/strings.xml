@@ -44,6 +44,10 @@
     <string name="accepted">Đồng ý</string>
     <string name="cancel">Hủy bỏ</string>
     <string name="confirm_login">Đăng nhập GirlTrollSv</string>
-    <string name="message_confirm_login">Để thực hiện chưc năng này bạn phải đăng nhập</string>
+    <string name="message_confirm_login">Để thực hiện chức năng này bạn phải đăng nhập</string>
+    <string name="title_logining">Đang đăng nhập...</string>
+    <string name="message_logining">Chỉ trong giây lát...</string>
+    <string name="login_fail">Rất tiếc đăng nhập đã thất bại</string>
+    <string name="login_success">Đăng nhập thành công</string>
 
 </resources>

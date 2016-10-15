@@ -47,9 +47,35 @@ public class AppConstant {
 
     public static final String MY_AVATAR_URL = "MY_AVATAR_URL";
 
+    public static final String MY_GMAIL = "MY_GMAIL";
+
+    public static final String MY_RANK = "MY_RANK";
+
+    public static final String MY_LIKE = "MY_LIKE";
+
+    public static final String MY_ACTIVE = "MY_ACTIVE";
+
+    public static final String MY_TOTAL_IMAGE = "MY_TOTAL_IMAGE";
+
     public static final String MEMBER_ID = "memberId";
 
     public static final String FEED_ID = "feedId";
 
     public static final String TYPE = "type";
+
+    public static final String FACEBOOK_ID_TAG = "facebookId";
+
+    public static final String USERNAME_TAG = "username";
+
+    public static final String GMAIL_TAG = "gmail";
+
+    public static final String AVATAR_URL_TAG = "avatarUrl";
+
+    public static final String FLAG_LOGIN_FINISH = "FLAG_LOGIN";
+
+    public static final int FINISH_WHEN_COMPLETE = 1;
+
+    public static final int NON_FINISH_COMPLETE = 0;
+
+
 }
