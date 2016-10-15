@@ -57,4 +57,6 @@
     <dimen name="margin_left_logo_toolbar">20dp</dimen>
     <dimen name="margin_right_upload_photo">7dp</dimen>
 
+    <dimen name="padding_top_item_catalog">80dp</dimen>
+
 </resources>

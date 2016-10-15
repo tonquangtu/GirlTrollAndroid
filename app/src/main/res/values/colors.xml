@@ -96,5 +96,5 @@
 
     <color name="background_bottom_segment">#F2FFFFFF</color>
 
-
+    <color name="color_background_catalog_fragment">@color/white</color>
 </resources>

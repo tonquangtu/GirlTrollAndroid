@@ -72,6 +72,7 @@ public class DetailImageView {
 
     TouchImageView mTouchImageView;
     ViewImageAdapter mViewImageAdapter;
+    private int mScreenWidth;
 
     Rect startBounds;
     Rect finalBounds;
@@ -94,6 +95,7 @@ public class DetailImageView {
         //mShareButton = (ShareButton) rLViewDetailImage.findViewById(R.id.share_button);
         mLLInfoFeed = (LinearLayout) rLViewDetailImage.findViewById(R.id.ll_info_feed);
         mPBLoadImageDetail = (ProgressBar) rLViewDetailImage.findViewById(R.id.pb_load_image_detail);
+        mScreenWidth = ScreenHelper.getScreenWidthInPx();
 
         mImgBtnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,13 +281,13 @@ public class DetailImageView {
 
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
-        final int actHF = actH * 1080 / actW;
+        final int actHF = actH * mScreenWidth / actW;
 
         // Adjust the start bounds to be the same aspect ratio as the final
         // bounds using the "center crop" technique. This prevents undesirable
         // stretching during the animation. Also calculate the start scaling
         // factor (the end scaling factor is always 1.0).
-        scale1 = (float) startBounds.width() / 1080;
+        scale1 = (float) startBounds.width() / mScreenWidth;
         scale2 = (float) startBounds.height() / actHF;
 
         //Log.d("trung", actW + " " + actHF + " ");
