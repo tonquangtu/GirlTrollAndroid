@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,11 +20,13 @@ import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.HidingScrollListener;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
@@ -122,7 +125,12 @@ public class HomeFragment extends BaseFragment {
         });
         feedsAdapter.setItemListener(new FeedItemOnClickListener() {
             @Override
-            public void onClickImage(int posFeed, int posImage, View view) {
+            public void onClickImage(int posFeed, int posImage, ImageView[] views) {
+
+
+                Feed feed = feedsAdapter.getFeeds().get(posFeed);
+                handleClickImage(posImage,feed, views);
+
 
             }
 
@@ -151,6 +159,20 @@ public class HomeFragment extends BaseFragment {
         });
 
         rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, mToolbar));
+    }
+
+    public void handleClickImage( int posImage, Feed feed, ImageView[] views){
+
+        MainActivity mainActivity = null;
+
+        if (mActivity instanceof MainActivity) {
+
+            mainActivity = (MainActivity) mActivity;
+        }
+
+        DetailImageView detailImageView = mainActivity.getDetailImageView();
+        detailImageView.viewDetailImage(mainActivity.getSupportFragmentManager(), feed, posImage, views);
+
     }
 
     public void handleLoadMore() {

@@ -50,4 +50,6 @@
     <string name="login_fail">Rất tiếc đăng nhập đã thất bại</string>
     <string name="login_success">Đăng nhập thành công</string>
 
+    <string name="catalog">Khám Phá</string>
+
 </resources>

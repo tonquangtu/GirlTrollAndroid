@@ -46,7 +46,7 @@ public class ThreeImageFeedViewHolder extends FeedViewHolder {
                 @Override
                 public void onClick(View v) {
                     if(listener != null) {
-                        listener.onClickImage(getLayoutPosition(), indexImage, v);
+                        listener.onClickImage(getLayoutPosition(), indexImage, imgItems);
                     }
                 }
             });

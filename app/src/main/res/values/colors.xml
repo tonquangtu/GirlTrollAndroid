@@ -58,13 +58,15 @@
 
     <color name="background_view">@color/black</color>
 
+    <color name="background_divider_video">@color/white</color>
+
     <color name="color_text_comment">@color/grey_700</color>
 
     <color name="color_text_like">@color/grey_700</color>
 
     <color name="color_text_share">@color/grey_700</color>
 
-    <color name="background_view_video">@color/white</color>
+    <color name="background_view_video">@color/black</color>
 
     <color name="color_text_view_video">@color/white</color>
 
@@ -100,5 +102,5 @@
 
     <color name="color_progress_bar">@color/green_600</color>
 
-
+    <color name="color_background_catalog_fragment">@color/white</color>
 </resources>

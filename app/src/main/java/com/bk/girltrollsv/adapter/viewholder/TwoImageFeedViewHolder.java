@@ -37,12 +37,14 @@ public class TwoImageFeedViewHolder extends FeedViewHolder {
 
         imgItemLeft = setImageViewLeft(gridContent, 0, screenWidth, haftScreenWidth);
         imgItemRight = setImageViewRight(gridContent, 0, screenWidth, haftScreenWidth);
-
+        final ImageView [] items = new ImageView[2];
+        items[0] = imgItemLeft;
+        items[1] = imgItemRight;
         imgItemLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
-                    listener.onClickImage(getLayoutPosition(), 0, v);
+                    listener.onClickImage(getLayoutPosition(), 0, items);
                 }
             }
         });
@@ -51,7 +53,7 @@ public class TwoImageFeedViewHolder extends FeedViewHolder {
             @Override
             public void onClick(View v) {
                 if(listener != null) {
-                    listener.onClickImage(getLayoutPosition(), 1, v);
+                    listener.onClickImage(getLayoutPosition(), 1, items);
                 }
             }
         });

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.Paging;
+import com.bk.girltrollsv.ui.fragment.CatalogFragment;
 import com.bk.girltrollsv.ui.fragment.EventFragment;
 import com.bk.girltrollsv.ui.fragment.HomeFragment;
 import com.bk.girltrollsv.ui.fragment.PersonalFragment;
@@ -20,15 +21,17 @@ import java.util.ArrayList;
  */
 public class PagerMainAdapter extends FragmentPagerAdapter {
 
-    public final int PAGE_COUNT = 4;
+    public final int PAGE_COUNT = 5;
 
     public static final int HOME_POS = 0;
 
-    public static final int UPLOAD_FEED_POS = 1;
+    public static final int CATALOG_POS = 1;
 
-    public static final int EVENT_POS = 2;
+    public static final int UPLOAD_FEED_POS = 2;
 
-    public static final int PERSONAL_POS = 3;
+    public static final int EVENT_POS = 3;
+
+    public static final int PERSONAL_POS = 4;
 
     ArrayList<Feed> initFeeds;
 
@@ -56,6 +59,11 @@ public class PagerMainAdapter extends FragmentPagerAdapter {
             case HOME_POS :
                 fragment = HomeFragment.newInstance(initFeeds, pagingLoadNewFeed);
                 break;
+
+            case CATALOG_POS :
+                fragment = CatalogFragment.newInstance();
+                break;
+
             case UPLOAD_FEED_POS :
                 fragment = UploadFeedFragment.newInstance();
                 break;

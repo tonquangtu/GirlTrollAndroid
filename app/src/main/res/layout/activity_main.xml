@@ -18,5 +18,12 @@
         android:layout_height="@dimen/height_segment_view_bottom_main"
         android:layout_alignParentBottom="true" />
 
+    <include
+        layout="@layout/view_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+
 </RelativeLayout>
 

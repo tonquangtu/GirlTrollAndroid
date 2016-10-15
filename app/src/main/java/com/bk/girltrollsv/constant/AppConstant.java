@@ -77,5 +77,24 @@ public class AppConstant {
 
     public static final int NON_FINISH_COMPLETE = 0;
 
+    public static final String IMAGE_INFO_TAG = "IMAGE_INFO";
+
+    public static final String POS_IMAGE_TAG = "POS_IMAGE";
+
+    public static final int MAX_ALPHA = 250;
+
+    public static final int MIN_ALPHA = 0;
+
+    public static final int DURATION_ZOOM = 200;
+
+    public static final int DURATION_DOUBLE_TAP_ZOOM = 500;
+
+    public static final int DURATION_TRANSLATION = 250;
+
+    public static final int DISTANCE_TRANSLATION = 50;
+
+    public static final float MIN_SCALE = 1;
+
+    public static final float MAX_SCALE = 2.5f;
 
 }

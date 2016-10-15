@@ -59,4 +59,6 @@
     <dimen name="margin_left_like_comment">12dp</dimen>
     <dimen name="margin_bottom_info_feed">6dp</dimen>
 
+    <dimen name="padding_top_item_catalog">80dp</dimen>
+
 </resources>

@@ -3,12 +3,15 @@ package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.PagerMainAdapter;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomViewPager;
+import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.customview.MainSegmentView;
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
@@ -29,6 +32,9 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.segment_view_bottom_main)
     MainSegmentView mSegMain;
 
+    @Bind(R.id.rl_view_image)
+    RelativeLayout rlViewImage;
+
     private ArrayList<Feed> initFeeds;
 
     private Paging pagingLoadNewFeed;
@@ -36,6 +42,8 @@ public class MainActivity extends BaseActivity {
     private ArrayList<EventBase> eventCatalogs;
 
     PagerMainAdapter mPagerMainAdapter;
+
+    DetailImageView mDetailImageView;
 
 
     @Override
@@ -89,7 +97,7 @@ public class MainActivity extends BaseActivity {
         mSegMain.setOnSegmentViewSelectedListener(new MainSegmentView.OnSegmentViewSelectedListener() {
             @Override
             public void onSegmentViewSelected(int prePosition, int currPosition) {
-
+                mViewPagerMain.setCurrentItem(currPosition);
             }
         });
 
@@ -101,8 +109,47 @@ public class MainActivity extends BaseActivity {
         mViewPagerMain.setAdapter(mPagerMainAdapter);
     }
 
+    public DetailImageView getDetailImageView(){
+
+        if (mDetailImageView == null){
+
+            mDetailImageView = new DetailImageView(rlViewImage, MainActivity.this);
+
+        }
+        return mDetailImageView;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+
+            mDetailImageView.zoomOut();
+            //rlViewImage.setVisibility(View.GONE);
+        }
+
+        return false;
+    }
+
     public View getViewRoot() {
         return mViewRoot;
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (mDetailImageView.isDisplayRLViewDetailImage()){
+
+            mDetailImageView.zoomOut();
+        }
+        else {
+
+            super.onBackPressed();
+        }
+
+    }
 }
