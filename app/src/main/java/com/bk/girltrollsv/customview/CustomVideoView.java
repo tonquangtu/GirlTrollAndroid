@@ -2,6 +2,7 @@ package com.bk.girltrollsv.customview;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.callback.OnFullScreenListener;
 import com.bk.girltrollsv.model.Video;
 import com.bk.girltrollsv.util.ScreenHelper;
@@ -91,6 +93,7 @@ public class CustomVideoView {
     private void initProgressBar() {
 
         mProgress = new ProgressBar(mActivity);
+        mProgress.getIndeterminateDrawable().setColorFilter(mActivity.getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);

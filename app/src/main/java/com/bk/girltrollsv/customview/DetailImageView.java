@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
@@ -50,12 +51,16 @@ public class DetailImageView {
     private TextView mTxtNumLike;
     private TextView mTxtNumComment;
     private ImageView mImgBtnLike;
+    private ImageView mImgBtnComment;
     private ShareButton mShareButton;
     private LinearLayout mLLInfoFeed;
     private ProgressBar mPBLoadImageDetail;
     private Feed mFeed;
     private int mPositionImage;
     private int mPositionImageClick;
+
+    TextView txtMember;
+    TextView txtTime;
 
 
     private Animator mCurrentAnimator;
@@ -73,29 +78,32 @@ public class DetailImageView {
     float scale2;
     ImageView[] mViews;
 
-    public DetailImageView(RelativeLayout rLViewDetailImage, MainActivity mainActivity) {
+    public DetailImageView(RelativeLayout rLViewDetailImage,  MainActivity mainActivity) {
 
         this.mRLViewDetailImage = rLViewDetailImage;
         this.mMainActivity = mainActivity;
 
-        mToolbarViewImageFeed = (Toolbar) rLViewDetailImage.findViewById(R.id.toolbar_view_image_feed);
+        mToolbarViewImageFeed = (Toolbar) rLViewDetailImage.findViewById(R.id.toolbar);
         mViewPagerImage = (ViewPager) rLViewDetailImage.findViewById(R.id.view_pager_image);
         mTxtTitleFeed = (TextView) rLViewDetailImage.findViewById(R.id.txt_title_feed);
         mTxtNumLike = (TextView) rLViewDetailImage.findViewById(R.id.txt_num_like);
         mTxtNumComment = (TextView) rLViewDetailImage.findViewById(R.id.txt_num_comment);
         mImgBtnLike = (ImageView) rLViewDetailImage.findViewById(R.id.img_btn_like);
-        //mShareButton = (ShareButton) rLViewDetailImage.findViewById(R.id.share_button);
+        mImgBtnComment = (ImageView)rLViewDetailImage.findViewById(R.id.img_btn_comment);
+        mShareButton = (ShareButton) rLViewDetailImage.findViewById(R.id.share_button);
         mLLInfoFeed = (LinearLayout) rLViewDetailImage.findViewById(R.id.ll_info_feed);
         mPBLoadImageDetail = (ProgressBar) rLViewDetailImage.findViewById(R.id.pb_load_image_detail);
         mScreenWidth = ScreenHelper.getScreenWidthInPx();
 
-        mImgBtnLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LikeCommentShareUtil.handleClickLike(mMainActivity, mFeed, mImgBtnLike,
-                        mTxtNumLike, R.drawable.icon_unlike_white);
-            }
-        });
+
+
+
+
+        mPBLoadImageDetail.getIndeterminateDrawable().setColorFilter(mainActivity.getResources()
+                .getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
+
+        txtMember = (TextView)rLViewDetailImage.findViewById(R.id.toolbar_txt_member_name);
+        txtTime = (TextView)rLViewDetailImage.findViewById(R.id.toolbar_txt_time);
 
     }
 
@@ -190,9 +198,10 @@ public class DetailImageView {
 
         mMainActivity.setSupportActionBar(mToolbarViewImageFeed);
         ActionBar actionBar = mMainActivity.getSupportActionBar();
-        actionBar.setTitle("view");
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+
     }
 
 
@@ -202,14 +211,32 @@ public class DetailImageView {
             return;
         }
         mFeed = feed;
-        ActionBar actionBar = mMainActivity.getSupportActionBar();
-        actionBar.setTitle(feed.getMember().getUsername());
-        actionBar.setSubtitle(feed.getTime());
         String comment = feed.getComment() + AppConstant.SPACE + mMainActivity.getString(R.string.base_comment);
         StringUtil.displayText(comment, mTxtNumComment);
         StringUtil.displayText(feed.getTitle(), mTxtTitleFeed);
-
+        StringUtil.displayText(mFeed.getMember().getUsername(), txtMember);
+        StringUtil.displayText(mFeed.getTime(), txtTime);
         setLikeInfo();
+
+
+        mImgBtnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LikeCommentShareUtil.handleClickLike(mMainActivity, mFeed, mImgBtnLike,
+                        mTxtNumLike, R.drawable.icon_unlike_white);
+            }
+        });
+
+        mImgBtnComment.setImageResource(R.drawable.icon_comment_white);
+        mImgBtnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LikeCommentShareUtil.handleClickComment(mMainActivity, mFeed, v);
+            }
+        });
+
+        mShareButton.setShareContent(LikeCommentShareUtil.getShareContent(mMainActivity, mFeed));
+
     }
 
     public void setLikeInfo() {
@@ -226,6 +253,10 @@ public class DetailImageView {
 
         mTouchImageView = mListTouchImageView.get(posImage);
         //Log.d("trung", "data" + posImage);
+
+        if (mTouchImageView == null) {
+            return;
+        }
 
         float[] f = new float[9];
         mTouchImageView.getImageMatrix().getValues(f);
@@ -342,6 +373,9 @@ public class DetailImageView {
             //displayRLViewDetailImage();
             setAlphaRLViewDetailImage(250);
 
+            if (touchImageView == null) {
+                return;
+            }
             touchImageView.setVisibility(View.VISIBLE);
             //textImage.setVisibility(View.VISIBLE);
             // Set the pivot point for SCALE_X and SCALE_Y transformations
@@ -393,6 +427,9 @@ public class DetailImageView {
         Log.d("trung", "currpos" + currentPosImage);
         mTouchImageView = mListTouchImageView.get(currentPosImage);
 
+        if (mTouchImageView == null) {
+            return;
+        }
         if (mTouchImageView.onBackZoom()) {
 
             setDataImage(currentPosImage);

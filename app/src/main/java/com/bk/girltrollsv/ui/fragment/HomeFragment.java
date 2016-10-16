@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -154,6 +155,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onClickMore(int posFeed, View view) {
+                handleClickMore(posFeed, view);
 
             }
         });
@@ -348,6 +350,14 @@ public class HomeFragment extends BaseFragment {
         data.putParcelable(AppConstant.FEED_TAG, feed);
         intent.putExtra(AppConstant.PACKAGE, data);
         mActivity.startActivity(intent);
+    }
+
+    public void handleClickMore(int posFeed, View view) {
+
+        PopupMenu popup = new PopupMenu(mActivity, view);
+        popup.getMenuInflater().inflate(R.menu.menu_popup, popup.getMenu());
+        popup.show();
+
     }
 
     @OnClick(R.id.btn_reload)

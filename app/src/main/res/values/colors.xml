@@ -66,7 +66,7 @@
 
     <color name="color_text_share">@color/grey_700</color>
 
-    <color name="background_view_video">@color/black</color>
+    <color name="background_view_video">@color/white</color>
 
     <color name="color_text_view_video">@color/white</color>
 

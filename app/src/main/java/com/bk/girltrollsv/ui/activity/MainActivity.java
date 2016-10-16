@@ -3,6 +3,7 @@ package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -107,6 +108,22 @@ public class MainActivity extends BaseActivity {
 
         mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagingLoadNewFeed, eventCatalogs);
         mViewPagerMain.setAdapter(mPagerMainAdapter);
+        mViewPagerMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mSegMain.setSelectedTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public DetailImageView getDetailImageView(){
@@ -128,7 +145,8 @@ public class MainActivity extends BaseActivity {
 
         if (id == android.R.id.home){
 
-            mDetailImageView.zoomOut();
+            if (mDetailImageView != null)
+                mDetailImageView.zoomOut();
             //rlViewImage.setVisibility(View.GONE);
         }
 
@@ -142,12 +160,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-        if (mDetailImageView.isDisplayRLViewDetailImage()){
-
+        if (mDetailImageView != null && mDetailImageView.isDisplayRLViewDetailImage()){
             mDetailImageView.zoomOut();
         }
         else {
-
             super.onBackPressed();
         }
 

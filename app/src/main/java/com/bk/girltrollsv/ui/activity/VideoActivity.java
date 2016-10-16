@@ -100,6 +100,9 @@ public class VideoActivity extends BaseActivity {
         initVideoView();
 
         initLikeCommentShare();
+
+        llInfoFeed.setBackgroundColor(getResources().getColor(R.color.background_video_activity));
+        mRootView.setBackgroundColor(getResources().getColor(R.color.background_video_activity));
     }
 
     @Override
@@ -118,6 +121,7 @@ public class VideoActivity extends BaseActivity {
 
     public void initToolbar() {
 
+        mToolbar.setBackgroundColor(this.getResources().getColor(R.color.background_video_activity));
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);

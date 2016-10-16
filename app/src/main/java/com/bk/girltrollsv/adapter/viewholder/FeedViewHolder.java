@@ -72,6 +72,11 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.ll_comment)
     LinearLayout llComment;
 
+    @Bind(R.id.view_divider_title)
+            View viewDividerTitle;
+    @Bind(R.id.view_divider_info_comment_like_2)
+            View viewDividerInfoCommentLike;
+
     Activity mActivity;
 
     FeedItemOnClickListener listener;
@@ -107,6 +112,10 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
             imgLike.setImageResource(R.drawable.icon_like);
         }
         shareButton.setShareContent(LikeCommentShareUtil.getShareContent(mActivity, feed));
+
+        viewDividerTitle.setBackgroundColor(mActivity.getResources().getColor(R.color.black));
+        viewDividerInfoCommentLike.setBackgroundColor(mActivity.getResources().getColor(R.color.black));
+
     }
 
     public void setImageAvatarMember(String urlAvatarMember) {
@@ -202,6 +211,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
     }
 
 }

@@ -28,6 +28,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity

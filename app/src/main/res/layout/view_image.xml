@@ -11,16 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar_view_image_feed"
+    <include
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:theme="@style/AppTheme.ToolbarOverlay">
-
-    </android.support.v7.widget.Toolbar>
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar_with_title"/>
 
     <include
         android:layout_alignParentBottom="true"

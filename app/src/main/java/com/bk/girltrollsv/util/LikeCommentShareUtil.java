@@ -122,7 +122,7 @@ public class LikeCommentShareUtil {
     }
 
 
-    public static void handleClickComment(final Activity activity, final Feed feed,View commentView) {
+    public static void handleClickComment(final Activity activity, final Feed feed, View commentView) {
 
         if (feed != null) {
             Animation animationComment = AnimationUtils.loadAnimation(BaseApplication.getContext(), R.anim.scale_comment);

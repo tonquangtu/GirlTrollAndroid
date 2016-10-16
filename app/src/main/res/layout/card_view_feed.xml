@@ -130,7 +130,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/view_divider_info_comment_like"
+        android:id="@+id/view_divider_info_comment_like_2"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/ll_info_num_comment_like"
@@ -141,7 +141,7 @@
 
 
     <include
-        android:layout_below="@+id/view_divider_info_comment_like"
+        android:layout_below="@+id/view_divider_info_comment_like_2"
         android:layout_marginLeft="@dimen/margin_left_like_comment"
         android:layout_marginRight="@dimen/margin_right_feed"
         android:layout_width="wrap_content"

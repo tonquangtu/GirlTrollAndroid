@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.ViewCatalogAdapter;
 import com.bk.girltrollsv.constant.Catalog;
 import com.bk.girltrollsv.constant.CatalogList;
-import com.bk.girltrollsv.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,9 @@ public class CatalogFragment extends BaseFragment {
 
     @Bind(R.id.gvCatalog)
     GridView mGVCatalog;
+
+    @Bind(R.id.toolbar_tv_title_center)
+    TextView tvTitle;
 
     Activity mMainActivity;
 
@@ -38,7 +41,7 @@ public class CatalogFragment extends BaseFragment {
 
         mMainActivity = getActivity();
 
-
+        tvTitle.setText(getResources().getString(R.string.menu));
 
         ArrayList<Catalog> catalogList = CatalogList.getListCatalog();
 
