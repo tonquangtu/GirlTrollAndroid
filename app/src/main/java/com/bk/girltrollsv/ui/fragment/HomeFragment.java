@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
-import com.bk.girltrollsv.callback.HidingScrollListener;
+import com.bk.girltrollsv.callback.HidingScrollListener2;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.DetailImageView;
@@ -63,6 +64,8 @@ public class HomeFragment extends BaseFragment {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
+    @Bind(R.id.appbar_layout)
+    AppBarLayout mAppBarLayout;
 
     ArrayList<Feed> initFeeds;
 
@@ -160,7 +163,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        rvFeeds.addOnScrollListener(new HidingScrollListener(mActivity, mToolbar));
+        rvFeeds.addOnScrollListener(new HidingScrollListener2(mAppBarLayout));
     }
 
     public void handleClickImage( int posImage, Feed feed, ImageView[] views){

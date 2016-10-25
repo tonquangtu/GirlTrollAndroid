@@ -25,7 +25,7 @@ public class AppConstant {
 
     public static final int DEFAULT_LIMIT = 4;
 
-    public static final int MAX_ROW_FEED_TABLE = 100;
+    public static final int MAX_ROW_FEED_TABLE = 200;
 
     public static final int LIMIT_FEED_LOCAL = 8;
 

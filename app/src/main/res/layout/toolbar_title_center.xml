@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/appbar_layout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_segment_view_bottom_main"
-    android:background="@color/colorPrimary"
-    app:popupTheme="@style/AppTheme.PopupOverlay"
-    app:theme="@style/AppTheme.ToolbarOverlay">
+    android:layout_height="@dimen/height_segment_view_bottom_main">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/linearLayout">
+        android:layout_height="@dimen/height_segment_view_bottom_main"
+        android:background="@color/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.ToolbarOverlay">
 
         <TextView
             android:id="@+id/toolbar_tv_title_center"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="ton quang tu"
             android:textColor="@color/color_video_title"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
-
-</android.support.v7.widget.Toolbar>
+</android.support.design.widget.AppBarLayout>

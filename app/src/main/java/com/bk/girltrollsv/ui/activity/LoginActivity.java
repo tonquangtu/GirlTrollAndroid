@@ -3,11 +3,8 @@ package com.bk.girltrollsv.ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.bk.girltrollsv.R;
@@ -38,8 +35,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+//    @Bind(R.id.toolbar)
+//    Toolbar mToolbar;
 
     @Bind(R.id.edit_username)
     AppCompatEditText editUsername;
@@ -51,8 +48,6 @@ public class LoginActivity extends BaseActivity {
     AppCompatButton acBtnLoginNormal;
 
     CallbackManager mCallbackManager;
-    LoginManager mLoginManager;
-
     ProgressDialog mProgressDialog;
 
     int mFlag = 0;
@@ -65,8 +60,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        initToolbar();
+//        initToolbar();
 
         initFacebookLogin();
 
@@ -88,13 +84,13 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    public void initToolbar() {
-        setSupportActionBar(mToolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.text_login_normal);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-    }
+//    public void initToolbar() {
+//        setSupportActionBar(mToolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle(R.string.text_login_normal);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
+//    }
 
     public void initFacebookLogin() {
 
@@ -117,18 +113,18 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        switch (id) {
-
-            case android.R.id.home :
-                finish();
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//        switch (id) {
+//
+//            case android.R.id.home :
+//                finish();
+//                break;
+//        }
+//        return true;
+//    }
 
     @OnClick(R.id.btn_facebook_login)
     public void onClickFacebookLogin(View view) {

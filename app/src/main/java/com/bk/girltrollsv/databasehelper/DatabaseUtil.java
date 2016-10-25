@@ -2,7 +2,6 @@ package com.bk.girltrollsv.databasehelper;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.BaseInfoMember;
@@ -31,13 +30,11 @@ public class DatabaseUtil {
 
     private static ArrayList<Feed> loadFeeds(String query, String [] args) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(query, args);
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(query, args);
         ArrayList<Feed> feeds = new ArrayList<>();
         Feed feed;
         String accountId = AccountUtil.getAccountId();
         if (cursor != null) {
-
             if (cursor.moveToFirst()) {
 
                 while (!cursor.isAfterLast()) {
@@ -70,8 +67,7 @@ public class DatabaseUtil {
     public static ArrayList<ImageInfo> getImageOfFeed(int feedId) {
 
         ArrayList<ImageInfo> imageInfos = null;
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(SQLStatement.QUERY_IMAGE_INFO, new String[]{String.valueOf(feedId)});
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_IMAGE_INFO, new String[]{String.valueOf(feedId)});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 imageInfos = new ArrayList<>();
@@ -96,8 +92,7 @@ public class DatabaseUtil {
     public static Video getVideoOfFeed(int feedId) {
 
         Video video = null;
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(SQLStatement.QUERY_VIDEO, new String[]{String.valueOf(feedId)});
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_VIDEO, new String[]{String.valueOf(feedId)});
         if (cursor != null) {
 
             if (cursor.moveToFirst()) {
@@ -112,28 +107,31 @@ public class DatabaseUtil {
         return video;
     }
 
-    public static int getIsLike(int feedId, String accountId) {
+    public static int  getIsLike(int feedId, String accountId) {
+        int likeState = isLikeFeed(feedId, accountId);
+        return likeState == -1 ? 0 : likeState;
+    }
 
-        int isLike = 0;
+    public static int isLikeFeed(int feedId, String accountId) {
+
+        int likeState = -1;
         if (accountId != null) {
-            SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-            Cursor cursor = db.rawQuery(SQLStatement.QUERY_IS_LIKE, new String[]{String.valueOf(feedId), accountId});
+            Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_IS_LIKE, new String[]{String.valueOf(feedId), accountId});
             if (cursor != null) {
 
                 if (cursor.moveToFirst()) {
-                    isLike = cursor.getInt(1);
+                    likeState = cursor.getInt(1);
                 }
                 cursor.close();
             }
         }
-        return isLike;
+        return likeState;
     }
 
     public static int getCountFeed() {
 
         int count = 0;
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(SQLStatement.QUERY_COUNT_FEED, null);
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_COUNT_FEED, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 count =  cursor.getInt(0);
@@ -146,8 +144,7 @@ public class DatabaseUtil {
     public static int getCountImage() {
 
         int count = 0;
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(SQLStatement.QUERY_COUNT_IMAGE, null);
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_COUNT_IMAGE, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 count = cursor.getInt(0);
@@ -161,8 +158,7 @@ public class DatabaseUtil {
     public static int getCountVideo() {
 
         int count = 0;
-        SQLiteDatabase db = DatabaseOpenHelper.getDbReader();
-        Cursor cursor = db.rawQuery(SQLStatement.QUERY_COUNT_VIDEO, null);
+        Cursor cursor = DatabaseOpenHelper.getDbReader().rawQuery(SQLStatement.QUERY_COUNT_VIDEO, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 count = cursor.getInt(0);
@@ -186,7 +182,6 @@ public class DatabaseUtil {
                 int numRowOver = countFeeds - AppConstant.MAX_ROW_FEED_TABLE;
                 deleteFeedOver(numRowOver);
             }
-//            Log.e("tuton", "count:" + countFeeds);
         }
     }
 
@@ -194,7 +189,6 @@ public class DatabaseUtil {
     public static boolean insertNewFeed(Feed feed) {
 
         // insert to first table. After insert if total row table over 50 then delete last row
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
         boolean insertFeedSuccess = true;
         if (feed != null) {
 
@@ -206,7 +200,7 @@ public class DatabaseUtil {
             values.put(SQLStatement.FeedTable.COMMENT_COL, feed.getComment());
             values.put(SQLStatement.FeedTable.SCHOOL_COL, feed.getSchool());
             values.put(SQLStatement.FeedTable.MEMBER_ID_COL, feed.getMember().getMemberId());
-            if (db.insert(SQLStatement.FeedTable.TABLE_NAME, null, values) == -1) {
+            if (DatabaseOpenHelper.getDbWriter().insert(SQLStatement.FeedTable.TABLE_NAME, null, values) == -1) {
                 insertFeedSuccess = false;
             }
 
@@ -230,7 +224,6 @@ public class DatabaseUtil {
 
     public static boolean insertImages(ArrayList<ImageInfo> images, int feedId) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
         ContentValues values;
         boolean insertSuccess = true;
         for (ImageInfo imageInfo : images) {
@@ -242,7 +235,7 @@ public class DatabaseUtil {
             values.put(SQLStatement.ImageInfoTable.TYPE_COL, imageInfo.getType());
             values.put(SQLStatement.ImageInfoTable.LINK_FACE_COL, imageInfo.getLinkFace());
             values.put(SQLStatement.ImageInfoTable.URL_IMAGE_THUMBNAIL_COL, imageInfo.getUrlImageThumbnail());
-            if (db.insert(SQLStatement.ImageInfoTable.TABLE_NAME, null, values) == -1) {
+            if (DatabaseOpenHelper.getDbWriter().insert(SQLStatement.ImageInfoTable.TABLE_NAME, null, values) == -1) {
                 insertSuccess = false;
             }
         }
@@ -251,7 +244,6 @@ public class DatabaseUtil {
 
     public static boolean insertVideo(Video video, int feedId) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
         boolean insertSuccess = false;
         if (video != null) {
             ContentValues values = new ContentValues();
@@ -261,7 +253,7 @@ public class DatabaseUtil {
             values.put(SQLStatement.VideoTable.TYPE_COL, video.getType());
             values.put(SQLStatement.VideoTable.URL_VIDEO_THUMBNAIL_COL, video.getUrlVideoThumbnail());
 
-            if (db.insert(SQLStatement.VideoTable.TABLE_NAME, null, values) != -1) {
+            if (DatabaseOpenHelper.getDbWriter().insert(SQLStatement.VideoTable.TABLE_NAME, null, values) != -1) {
                 insertSuccess = true;
             }
         }
@@ -269,9 +261,37 @@ public class DatabaseUtil {
         return insertSuccess;
     }
 
+    public static boolean updateLikeState(int afterLikeState,  int feedId, String accountId) {
+
+        ContentValues values = new ContentValues();
+        values.put(SQLStatement.MyActivityInfoTable.IS_LIKE_COL, afterLikeState);
+        int numRowUpdate = DatabaseOpenHelper.getDbWriter().update(SQLStatement.MyActivityInfoTable.TABLE_NAME, values,
+                SQLStatement.WHERE_CLAUSE_UPDATE_LIKE_STATE,
+                new String [] {String.valueOf(feedId), accountId});
+        return numRowUpdate != 0;
+    }
+
+    public static boolean insertLikeState(int afterLikeState, int feedId, String accountId) {
+
+        ContentValues values = new ContentValues();
+        values.put(SQLStatement.FeedTable.FEED_ID_COL, feedId);
+        values.put(SQLStatement.MemberTable.MEMBER_ID_COL, accountId);
+        values.put(SQLStatement.MyActivityInfoTable.IS_LIKE_COL, afterLikeState);
+        long idRowInsert = DatabaseOpenHelper.getDbWriter().insert(SQLStatement.MyActivityInfoTable.TABLE_NAME, null, values);
+        return idRowInsert != -1;
+    }
+
+    public static boolean updateNumLike(int feedId, int afterNumLike) {
+
+        ContentValues values = new ContentValues();
+        values.put(SQLStatement.FeedTable.LIKE_COL, afterNumLike);
+        int numRowUpdate = DatabaseOpenHelper.getDbWriter().update(SQLStatement.FeedTable.TABLE_NAME, values,
+                SQLStatement.WHERE_CLAUSE_UPDATE_NUM_LIKE, new String[] {String.valueOf(feedId)});
+        return numRowUpdate != 0;
+    }
+
     public static boolean insertMember(Member member) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
         boolean insertSuccess = false;
         if (member != null) {
 
@@ -283,7 +303,7 @@ public class DatabaseUtil {
             values.put(SQLStatement.MemberTable.AVATAR_URL_COL, member.getAvatarUrl());
             values.put(SQLStatement.MemberTable.TOTAL_IMAGE_COL, member.getTotalImage());
 
-            if (db.insert(SQLStatement.MemberTable.TABLE_NAME, null, values) != -1) {
+            if (DatabaseOpenHelper.getDbWriter().insert(SQLStatement.MemberTable.TABLE_NAME, null, values) != -1) {
                 insertSuccess = true;
             }
         }
@@ -292,7 +312,6 @@ public class DatabaseUtil {
 
     public static boolean insertBaseInfoMember(BaseInfoMember baseInfoMember) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
         boolean insertSuccess = false;
         if (baseInfoMember != null) {
 
@@ -301,7 +320,7 @@ public class DatabaseUtil {
             values.put(SQLStatement.MemberTable.USERNAME_COL, baseInfoMember.getUsername());
             values.put(SQLStatement.MemberTable.AVATAR_URL_COL, baseInfoMember.getAvatarUrl());
 
-            if (db.insert(SQLStatement.MemberTable.TABLE_NAME, null, values) != -1) {
+            if (DatabaseOpenHelper.getDbWriter().insert(SQLStatement.MemberTable.TABLE_NAME, null, values) != -1) {
                 insertSuccess = true;
             }
         }
@@ -310,8 +329,7 @@ public class DatabaseUtil {
 
     private static boolean deleteFeedOver(int numFeedOver) {
 
-        SQLiteDatabase db = DatabaseOpenHelper.getDbWriter();
-        int rowEffect = db.delete(SQLStatement.FeedTable.TABLE_NAME,
+        int rowEffect = DatabaseOpenHelper.getDbWriter().delete(SQLStatement.FeedTable.TABLE_NAME,
                 SQLStatement.getWhereClauseDeleteFeed(numFeedOver), null);
         return rowEffect != numFeedOver;
     }

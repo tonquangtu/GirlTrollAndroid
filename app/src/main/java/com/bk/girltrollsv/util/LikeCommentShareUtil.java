@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,6 +16,7 @@ import com.bk.girltrollsv.BaseApplication;
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.callback.ConfirmDialogListener;
 import com.bk.girltrollsv.constant.AppConstant;
+import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.MyResponse;
@@ -70,6 +72,7 @@ public class LikeCommentShareUtil {
 
         Animation animation = AnimationUtils.loadAnimation(activity, R.anim.scale_like);
         imgLike.startAnimation(animation);
+        updateLikeInfoLocal(feed, accountId);
 
         Map<String, String> tag = new HashMap<>();
         tag.put(AppConstant.MEMBER_ID, accountId);
@@ -89,6 +92,24 @@ public class LikeCommentShareUtil {
         });
     }
 
+    private static void updateLikeInfoLocal(final Feed feed,  final String accountId) {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                DatabaseUtil.updateNumLike(feed.getFeedId(), feed.getLike());
+                int preLikeState = DatabaseUtil.isLikeFeed(feed.getFeedId(), accountId);
+                if (preLikeState != -1) {
+                    DatabaseUtil.updateLikeState(feed.getIsLike(), feed.getFeedId(), accountId);
+                } else {
+                    DatabaseUtil.insertLikeState(feed.getIsLike(), feed.getFeedId(), accountId);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
     public static void keepLikeState(Activity activity, View viewLike) {
 
         Animation animation = AnimationUtils.loadAnimation(activity, R.anim.scale_like);
@@ -96,7 +117,6 @@ public class LikeCommentShareUtil {
     }
 
     private static void confirmLaunchingLogin(final Activity activity) {
-
 
         String title = activity.getString(R.string.confirm_login);
         String message = activity.getString(R.string.message_confirm_login);

@@ -8,6 +8,8 @@
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -22,6 +24,8 @@
 
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -35,6 +39,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -48,6 +54,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -62,6 +70,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">

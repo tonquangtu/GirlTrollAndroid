@@ -1,11 +1,7 @@
 package com.bk.girltrollsv.callback;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 /**
@@ -13,11 +9,10 @@ import android.view.animation.LinearInterpolator;
  */
 public class HidingScrollListener2 extends RecyclerView.OnScrollListener {
 
-    Toolbar tToolbar;
-    int TOOLBAR_ELEVATION = 2;
+    View mViewScroll;
 
-    public HidingScrollListener2(Toolbar toolbar) {
-        this.tToolbar = toolbar;
+    public HidingScrollListener2(View view) {
+        this.mViewScroll = view;
     }
 
     // Keeps track of the overall vertical offset in the list
@@ -30,13 +25,13 @@ public class HidingScrollListener2 extends RecyclerView.OnScrollListener {
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             if (scrollingUp) {
-                if (verticalOffset > tToolbar.getHeight()) {
+                if (verticalOffset > mViewScroll.getHeight()) {
                     toolbarAnimateHide();
                 } else {
                     toolbarAnimateShow(verticalOffset);
                 }
             } else {
-                if (tToolbar.getTranslationY() < tToolbar.getHeight() * -0.6 && verticalOffset > tToolbar.getHeight()) {
+                if (mViewScroll.getTranslationY() < mViewScroll.getHeight() * -0.6 && verticalOffset > mViewScroll.getHeight()) {
                     toolbarAnimateHide();
                 } else {
                     toolbarAnimateShow(verticalOffset);
@@ -49,66 +44,36 @@ public class HidingScrollListener2 extends RecyclerView.OnScrollListener {
     public final void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         verticalOffset += dy;
         scrollingUp = dy > 0;
-        int toolbarYOffset = (int) (dy - tToolbar.getTranslationY());
-        tToolbar.animate().cancel();
+        int toolbarYOffset = (int) (dy - mViewScroll.getTranslationY());
+        mViewScroll.animate().cancel();
         if (scrollingUp) {
-            if (toolbarYOffset < tToolbar.getHeight()) {
-                if (verticalOffset > tToolbar.getHeight()) {
-                    toolbarSetElevation(TOOLBAR_ELEVATION);
-                }
-                tToolbar.setTranslationY(-toolbarYOffset);
+            if (toolbarYOffset < mViewScroll.getHeight()) {
+                mViewScroll.setTranslationY(-toolbarYOffset);
             } else {
-                toolbarSetElevation(0);
-                tToolbar.setTranslationY(-tToolbar.getHeight());
+                mViewScroll.setTranslationY(-mViewScroll.getHeight());
             }
         } else {
             if (toolbarYOffset < 0) {
-                if (verticalOffset <= 0) {
-                    toolbarSetElevation(0);
-                }
-                tToolbar.setTranslationY(0);
+                mViewScroll.setTranslationY(0);
             } else {
-                if (verticalOffset > tToolbar.getHeight()) {
-                    toolbarSetElevation(TOOLBAR_ELEVATION);
-                }
-                tToolbar.setTranslationY(-toolbarYOffset);
+                mViewScroll.setTranslationY(-toolbarYOffset);
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void toolbarSetElevation(float elevation) {
-        // setElevation() only works on Lollipop
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            tToolbar.setElevation(elevation);
-        }
-    }
 
     private void toolbarAnimateShow(final int verticalOffset) {
-        tToolbar.animate()
+        mViewScroll.animate()
                 .translationY(0)
                 .setInterpolator(new LinearInterpolator())
-                .setDuration(180)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        toolbarSetElevation(verticalOffset == 0 ? 0 : TOOLBAR_ELEVATION);
-                    }
-                });
+                .setDuration(180);
     }
 
     private void toolbarAnimateHide() {
-        tToolbar.animate()
-                .translationY(-tToolbar.getHeight())
+        mViewScroll.animate()
+                .translationY(-mViewScroll.getHeight())
                 .setInterpolator(new LinearInterpolator())
-                .setDuration(180)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        toolbarSetElevation(0);
-                    }
-                });
+                .setDuration(180);
     }
-
 
 }

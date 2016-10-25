@@ -52,7 +52,6 @@ public abstract class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.
         } else {
             onBindDefaultViewHolder(holder, position);
         }
-
     }
 
     @Override

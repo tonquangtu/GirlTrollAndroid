@@ -3,7 +3,6 @@ package com.bk.girltrollsv.adapter.customadapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.widget.Toolbar;
 
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
@@ -35,8 +34,6 @@ public class PagerMainAdapter extends FragmentPagerAdapter {
 
     ArrayList<Feed> initFeeds;
 
-    Toolbar toolbar;
-
     Paging pagingLoadNewFeed;
 
     ArrayList<EventBase> eventCatalogs;
@@ -46,7 +43,6 @@ public class PagerMainAdapter extends FragmentPagerAdapter {
         this.initFeeds = initFeeds;
         this.pagingLoadNewFeed = pagingLoadNewFeed;
         this.eventCatalogs = eventCatalogs;
-        this.toolbar = toolbar;
     }
 
     @Override

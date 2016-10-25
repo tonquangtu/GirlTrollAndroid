@@ -33,11 +33,11 @@
     <dimen name="margin_top_image_error_load">72dp</dimen>
     <dimen name="margin_left_avatar_feed">12dp</dimen>
     <dimen name="size_title_app">25dp</dimen>
-    <dimen name="size_description_app">20dp</dimen>
+    <dimen name="size_description_app">18sp</dimen>
     <dimen name="margin_top_title_app">12dp</dimen>
     <dimen name="height_btn_login">44dp</dimen>
     <dimen name="margin_top_divider_login">24dp</dimen>
-    <dimen name="margin_button_btn_sign_up">8dp</dimen>
+    <dimen name="margin_button_btn_sign_up">10dp</dimen>
     <dimen name="padding_left_right_btn_login">16dp</dimen>
     <dimen name="margin_bottom_btn_facebook_login">62dp</dimen>
     <dimen name="margin_devider_btn_login">12dp</dimen>
@@ -47,7 +47,7 @@
     <dimen name="text_size_description_app">20dp</dimen>
     <dimen name="margin_bottom_description_app">92dp</dimen>
     <dimen name="margin_bottom_title_app">48dp</dimen>
-    <dimen name="margin_top_sign_up">24dp</dimen>
+    <dimen name="margin_top_sign_up">102dp</dimen>
     <dimen name="margin_left_lading">6dp</dimen>
     <dimen name="text_size_slogan">16sp</dimen>
     <dimen name="height_segment_image">22dp</dimen>
@@ -59,6 +59,7 @@
     <dimen name="margin_left_like_comment">12dp</dimen>
     <dimen name="margin_bottom_info_feed">6dp</dimen>
 
-    <dimen name="padding_top_item_catalog">50dp</dimen>
+    <dimen name="padding_top_item_catalog">40dp</dimen>
+    <dimen name="margin_top_description_login">52dp</dimen>
 
 </resources>

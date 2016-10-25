@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity {
         initViewPager();
 
         guardView();
+
     }
 
     private void guardView() {

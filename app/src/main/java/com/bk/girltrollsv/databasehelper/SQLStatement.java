@@ -281,6 +281,11 @@ public class SQLStatement {
         return where;
     }
 
+    public static final String WHERE_CLAUSE_UPDATE_LIKE_STATE = FeedTable.FEED_ID_COL  + " = ? and " +
+            MemberTable.MEMBER_ID_COL + " = ?";
+
+    public static final String WHERE_CLAUSE_UPDATE_NUM_LIKE = FeedTable.FEED_ID_COL + " = ?";
+
     public static final String TRIGGER_DELETE_OVER_ROW_FEED = "create trigger delete_feed_over " +
             "after insert on " + FeedTable.TABLE_NAME + " for each row when (select count(*) from " +
             FeedTable.TABLE_NAME + ") > " + AppConstant.MAX_ROW_FEED_TABLE + " begin " +
@@ -304,11 +309,6 @@ public class SQLStatement {
     public static final String  TRIGGER_DELETE_MY_ACTIVITY_INFO = "create trigger if not exists delete_my_activity_info after delete on " +
             FeedTable.TABLE_NAME + " for each row begin delete from " + FeedCommentTable.TABLE_NAME +
             " where " + FeedTable.FEED_ID_COL + " = old." + FeedTable.FEED_ID_COL + ";end";
-
-
-
-
-
 
 
     public static final String QUERY_COUNT_IMAGE = "select count(*) from " + ImageInfoTable.TABLE_NAME;
