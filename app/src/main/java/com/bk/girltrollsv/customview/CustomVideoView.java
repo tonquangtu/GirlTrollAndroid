@@ -93,7 +93,9 @@ public class CustomVideoView {
     private void initProgressBar() {
 
         mProgress = new ProgressBar(mActivity);
-        mProgress.getIndeterminateDrawable().setColorFilter(mActivity.getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
+        mProgress.getIndeterminateDrawable()
+                .setColorFilter(mActivity.getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
+
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);

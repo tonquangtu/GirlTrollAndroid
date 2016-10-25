@@ -37,12 +37,12 @@ import retrofit2.Response;
  */
 public class LikeCommentShareUtil {
 
-    public static void handleClickLike(Activity activity, Feed feed, View viewLike, TextView txtNumLike, int idUnLikeIcon) {
+    public static void handleClickLike(Activity activity, Feed feed, View viewLike, TextView txtNumLike, int iconUnLike) {
 
         if (Utils.checkInternetAvailable()) {
             String accountId = AccountUtil.getAccountId();
             if (accountId != null) {
-                changeLikeState(activity, feed, accountId, viewLike, txtNumLike, idUnLikeIcon);
+                changeLikeState(activity, feed, accountId, viewLike, txtNumLike, iconUnLike);
             } else {
                 keepLikeState(activity, viewLike);
                 confirmLaunchingLogin(activity);
@@ -54,18 +54,18 @@ public class LikeCommentShareUtil {
     }
 
     public static void changeLikeState(Activity activity, Feed feed, String accountId,
-                                       View viewLike, TextView txtNumLike, int idUnLikeIcon) {
+                                       View viewLike, TextView txtNumLike, int iconUnLike) {
 
         ImageView imgLike = (ImageView) viewLike;
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
             feed.setLikeState(AppConstant.LIKE);
             feed.setNumLike(feed.getLike() + 1);
-            imgLike.setImageResource(R.drawable.icon_like);
+            imgLike.setImageResource(R.drawable.icon_liked);
 
         } else {
             feed.setLikeState(AppConstant.UN_LIKE);
             feed.setNumLike(feed.getLike() - 1);
-            imgLike.setImageResource(idUnLikeIcon);
+            imgLike.setImageResource(iconUnLike);
         }
         String likeLine = feed.getLike() + AppConstant.SPACE + activity.getResources().getString(R.string.base_like);
         StringUtil.displayText(likeLine, txtNumLike);

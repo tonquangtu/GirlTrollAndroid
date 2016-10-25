@@ -33,6 +33,7 @@
     <color name="red_A200">#FF5252</color>
     <color name="red_A400">#FF1744</color>
     <color name="red_A700">#D50000</color>
+    <color name="grey_400">#BDBDBD</color>
 
 
     <!--Colors for app-->
@@ -103,4 +104,7 @@
     <color name="color_progress_bar">@color/green_600</color>
 
     <color name="color_background_catalog_fragment">@color/white</color>
+
+    <color name="color_icon">@color/grey_400</color>
+
 </resources>

@@ -245,7 +245,7 @@ public class DetailImageView {
         if (mFeed.getIsLike() == AppConstant.UN_LIKE) {
             mImgBtnLike.setImageResource(R.drawable.icon_unlike_white);
         } else {
-            mImgBtnLike.setImageResource(R.drawable.icon_like);
+            mImgBtnLike.setImageResource(R.drawable.icon_liked);
         }
     }
 

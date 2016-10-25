@@ -109,7 +109,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         if (feed.getIsLike() == AppConstant.UN_LIKE) {
            imgLike.setImageResource(R.drawable.icon_unlike);
         } else {
-            imgLike.setImageResource(R.drawable.icon_like);
+            imgLike.setImageResource(R.drawable.icon_liked);
         }
         shareButton.setShareContent(LikeCommentShareUtil.getShareContent(mActivity, feed));
 

@@ -114,9 +114,9 @@ public class VideoActivity extends BaseActivity {
         String comment = mFeed.getComment() + AppConstant.SPACE + getString(R.string.base_comment);
         StringUtil.displayText(comment, txtNumComment);
         StringUtil.displayText(mFeed.getTitle(), txtTitleFeed);
-
+        String like = mFeed.getLike() + AppConstant.SPACE + getString(R.string.base_like);
+        StringUtil.displayText(like, txtNumLike);
         shareButton.setShareContent(LikeCommentShareUtil.getShareContent(this, mFeed));
-        setLikeInfo();
     }
 
     public void initToolbar() {
@@ -163,6 +163,11 @@ public class VideoActivity extends BaseActivity {
     public void initLikeCommentShare() {
         imgComment.setImageResource(R.drawable.icon_comment_white);
         shareButton.setTextColor(getResources().getColor(R.color.white));
+        if (mFeed.getIsLike() == AppConstant.UN_LIKE) {
+            imgLike.setImageResource(R.drawable.icon_unlike_white);
+        } else {
+            imgLike.setImageResource(R.drawable.icon_liked);
+        }
     }
 
     @Override
@@ -225,16 +230,6 @@ public class VideoActivity extends BaseActivity {
     @OnClick(R.id.ll_comment)
     public void onClickComment(View view) {
         LikeCommentShareUtil.handleClickComment(this, mFeed, imgComment);
-    }
-
-    public void setLikeInfo() {
-        String like = mFeed.getLike() + AppConstant.SPACE + getString(R.string.base_like);
-        StringUtil.displayText(like, txtNumLike);
-        if (mFeed.getIsLike() == AppConstant.UN_LIKE) {
-            imgLike.setImageResource(R.drawable.icon_unlike_white);
-        } else {
-            imgLike.setImageResource(R.drawable.icon_like);
-        }
     }
 
     @Override
