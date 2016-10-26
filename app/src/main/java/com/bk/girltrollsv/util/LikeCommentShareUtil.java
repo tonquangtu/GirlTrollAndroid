@@ -20,7 +20,7 @@ import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.MyResponse;
-import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.CommentActivity;
 import com.bk.girltrollsv.ui.activity.LoginActivity;
 import com.facebook.share.model.ShareLinkContent;
@@ -78,7 +78,7 @@ public class LikeCommentShareUtil {
         tag.put(AppConstant.MEMBER_ID, accountId);
         tag.put(AppConstant.FEED_ID, feed.getFeedId() + "");
         tag.put(AppConstant.TYPE, feed.getIsLike() + "");
-        Call<MyResponse> call = ConfigNetwork.getServerAPI().callLike(tag);
+        Call<MyResponse> call = ConfigNetwork.serviceAPI.callLike(tag);
         call.enqueue(new Callback<MyResponse>() {
             @Override
             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
@@ -157,7 +157,6 @@ public class LikeCommentShareUtil {
                     activity.startActivity(intent);
                 }
             }, 100);
-
         }
     }
 

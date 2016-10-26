@@ -258,11 +258,7 @@ public class Utils {
         ConnectivityManager cm = (ConnectivityManager) BaseApplication.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
 
-        if (info != null && info.isConnected() && info.isAvailable()) {
-            return true;
-        } else {
-            return false;
-        }
+        return info != null && info.isConnected() && info.isAvailable();
     }
 
 
