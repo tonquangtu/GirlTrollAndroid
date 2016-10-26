@@ -50,7 +50,7 @@ public class AccountUtil {
             @Override
             protected Void doInBackground(Void... params) {
                 SharedPrefUtils.putString(AppConstant.MY_ID, member.getMemberId());
-                SharedPrefUtils.putString(AppConstant.USERNAME_TAG, member.getUsername());
+                SharedPrefUtils.putString(AppConstant.MY_USERNAME, member.getUsername());
                 SharedPrefUtils.putString(AppConstant.MY_AVATAR_URL, member.getAvatarUrl());
                 SharedPrefUtils.putString(AppConstant.MY_GMAIL, member.getGmail());
                 SharedPrefUtils.putInt(AppConstant.MY_RANK, member.getRank());

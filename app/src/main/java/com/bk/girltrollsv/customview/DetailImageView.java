@@ -78,7 +78,7 @@ public class DetailImageView {
     float scale2;
     ImageView[] mViews;
 
-    public DetailImageView(RelativeLayout rLViewDetailImage,  MainActivity mainActivity) {
+    public DetailImageView(RelativeLayout rLViewDetailImage, MainActivity mainActivity) {
 
         this.mRLViewDetailImage = rLViewDetailImage;
         this.mMainActivity = mainActivity;
@@ -89,21 +89,16 @@ public class DetailImageView {
         mTxtNumLike = (TextView) rLViewDetailImage.findViewById(R.id.txt_num_like);
         mTxtNumComment = (TextView) rLViewDetailImage.findViewById(R.id.txt_num_comment);
         mImgBtnLike = (ImageView) rLViewDetailImage.findViewById(R.id.img_btn_like);
-        mImgBtnComment = (ImageView)rLViewDetailImage.findViewById(R.id.img_btn_comment);
+        mImgBtnComment = (ImageView) rLViewDetailImage.findViewById(R.id.img_btn_comment);
         mShareButton = (ShareButton) rLViewDetailImage.findViewById(R.id.share_button);
         mLLInfoFeed = (LinearLayout) rLViewDetailImage.findViewById(R.id.ll_info_feed);
         mPBLoadImageDetail = (ProgressBar) rLViewDetailImage.findViewById(R.id.pb_load_image_detail);
         mScreenWidth = ScreenHelper.getScreenWidthInPx();
-
-
-
-
+        txtMember = (TextView) rLViewDetailImage.findViewById(R.id.toolbar_txt_member_name);
+        txtTime = (TextView) rLViewDetailImage.findViewById(R.id.toolbar_txt_time);
 
         mPBLoadImageDetail.getIndeterminateDrawable().setColorFilter(mainActivity.getResources()
                 .getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
-
-        txtMember = (TextView)rLViewDetailImage.findViewById(R.id.toolbar_txt_member_name);
-        txtTime = (TextView)rLViewDetailImage.findViewById(R.id.toolbar_txt_time);
 
     }
 
@@ -158,12 +153,10 @@ public class DetailImageView {
         return (mToolbarViewImageFeed.getVisibility() == View.VISIBLE);
     }
 
-    public boolean isDisplayRLViewDetailImage(){
+    public boolean isDisplayRLViewDetailImage() {
 
         return (mRLViewDetailImage.getVisibility() == View.VISIBLE);
     }
-
-
 
     public void viewDetailImage(FragmentManager fragmentManager, Feed feed, int posImage, ImageView[] views) {
 
@@ -201,9 +194,7 @@ public class DetailImageView {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-
     }
-
 
     public void initData(Feed feed) {
 
@@ -217,7 +208,6 @@ public class DetailImageView {
         StringUtil.displayText(mFeed.getMember().getUsername(), txtMember);
         StringUtil.displayText(mFeed.getTime(), txtTime);
         setLikeInfo();
-
 
         mImgBtnLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +226,6 @@ public class DetailImageView {
         });
 
         mShareButton.setShareContent(LikeCommentShareUtil.getShareContent(mMainActivity, mFeed));
-
     }
 
     public void setLikeInfo() {
@@ -254,9 +243,9 @@ public class DetailImageView {
         mTouchImageView = mListTouchImageView.get(posImage);
         //Log.d("trung", "data" + posImage);
 
-        if (mTouchImageView == null) {
-            return;
-        }
+//        if (mTouchImageView == null) {
+//            return;
+//        }
 
         float[] f = new float[9];
         mTouchImageView.getImageMatrix().getValues(f);
@@ -349,10 +338,14 @@ public class DetailImageView {
 
     }
 
-
     public void zoomIn(TouchImageView touchImageView, int posImage) {
 
         //Log.d("trung", "pos" + posImage);
+        if (touchImageView == null) {
+
+            return;
+        }
+
         mListTouchImageView.set(posImage, touchImageView);
 
 
@@ -410,14 +403,11 @@ public class DetailImageView {
             });
             set.start();
             mCurrentAnimator = set;
-
         }
-
-
     }
 
     public void zoomOut() {
-        if (mTouchImageView == null){
+        if (mTouchImageView == null) {
 
             hideRLViewDetailImage();
             return;
@@ -442,7 +432,6 @@ public class DetailImageView {
             hideLLInfoFeed();
             hidePBImageDetail();
             mViews[currentPosImage].setAlpha(0f);
-
 
             //float startScaleFinal = startScale;
             if (mCurrentAnimator != null) {
@@ -488,9 +477,5 @@ public class DetailImageView {
             set.start();
             mCurrentAnimator = set;
         }
-
-
     }
-
-
 }

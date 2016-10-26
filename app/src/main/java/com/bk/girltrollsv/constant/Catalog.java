@@ -6,9 +6,9 @@ package com.bk.girltrollsv.constant;
 public class Catalog {
 
     private String catalogName;
-    private String catalogImage;
+    private int catalogImage;
 
-    public Catalog(String catalogName, String catalogImage){
+    public Catalog(String catalogName, int catalogImage){
 
         this.catalogName = catalogName;
         this.catalogImage = catalogImage;
@@ -23,11 +23,11 @@ public class Catalog {
         this.catalogName = catalogName;
     }
 
-    public String getCatalogImage() {
+    public int getCatalogImage() {
         return catalogImage;
     }
 
-    public void setCatalogImage(String catalogImage) {
+    public void setCatalogImage(int catalogImage) {
         this.catalogImage = catalogImage;
     }
 

@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <include
+        layout="@layout/toolbar_title_center"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_login_catalog_personal"
+        android:layout_below="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_layout_login_catalog_personal"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/ripple_effect_login_personal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_login_catalog_personal"
+            android:layout_marginLeft="@dimen/margin_left_image_item_catalog_personal"
+            android:layout_width="@dimen/width_image_login_catalog_personal"
+            android:layout_height="@dimen/height_image_login_catalog_personal"
+            android:src="@drawable/icon_login_catalog_personal"/>
+
+        <TextView
+            android:id="@+id/txt_login_catalog_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_text_view_item_catalog_personal"
+            android:text="Đăng nhập"
+            android:textStyle="bold"
+            android:textSize="@dimen/size_text_view_login_catalog_personal"
+            android:textColor="@color/color_text_view_login_catalog_personal"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_catalog_personal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_login_catalog_personal"
+        android:layout_marginTop="@dimen/margin_top_rv_item_catalog_personal"
+        android:paddingBottom="@dimen/height_segment_view_bottom_main">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

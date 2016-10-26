@@ -40,7 +40,7 @@ public class BaseApplication extends Application {
         sharedPrefUtils = new SharedPrefUtils(getApplicationContext());
         mContext = getApplicationContext();
 
-//        printHashKey()
+        //printHashKey();
     }
 
     public static SharedPrefUtils getSharedPreferences() {

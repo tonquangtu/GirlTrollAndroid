@@ -66,23 +66,9 @@ public class ViewCatalogAdapter extends BaseAdapter {
             Log.d("trung", "null");
         }
         holder.tvItemCatalog.setText(catalog.getCatalogName());
-
-
-        int imageId = this.getMipmapResIdByName(catalog.getCatalogImage());
-
-        holder.ivItemCatalog.setImageResource(imageId);
+        holder.ivItemCatalog.setImageResource(catalog.getCatalogImage());
 
         return convertView;
-    }
-
-    // Tìm ID của Image ứng với tên của ảnh (Trong thư mục mipmap).
-    public int getMipmapResIdByName(String resName)  {
-        String pkgName = mContext.getPackageName();
-
-        // Trả về 0 nếu không tìm thấy.
-        int resID = mContext.getResources().getIdentifier(resName , "drawable", pkgName);
-        //Log.i("CustomGridView", "Res Name: "+ resName+"==> Res ID = "+ resID);
-        return resID;
     }
 
     static class ViewHolder {

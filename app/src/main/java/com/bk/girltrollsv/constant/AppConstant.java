@@ -69,6 +69,8 @@ public class AppConstant {
 
     public static final String GMAIL_TAG = "gmail";
 
+    public static final String PASSWORD_TAG = "password";
+
     public static final String AVATAR_URL_TAG = "avatarUrl";
 
     public static final String FLAG_LOGIN_FINISH = "FLAG_LOGIN";
@@ -96,5 +98,11 @@ public class AppConstant {
     public static final float MIN_SCALE = 1;
 
     public static final float MAX_SCALE = 2.5f;
+
+    public static final int REQUEST_CODE_PERSONAL_FRAGMENT = 4;
+
+    public static final int RESULT_CODE_LOGIN = 0;
+
+    public static final String IS_LOGIN_TAG = "IS_LOGIN";
 
 }

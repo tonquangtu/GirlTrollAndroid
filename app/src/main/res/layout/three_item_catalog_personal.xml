@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_background_item_catalog_personal"
+    android:paddingTop="@dimen/padding_top_item_catalog_personal"
+    android:paddingBottom="@dimen/padding_bottom_item_catalog_personal">
+
+
+    <LinearLayout
+        android:id="@+id/ll_item_catalog_personal1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_layout_item_catalog_personal"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/img_item_catalog_personal1"
+            android:layout_marginLeft="@dimen/margin_left_image_item_catalog_personal"
+            android:layout_width="@dimen/width_image_item_catalog_personal"
+            android:layout_height="@dimen/height_image_item_catalog_personal" />
+
+        <TextView
+            android:id="@+id/txt_item_catalog_personal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_text_view_item_catalog_personal"
+            android:text="rank"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_view_item_catalog_personal"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_line_item_catalog_personal"
+        android:layout_marginLeft="@dimen/margin_left_line_item_catalog_personal"
+        android:background="@color/color_line_item_catalog_personal" />
+
+    <LinearLayout
+        android:id="@+id/ll_item_catalog_personal2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_layout_item_catalog_personal"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/img_item_catalog_personal2"
+            android:layout_marginLeft="@dimen/margin_left_image_item_catalog_personal"
+            android:layout_width="@dimen/width_image_item_catalog_personal"
+            android:layout_height="@dimen/height_image_item_catalog_personal" />
+
+        <TextView
+            android:id="@+id/txt_item_catalog_personal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_text_view_item_catalog_personal"
+            android:text="rank"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_view_item_catalog_personal"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_line_item_catalog_personal"
+        android:layout_marginLeft="@dimen/margin_left_line_item_catalog_personal"
+        android:background="@color/color_line_item_catalog_personal" />
+
+    <LinearLayout
+        android:id="@+id/ll_item_catalog_personal3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_layout_item_catalog_personal"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/img_item_catalog_personal3"
+            android:layout_marginLeft="@dimen/margin_left_image_item_catalog_personal"
+            android:layout_width="@dimen/width_image_item_catalog_personal"
+            android:layout_height="@dimen/height_image_item_catalog_personal"/>
+
+        <TextView
+            android:id="@+id/txt_item_catalog_personal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_text_view_item_catalog_personal"
+            android:text="rank"
+            android:textStyle="bold"
+            android:textColor="@color/color_text_view_item_catalog_personal"/>
+
+    </LinearLayout>
+
+</LinearLayout>

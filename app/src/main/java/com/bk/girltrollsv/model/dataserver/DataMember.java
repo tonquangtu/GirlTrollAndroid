@@ -9,7 +9,7 @@ public class DataMember {
 
     private String username;
 
-    private String avartalUrl;
+    private String avatarUrl;
 
     private int rank;
 
@@ -27,8 +27,8 @@ public class DataMember {
         return username;
     }
 
-    public String getAvartalUrl() {
-        return avartalUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     public int getRank() {
