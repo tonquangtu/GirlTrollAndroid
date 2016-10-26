@@ -20,7 +20,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_login_catalog_personal"
-            android:layout_marginLeft="@dimen/margin_left_image_item_catalog_personal"
+            android:layout_marginLeft="@dimen/margin_left_avatar_personal"
             android:layout_width="@dimen/width_image_login_catalog_personal"
             android:layout_height="@dimen/height_image_login_catalog_personal"
             android:src="@drawable/icon_login_catalog_personal"/>

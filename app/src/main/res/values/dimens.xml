@@ -77,6 +77,7 @@
     <dimen name="width_image_login_catalog_personal">40dp</dimen>
     <dimen name="height_layout_login_catalog_personal">65dp</dimen>
     <dimen name="size_text_view_login_catalog_personal">17dp</dimen>
+    <dimen name="margin_left_avatar_personal">15dp</dimen>
 
 
 </resources>

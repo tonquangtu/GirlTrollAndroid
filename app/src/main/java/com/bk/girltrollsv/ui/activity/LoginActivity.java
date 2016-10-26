@@ -273,7 +273,7 @@ public class LoginActivity extends BaseActivity {
         dataLogin.put(AppConstant.GMAIL_TAG, email);
         dataLogin.put(AppConstant.PASSWORD_TAG, password);
 
-        Call<LoginResponse> call = ConfigNetwork.getServerAPI().callNormalLogin(dataLogin);
+        Call<LoginResponse> call = ConfigNetwork.serviceAPI.callNormalLogin(dataLogin);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
