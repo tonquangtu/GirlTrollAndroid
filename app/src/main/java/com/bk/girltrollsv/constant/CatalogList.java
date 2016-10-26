@@ -1,5 +1,7 @@
 package com.bk.girltrollsv.constant;
 
+import com.bk.girltrollsv.R;
+
 import java.util.ArrayList;
 
 /**
@@ -9,27 +11,27 @@ public class CatalogList {
 
     public static String TOP_NGUOI_DANG = "Top Người Đăng";
 
-    public static String ICON_TOP_NGUOI_DANG = "icon_catalog_top_nguoi_dang";
+    public static int ICON_TOP_NGUOI_DANG = R.drawable.icon_catalog_top_nguoi_dang;
 
     public static String GIRL_SHOOL = "Girl School";
 
-    public static String ICON_GIRL_SHOOL = "icon_catalog_girl_school";
+    public static int ICON_GIRL_SHOOL = R.drawable.icon_catalog_girl_school;
 
     public static String HOT = "Hot";
 
-    public static String ICON_HOT = "icon_catalog_hot";
+    public static int ICON_HOT = R.drawable.icon_catalog_hot;
 
     public static String THONG_BAO = "Thông báo";
 
-    public static String ICON_THONG_BAO = "icon_catalog_notification";
+    public static int ICON_THONG_BAO = R.drawable.icon_catalog_notification;
 
     public static String CHE_ANH = "Chế Ảnh";
 
-    public static String ICON_CHE_ANH = "icon_catalog_troll";
+    public static int ICON_CHE_ANH = R.drawable.icon_catalog_troll;
 
     public static String HOT_VIDEO = "Hot Video";
 
-    public static String ICON_HOT_VIDEO = "icon_catalog_hot_video";
+    public static int ICON_HOT_VIDEO = R.drawable.icon_catalog_hot_video;
 
     public static ArrayList<Catalog> getListCatalog(){
 

@@ -4,6 +4,7 @@ import com.bk.girltrollsv.model.dataserver.EventCatalogResponse;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.LoginResponse;
 import com.bk.girltrollsv.model.dataserver.MyResponse;
+import com.bk.girltrollsv.util.networkutil.LoadUtil;
 
 import java.util.Map;
 
@@ -19,6 +20,9 @@ public interface ServerAPI {
 
     @POST("login/facebook")
     Call<LoginResponse> callFacebookLogin(@QueryMap Map<String, String> tag);
+
+    @POST("login/normal")
+    Call<LoginResponse> callNormalLogin(@QueryMap Map<String, String> tag);
 
     @GET("feed/new")
     Call<FeedResponse> callLoadNewFeed(@QueryMap Map<String, String> tag);

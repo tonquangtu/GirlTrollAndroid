@@ -65,9 +65,11 @@ public class ConfirmDialogFragment extends DialogFragment {
                 }
             }
         });
-        return builder.create();
-    }
 
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
+    }
     public void setPositiveText(int positiveText) {
         this.positiveText = positiveText;
     }

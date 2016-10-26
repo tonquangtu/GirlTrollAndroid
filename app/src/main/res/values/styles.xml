@@ -50,5 +50,15 @@
     <item name="android:background">@color/white</item>
     </style>
 
+    <style name="SelectableItemTheme">
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+    <style name="SelectableItemBackground">
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
 
 </resources>

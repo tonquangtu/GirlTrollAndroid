@@ -61,4 +61,21 @@
 
     <dimen name="padding_top_item_catalog">50dp</dimen>
 
+    <dimen name="padding_top_item_catalog_personal">5dp</dimen>
+    <dimen name="padding_bottom_item_catalog_personal">5dp</dimen>
+    <dimen name="height_layout_item_catalog_personal">42dp</dimen>
+    <dimen name="margin_left_image_item_catalog_personal">20dp</dimen>
+    <dimen name="width_image_item_catalog_personal">30dp</dimen>
+    <dimen name="height_image_item_catalog_personal">30dp</dimen>
+    <dimen name="margin_left_text_view_item_catalog_personal">10dp</dimen>
+    <dimen name="margin_left_line_item_catalog_personal">55dp</dimen>
+    <dimen name="height_line_item_catalog_personal">1dp</dimen>
+
+    <dimen name="margin_top_rv_item_catalog_personal">20dp</dimen>
+    <dimen name="height_image_login_catalog_personal">40dp</dimen>
+    <dimen name="width_image_login_catalog_personal">40dp</dimen>
+    <dimen name="height_layout_login_catalog_personal">65dp</dimen>
+    <dimen name="size_text_view_login_catalog_personal">17dp</dimen>
+
+
 </resources>

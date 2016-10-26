@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.PagerMainAdapter;
+import com.bk.girltrollsv.callback.OnClickTabListener;
+import com.bk.girltrollsv.callback.OnLoginCompletedListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomViewPager;
 import com.bk.girltrollsv.customview.DetailImageView;
@@ -45,6 +47,10 @@ public class MainActivity extends BaseActivity {
     PagerMainAdapter mPagerMainAdapter;
 
     DetailImageView mDetailImageView;
+
+    OnClickTabListener mOnTabListener;
+
+    OnLoginCompletedListener mOnLoginCompletedListener;
 
 
     @Override
@@ -99,6 +105,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSegmentViewSelected(int prePosition, int currPosition) {
                 mViewPagerMain.setCurrentItem(currPosition);
+                handleClickPersonalTab(currPosition);
             }
         });
 
@@ -117,6 +124,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mSegMain.setSelectedTab(position);
+                handleClickPersonalTab(position);
             }
 
             @Override
@@ -167,5 +175,35 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
         }
 
+    }
+
+    public void setOnClickTabListener(OnClickTabListener onTabListener){
+        this.mOnTabListener = onTabListener;
+
+    }
+
+    public void handleClickPersonalTab(int currPosition){
+
+        if (mOnTabListener != null){
+            mOnTabListener.onClickTab(currPosition);
+        }
+    }
+
+    public void setmOnLoginCompletedListener(OnLoginCompletedListener onLoginCompletedListener){
+        this.mOnLoginCompletedListener = onLoginCompletedListener;
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode){
+
+            case AppConstant.RESULT_CODE_LOGIN:
+                boolean isSuccessLogin = data.getBooleanExtra(AppConstant.IS_LOGIN_TAG, false);
+                mOnLoginCompletedListener.onLoginCompleted(isSuccessLogin);
+                break;
+        }
     }
 }
