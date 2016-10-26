@@ -15,7 +15,7 @@ import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
-import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.facebook.FacebookSdk;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
         tagLoadNewFeed.put(AppConstant.CURRENT_FEED_ID_TAG, String.valueOf(AppConstant.DEFAULT_FEED_ID));
         tagLoadNewFeed.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
 
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(tagLoadNewFeed);
+        Call<FeedResponse> call = ConfigNetwork.serviceAPI.callLoadNewFeed(tagLoadNewFeed);
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {

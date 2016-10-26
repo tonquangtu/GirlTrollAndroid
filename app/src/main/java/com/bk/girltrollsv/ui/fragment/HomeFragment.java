@@ -1,6 +1,7 @@
 package com.bk.girltrollsv.ui.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,18 +19,22 @@ import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
+import com.bk.girltrollsv.callback.ConfirmDialogListener;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.HidingScrollListener2;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.databasehelper.DatabaseUtil;
+import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
 import com.bk.girltrollsv.model.dataserver.Paging;
-import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.networkconfig.ConfigNetwork;
+import com.bk.girltrollsv.ui.activity.LoginActivity;
 import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
+import com.bk.girltrollsv.util.AccountUtil;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.Utils;
@@ -227,7 +232,7 @@ public class HomeFragment extends BaseFragment {
     public void loadMoreNewFeedFromRemote() {
 
         feedsAdapter.addProgressLoadMore();
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callLoadNewFeed(getTagLoadMore());
+        Call<FeedResponse> call = ConfigNetwork.serviceAPI.callLoadNewFeed(getTagLoadMore());
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
@@ -283,7 +288,7 @@ public class HomeFragment extends BaseFragment {
     public void refreshNewFeed() {
 
         isRefreshing = true;
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(getTagRefresh());
+        Call<FeedResponse> call = ConfigNetwork.serviceAPI.callRefreshNewFeed(getTagRefresh());
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
@@ -375,9 +380,49 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    @OnClick(R.id.img_btn_upload_photo)
+    public void onClickUploadPhoto(View view) {
+
+        // check login
+        if (AccountUtil.getAccountId() == null) {
+            showLoginConfirmDialog();
+
+        } else {
+
+
+        }
+    }
+
+    public void showLoginConfirmDialog() {
+
+        String title = mActivity.getString(R.string.confirm_login);
+        String message = mActivity.getString(R.string.message_confirm_login);
+        ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance(title, message);
+        confirmDialog.setPositiveText(R.string.text_login_normal);
+
+        confirmDialog.setListener(new ConfirmDialogListener() {
+            @Override
+            public void onPositivePress(DialogInterface dialog, int which) {
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(AppConstant.FLAG_LOGIN_FINISH, AppConstant.FINISH_WHEN_COMPLETE);
+                intent.putExtra(AppConstant.PACKAGE, bundle);
+                mActivity.startActivity(intent);
+            }
+
+            @Override
+            public void onNegativePress(DialogInterface dialog, int which) {
+
+            }
+        });
+        confirmDialog.show(mActivity.getFragmentManager(), ConfirmDialogFragment.class.getSimpleName());
+    }
+
+
+
     public void handleReload() {
 
-        Call<FeedResponse> call = ConfigNetwork.getServerAPI().callRefreshNewFeed(getTagRefresh());
+        Call<FeedResponse> call = ConfigNetwork.serviceAPI.callRefreshNewFeed(getTagRefresh());
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {

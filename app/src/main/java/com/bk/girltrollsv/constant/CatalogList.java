@@ -7,15 +7,15 @@ import java.util.ArrayList;
  */
 public class CatalogList {
 
-    public static String TOP_NGUOI_DANG = "Top Người Đăng";
+    public static String TOP_NGUOI_DANG = "Top người đăng";
 
     public static String ICON_TOP_NGUOI_DANG = "icon_catalog_top_nguoi_dang";
 
-    public static String GIRL_SHOOL = "Girl School";
+    public static String GIRL_SHOOL = "Gái các trường";
 
     public static String ICON_GIRL_SHOOL = "icon_catalog_girl_school";
 
-    public static String HOT = "Hot";
+    public static String HOT = "Top bài đăng";
 
     public static String ICON_HOT = "icon_catalog_hot";
 
@@ -23,11 +23,11 @@ public class CatalogList {
 
     public static String ICON_THONG_BAO = "icon_catalog_notification";
 
-    public static String CHE_ANH = "Chế Ảnh";
+    public static String CHE_ANH = "Chế ảnh";
 
     public static String ICON_CHE_ANH = "icon_catalog_troll";
 
-    public static String HOT_VIDEO = "Hot Video";
+    public static String HOT_VIDEO = "Hot video";
 
     public static String ICON_HOT_VIDEO = "icon_catalog_hot_video";
 
@@ -41,15 +41,12 @@ public class CatalogList {
         Catalog top = new Catalog(TOP_NGUOI_DANG, ICON_TOP_NGUOI_DANG);
         Catalog notification = new Catalog(THONG_BAO, ICON_THONG_BAO);
 
-
         list.add(hot);
         list.add(hotVideo);
         list.add(troll);
         list.add(girlSchool);
         list.add(top);
         list.add(notification);
-
-
 
         return list;
     }

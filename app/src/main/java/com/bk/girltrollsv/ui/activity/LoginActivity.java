@@ -12,7 +12,7 @@ import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Member;
 import com.bk.girltrollsv.model.dataserver.DataMember;
 import com.bk.girltrollsv.model.dataserver.LoginResponse;
-import com.bk.girltrollsv.network.ConfigNetwork;
+import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.bk.girltrollsv.util.AccountUtil;
 import com.bk.girltrollsv.util.Utils;
 import com.facebook.CallbackManager;
@@ -189,7 +189,7 @@ public class LoginActivity extends BaseActivity {
         dataLogin.put(AppConstant.GMAIL_TAG, gmail);
         dataLogin.put(AppConstant.AVATAR_URL_TAG, avatarUrl);
 
-        Call<LoginResponse> call = ConfigNetwork.getServerAPI().callFacebookLogin(dataLogin);
+        Call<LoginResponse> call = ConfigNetwork.serviceAPI.callFacebookLogin(dataLogin);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
