@@ -3,6 +3,7 @@ package com.bk.girltrollsv.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,21 +11,24 @@ import android.widget.RelativeLayout;
 
 import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.PagerMainAdapter;
+import com.bk.girltrollsv.callback.IDetailImage;
 import com.bk.girltrollsv.callback.OnClickTabListener;
 import com.bk.girltrollsv.callback.OnLoginCompletedListener;
+import com.bk.girltrollsv.callback.OnRequestPermissionCompleted;
+import com.bk.girltrollsv.callback.OnTakePhotoCompleteListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.CustomViewPager;
 import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.customview.MainSegmentView;
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.model.dataserver.Paging;
+import com.bk.girltrollsv.model.dataserver.Pager;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements IDetailImage{
 
     @Bind(R.id.view_root_main)
     View mViewRoot;
@@ -40,7 +44,7 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Feed> initFeeds;
 
-    private Paging pagingLoadNewFeed;
+    private Pager pagerLoadNewFeed;
 
     private ArrayList<EventBase> eventCatalogs;
 
@@ -51,6 +55,10 @@ public class MainActivity extends BaseActivity {
     OnClickTabListener mOnTabListener;
 
     OnLoginCompletedListener mOnLoginCompletedListener;
+
+    OnTakePhotoCompleteListener mOnTakePhotoCompleteListener;
+
+    OnRequestPermissionCompleted mOnPermissionListener;
 
 
     @Override
@@ -83,19 +91,19 @@ public class MainActivity extends BaseActivity {
 
         Bundle dataFromSplash = intent.getBundleExtra(AppConstant.PACKAGE);
         initFeeds = dataFromSplash.getParcelableArrayList(AppConstant.FEEDS_TAG);
-        pagingLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
+        pagerLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
 //        eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);
     }
 
     public void initSegView() {
 
         int[] icons = new int[]{
-                R.drawable.icon_home, R.drawable.icon_menu, R.drawable.icon_upload,
+                R.drawable.icon_home, R.drawable.icon_menu, R.drawable.icon_camera,
                 R.drawable.icon_event, R.drawable.icon_personal
         };
 
         int[] pressIcons = new int[]{
-                R.drawable.icon_home_press, R.drawable.icon_menu_press, R.drawable.icon_upload_press,
+                R.drawable.icon_home_press, R.drawable.icon_menu_press, R.drawable.icon_camera_press,
                 R.drawable.icon_event_press, R.drawable.icon_personal_press
         };
 
@@ -114,7 +122,7 @@ public class MainActivity extends BaseActivity {
 
     public void initViewPager() {
 
-        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagingLoadNewFeed, eventCatalogs);
+        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagerLoadNewFeed, eventCatalogs);
         mViewPagerMain.setAdapter(mPagerMainAdapter);
         mViewPagerMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -135,9 +143,10 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    public DetailImageView getDetailImageView(){
+    @Override
+    public DetailImageView getDetailImageView() {
 
-        if (mDetailImageView == null){
+        if (mDetailImageView == null) {
 
             mDetailImageView = new DetailImageView(rlViewImage, MainActivity.this);
 
@@ -146,13 +155,12 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
 
             if (mDetailImageView != null)
                 mDetailImageView.zoomOut();
@@ -169,42 +177,72 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-        if (mDetailImageView != null && mDetailImageView.isDisplayRLViewDetailImage()){
+        if (mDetailImageView != null && mDetailImageView.isDisplayRLViewDetailImage()) {
             mDetailImageView.zoomOut();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
 
     }
 
-    public void setOnClickTabListener(OnClickTabListener onTabListener){
+    public void setOnClickTabListener(OnClickTabListener onTabListener) {
         this.mOnTabListener = onTabListener;
 
     }
 
-    public void handleClickPersonalTab(int currPosition){
+    public void handleClickPersonalTab(int currPosition) {
 
-        if (mOnTabListener != null){
+        if (mOnTabListener != null) {
             mOnTabListener.onClickTab(currPosition);
         }
     }
 
-    public void setmOnLoginCompletedListener(OnLoginCompletedListener onLoginCompletedListener){
+    public void setOnLoginCompletedListener(OnLoginCompletedListener onLoginCompletedListener) {
         this.mOnLoginCompletedListener = onLoginCompletedListener;
+    }
 
+    public void setOnTakePhotoCompleteListener(OnTakePhotoCompleteListener onTakePhotoCompleteListener) {
+        this.mOnTakePhotoCompleteListener = onTakePhotoCompleteListener;
+    }
+
+    public void setOnRequestPermissionComplete(OnRequestPermissionCompleted onRequestPermission) {
+        this.mOnPermissionListener = onRequestPermission;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (resultCode){
+        switch (requestCode) {
 
-            case AppConstant.RESULT_CODE_LOGIN:
-                boolean isSuccessLogin = data.getBooleanExtra(AppConstant.IS_LOGIN_TAG, false);
-                mOnLoginCompletedListener.onLoginCompleted(isSuccessLogin);
+            case AppConstant.LOGIN_IN_PERSONAL_REQUEST_CODE:
+                handleLoginBack(resultCode, data);
                 break;
+            case AppConstant.TAKE_PHOTO_REQUEST_CODE:
+                handleTakePhotoBack(resultCode, data);
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (mOnPermissionListener != null) {
+            mOnPermissionListener.onRequestComplete(requestCode, permissions, grantResults);
+        }
+    }
+
+    public void handleLoginBack(int resultCode, Intent data) {
+
+        if (resultCode == AppConstant.LOGIN_RESULT_CODE && mOnLoginCompletedListener != null) {
+            mOnLoginCompletedListener.onLoginCompleted(data.getBooleanExtra(AppConstant.IS_LOGIN_TAG, false));
+        }
+    }
+
+    public void handleTakePhotoBack(int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK && mOnTakePhotoCompleteListener != null) {
+            mOnTakePhotoCompleteListener.onTakePhotoComplete();
         }
     }
 }

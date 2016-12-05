@@ -62,5 +62,25 @@ public class AccountUtil {
         }.execute();
     }
 
+    public synchronized static void removeInfoAccount() {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                SharedPrefUtils.removeKey(AppConstant.MY_ID);
+                SharedPrefUtils.removeKey(AppConstant.MY_USERNAME);
+                SharedPrefUtils.removeKey(AppConstant.MY_AVATAR_URL);
+                SharedPrefUtils.removeKey(AppConstant.MY_GMAIL);
+                SharedPrefUtils.removeKey(AppConstant.MY_RANK);
+                SharedPrefUtils.removeKey(AppConstant.MY_LIKE);
+                SharedPrefUtils.removeKey(AppConstant.MY_TOTAL_IMAGE);
+                SharedPrefUtils.removeKey(AppConstant.MY_ACTIVE);
+                return null;
+            }
+        }.execute();
+
+    }
+
 
 }

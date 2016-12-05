@@ -3,6 +3,8 @@ package com.bk.girltrollsv.util;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.bk.girltrollsv.BaseApplication;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
@@ -218,6 +220,10 @@ public class StringUtil {
             default:
                 return "";
         }
+    }
+
+    public static String getStringFromRes(int stringId) {
+        return BaseApplication.getContext().getResources().getString(stringId);
     }
 
 }

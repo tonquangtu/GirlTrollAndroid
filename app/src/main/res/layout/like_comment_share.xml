@@ -16,6 +16,7 @@
             android:background="@drawable/ripple_effect"
             android:layout_width="@dimen/size_like_image"
             android:layout_height="@dimen/size_like_image"
+            android:layout_marginLeft="6dp"
             android:scaleX="0.6"
             android:scaleY="0.6"
             android:src="@drawable/icon_unlike_white" />

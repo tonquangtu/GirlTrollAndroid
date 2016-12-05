@@ -20,6 +20,8 @@ public class BaseInfoMember implements Parcelable {
         this.avatarUrl = avatarUrl;
     }
 
+    public BaseInfoMember() {}
+
     protected BaseInfoMember(Parcel in) {
         memberId = in.readString();
         username = in.readString();
@@ -60,5 +62,17 @@ public class BaseInfoMember implements Parcelable {
 
     public String getAvatarUrl() {
         return avatarUrl;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

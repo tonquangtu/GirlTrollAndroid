@@ -44,7 +44,7 @@ public class SplashActivity extends AppCompatActivity {
         pgbLoader.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.color_progress_bar), PorterDuff.Mode.MULTIPLY);
 
         new TaskLoadInitData().execute();
-        new TaskLoadFacebookSDK().execute();
+
     }
 
 
@@ -82,8 +82,6 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             loadFeedFromRemote();
         }
-
-
     }
 
     public void loadFeedFromRemote() {
@@ -106,9 +104,9 @@ public class SplashActivity extends AppCompatActivity {
                             initFeeds.addAll(body.getData());
                         }
                         new TaskInsertFeeds().execute(initFeeds);
-                        handleLaunchingMainActivity();
                     }
                 }
+                handleLaunchingMainActivity();
             }
 
             @Override
@@ -140,4 +138,9 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new TaskLoadFacebookSDK().execute();
+    }
 }

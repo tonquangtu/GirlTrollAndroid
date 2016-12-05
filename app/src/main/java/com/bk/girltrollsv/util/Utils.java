@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -234,23 +234,14 @@ public class Utils {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
+
+                ActivityCompat.requestPermissions(activity, new String[]{idPermission}, requestPermissionCode);
             } else {
                 ActivityCompat.requestPermissions(activity, new String[]{idPermission}, requestPermissionCode);
+                Log.e("tuton", "k show");
             }
         }
         return isPermission;
-    }
-
-    public static int getScreenWidth(Activity activity) {
-        Point size = new Point();
-        activity.getWindowManager().getDefaultDisplay().getSize(size);
-        return size.x;
-    }
-
-    public static int getScreenHeight(Activity activity) {
-        Point size = new Point();
-        activity.getWindowManager().getDefaultDisplay().getSize(size);
-        return size.y;
     }
 
     public static boolean checkInternetAvailable() {

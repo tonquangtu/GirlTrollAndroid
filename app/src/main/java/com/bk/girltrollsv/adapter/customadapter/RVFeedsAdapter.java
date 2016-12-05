@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by Dell on 18-Aug-16.
  */
-public class RVFeedsAdapter extends LoadMoreAdapter {
+public class RvFeedsAdapter extends LoadMoreAdapter {
 
     ArrayList<Feed> feeds;
 
@@ -55,7 +55,7 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
 
     public static final int ITEM_HAVE_FOUR_IMAGE = 6;
 
-    public RVFeedsAdapter(Activity activity, RecyclerView recyclerView, ArrayList<Feed> initFeeds) {
+    public RvFeedsAdapter(Activity activity, RecyclerView recyclerView, ArrayList<Feed> initFeeds) {
 
         super(activity);
         this.mActivity = activity;
@@ -71,33 +71,32 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        if (isLoadMoreItem(position)) {
-            return ITEM_LOAD_MORE_TYPE;
+        return isLoadMoreItem(position) ? ITEM_LOAD_MORE_TYPE : getNormalItemViewType(position);
+    }
 
-        } else {
+    public int getNormalItemViewType(int position) {
 
-            ArrayList<ImageInfo> images = feeds.get(position).getImages();
-            if (images != null && images.size() > 0) {
-                int size = images.size();
-                if (size == 1) {
-                    return ITEM_HAVE_ONE_IMAGE;
+        ArrayList<ImageInfo> images = feeds.get(position).getImages();
+        if (images != null && images.size() > 0) {
+            int size = images.size();
+            if (size == 1) {
+                return ITEM_HAVE_ONE_IMAGE;
 
-                } else if (size == 2) {
-                    return ITEM_HAVE_TWO_IMAGE;
+            } else if (size == 2) {
+                return ITEM_HAVE_TWO_IMAGE;
 
-                } else if (size == 3) {
-                    return ITEM_HAVE_THREE_IMAGE;
-
-                } else {
-                    return ITEM_HAVE_FOUR_IMAGE;
-                }
-
-            } else if (feeds.get(position).getVideo() != null) {
-                return ITEM_VIDEO_FEED;
+            } else if (size == 3) {
+                return ITEM_HAVE_THREE_IMAGE;
 
             } else {
-                return ITEM_DEFAULT;
+                return ITEM_HAVE_FOUR_IMAGE;
             }
+
+        } else if (feeds.get(position).getVideo() != null) {
+            return ITEM_VIDEO_FEED;
+
+        } else {
+            return ITEM_DEFAULT;
         }
     }
 
@@ -262,5 +261,15 @@ public class RVFeedsAdapter extends LoadMoreAdapter {
         }
         return lastFeedId;
     }
+
+    public int getFirstFeedId() {
+
+        int firstFeedId = -1;
+        if (feeds.size() > 0) {
+            return feeds.get(0).getFeedId();
+        }
+        return firstFeedId;
+    }
+
 
 }

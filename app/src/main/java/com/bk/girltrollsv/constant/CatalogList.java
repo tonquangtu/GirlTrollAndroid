@@ -17,7 +17,7 @@ public class CatalogList {
 
     public static int ICON_GIRL_SHOOL = R.drawable.icon_catalog_girl_school;
 
-    public static String HOT = "Top bài đăng";
+    public static String HOT = "Ảnh hot";
 
     public static int ICON_HOT = R.drawable.icon_catalog_hot;
 
@@ -52,6 +52,12 @@ public class CatalogList {
 
         return list;
     }
+
+    public static final int HOT_PHOTO_POS = 0;
+
+    public static final int HOT_VIDEO_POS = 1;
+
+    public static final int MIX_PHOTO_POS = 2;
 
 
 }

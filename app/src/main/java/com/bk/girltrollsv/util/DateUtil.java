@@ -18,7 +18,7 @@ import java.util.TimeZone;
  */
 public class DateUtil {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.JAPAN);
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyy HH:mm");
 
     /**
      * Calculator age

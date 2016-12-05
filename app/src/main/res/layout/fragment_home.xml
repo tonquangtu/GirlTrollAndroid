@@ -24,9 +24,9 @@
 
     <LinearLayout
         android:id="@+id/ll_error_load_feed"
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/appbar_layout"
         android:orientation="vertical">
 
         <ImageView

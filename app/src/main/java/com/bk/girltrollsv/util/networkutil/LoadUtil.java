@@ -1,6 +1,5 @@
 package com.bk.girltrollsv.util.networkutil;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bk.girltrollsv.BaseApplication;
@@ -10,6 +9,7 @@ import com.bk.girltrollsv.util.StringUtil;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Random;
 
 /**
@@ -40,16 +40,16 @@ public class LoadUtil {
                 .load(url)
                 .placeholder(R.drawable.place_holder_black)
                 .into(img, new Callback() {
+
                     @Override
                     public void onSuccess() {
-                        Log.d("trung", "success");
-                        listener.onLoadComplete();
+                       if (listener != null) {
+                           listener.onLoadComplete();
+                       }
                     }
 
                     @Override
                     public void onError() {
-                        Log.d("trung", "error");
-
                     }
                 });
 
@@ -59,6 +59,24 @@ public class LoadUtil {
 
         int rand = new Random().nextInt(PLACE_HOLDER_XML.length);
         loadImageResizeWithPlaceHolder(url, imgDes, PLACE_HOLDER_XML[rand], width, height);
+    }
+
+    public static void loadImageLocal(String url, ImageView imgDes, int width, int height) {
+
+        int rand = new Random().nextInt(PLACE_HOLDER_XML.length);
+        if (StringUtil.isEmpty(url)) {
+            url = null;
+        }
+        if (imgDes != null) {
+            Picasso.with(BaseApplication.getContext())
+                    .load(new File(url))
+                    .resize(width, height)
+                    .onlyScaleDown()
+                    .centerCrop()
+                    .placeholder(PLACE_HOLDER_XML[rand])
+                    .into(imgDes);
+
+        }
     }
 
 
@@ -89,5 +107,14 @@ public class LoadUtil {
                     .into(imgDes);
 
         }
+    }
+
+    public static void loadImageToFitTarget(String url, ImageView target) {
+
+        Picasso.with(BaseApplication.getContext())
+                .load(url)
+                .fit()
+                .into(target);
+
     }
 }

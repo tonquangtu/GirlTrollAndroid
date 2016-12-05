@@ -43,6 +43,7 @@ public class OneImageFeedViewHolder extends FeedViewHolder {
         });
     }
 
+    @Override
     public void populate(Feed feed) {
         super.populate(feed);
 
