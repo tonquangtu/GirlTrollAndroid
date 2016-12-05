@@ -6,17 +6,17 @@ import android.os.Parcelable;
 /**
  * Created by Dell on 21-Aug-16.
  */
-public class Pager implements Parcelable{
+public class Paging implements Parcelable{
 
     private String before;
 
     private String after;
 
-    public Pager() {
+    public Paging() {
 
     }
 
-    protected Pager(Parcel in) {
+    protected Paging(Parcel in) {
         before = in.readString();
         after = in.readString();
     }
@@ -32,15 +32,15 @@ public class Pager implements Parcelable{
         return 0;
     }
 
-    public static final Creator<Pager> CREATOR = new Creator<Pager>() {
+    public static final Creator<Paging> CREATOR = new Creator<Paging>() {
         @Override
-        public Pager createFromParcel(Parcel in) {
-            return new Pager(in);
+        public Paging createFromParcel(Parcel in) {
+            return new Paging(in);
         }
 
         @Override
-        public Pager[] newArray(int size) {
-            return new Pager[size];
+        public Paging[] newArray(int size) {
+            return new Paging[size];
         }
     };
 

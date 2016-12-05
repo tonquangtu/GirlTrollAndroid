@@ -34,7 +34,7 @@ import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
-import com.bk.girltrollsv.model.dataserver.Pager;
+import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.LoginActivity;
 import com.bk.girltrollsv.ui.activity.MainActivity;
@@ -98,11 +98,11 @@ public class HomeFragment extends BaseFragment {
     Uri mPhotoUri = null;
 
 
-    public static HomeFragment newInstance(ArrayList<Feed> feeds, Pager pagerLoadNewFeed) {
+    public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
         HomeFragment homeFragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(AppConstant.FEEDS_TAG, feeds);
-        args.putParcelable(AppConstant.PAGING_TAG, pagerLoadNewFeed);
+        args.putParcelable(AppConstant.PAGING_TAG, pagingLoadNewFeed);
         homeFragment.setArguments(args);
         return homeFragment;
     }

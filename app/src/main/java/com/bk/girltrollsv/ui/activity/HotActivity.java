@@ -26,6 +26,7 @@ import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
+import com.bk.girltrollsv.model.dataserver.Paging;
 import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.bk.girltrollsv.util.AccountUtil;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
@@ -78,6 +79,7 @@ public class HotActivity extends BaseActivity implements IDetailImage {
 
     private int mType;
 
+    Paging paging;
     private int mLimit = AppConstant.DEFAULT_LIMIT;
 
     @Override
@@ -259,6 +261,7 @@ public class HotActivity extends BaseActivity implements IDetailImage {
 
         if (dataAdd != null ) {
             ArrayList<Feed> feedAdds = dataAdd.getData();
+            paging = dataAdd.getPaging();
             if (feedAdds != null) {
 
                 if (feedAdds.size() == 0) {
@@ -292,6 +295,7 @@ public class HotActivity extends BaseActivity implements IDetailImage {
                 setVisibleProgress(false);
                 if (response.isSuccessful()) {
                     addDataToFirstList(response.body());
+
                 } else {
                     setVisibleErrorView(true);
                 }
@@ -353,6 +357,7 @@ public class HotActivity extends BaseActivity implements IDetailImage {
 
                 feedsAdapter.removeProgressLoadMore();
                 if (response.isSuccessful() && response.body() != null) {
+                    paging = response.body().getPaging();
                     feedsAdapter.insertLastItems(response.body().getData());
                 }
                 feedsAdapter.endLoadingMore();
@@ -370,11 +375,15 @@ public class HotActivity extends BaseActivity implements IDetailImage {
 
         Map<String, String> tagLoadMore = new HashMap<>();
         String memberId = AccountUtil.getAccountId();
+        String lastFeedId;
         if (memberId == null) {
             memberId = "";
         }
-
-        String lastFeedId = String.valueOf(feedsAdapter.getLastFeedId());
+        if (paging != null) {
+            lastFeedId = paging.getAfter();
+        } else {
+            lastFeedId = "-1";
+        }
         tagLoadMore.put(AppConstant.CURRENT_FEED_ID_TAG, lastFeedId);
         tagLoadMore.put(AppConstant.LIMIT_TAG, String.valueOf(AppConstant.DEFAULT_LIMIT));
         tagLoadMore.put(AppConstant.TYPE, mType + "");

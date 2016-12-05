@@ -22,7 +22,7 @@ import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.customview.MainSegmentView;
 import com.bk.girltrollsv.model.EventBase;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.model.dataserver.Pager;
+import com.bk.girltrollsv.model.dataserver.Paging;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements IDetailImage{
 
     private ArrayList<Feed> initFeeds;
 
-    private Pager pagerLoadNewFeed;
+    private Paging pagingLoadNewFeed;
 
     private ArrayList<EventBase> eventCatalogs;
 
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements IDetailImage{
 
         Bundle dataFromSplash = intent.getBundleExtra(AppConstant.PACKAGE);
         initFeeds = dataFromSplash.getParcelableArrayList(AppConstant.FEEDS_TAG);
-        pagerLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
+        pagingLoadNewFeed = dataFromSplash.getParcelable(AppConstant.PAGING_TAG);
 //        eventCatalogs = dataFromSplash.getParcelableArrayList(AppConstant.EVENT_CATALOG_TAG);
     }
 
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements IDetailImage{
 
     public void initViewPager() {
 
-        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagerLoadNewFeed, eventCatalogs);
+        mPagerMainAdapter = new PagerMainAdapter(getSupportFragmentManager(), initFeeds, pagingLoadNewFeed, eventCatalogs);
         mViewPagerMain.setAdapter(mPagerMainAdapter);
         mViewPagerMain.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
