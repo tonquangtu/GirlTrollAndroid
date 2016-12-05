@@ -1,22 +1,17 @@
 package com.bk.girltrollsv.ui.fragment;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
-import com.bk.girltrollsv.adapter.customadapter.PagerMainAdapter;
 import com.bk.girltrollsv.adapter.customadapter.PersonalCatalogAdapter;
 import com.bk.girltrollsv.callback.ConfirmDialogListener;
-import com.bk.girltrollsv.callback.OnClickTabListener;
 import com.bk.girltrollsv.callback.OnLoginCompletedListener;
 import com.bk.girltrollsv.callback.OnPersonalCatalogItemClickListener;
 import com.bk.girltrollsv.constant.AppConstant;
@@ -47,9 +42,6 @@ public class PersonalFragment extends BaseFragment {
     @Bind(R.id.toolbar_tv_title_center)
     TextView tvTitle;
 
-    @Bind(R.id.ll_login_catalog_personal)
-    LinearLayout llLoginCatalogPersonal;
-
     @Bind(R.id.img_login_catalog_personal)
     CircleImageView cirImgLoginCatalogPersonal;
 
@@ -62,7 +54,6 @@ public class PersonalFragment extends BaseFragment {
 
     boolean mIsLogin = false;
 
-
     public static PersonalFragment newInstance() {
 
         return new PersonalFragment();
@@ -70,30 +61,11 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
         mActivity = getActivity();
         tvTitle.setText(getResources().getString(R.string.personal_title));
-
-//        ((MainActivity) mActivity).setOnClickTabListener(new OnClickTabListener() {
-//            @Override
-//            public void onClickTab(int position) {
-//                if (position == PagerMainAdapter.PERSONAL_POS){
-//                    setImageNameMemberLogin();
-//                }
-//            }
-//        });
-
-        ((MainActivity) mActivity).setmOnLoginCompletedListener(new OnLoginCompletedListener() {
-            @Override
-            public void onLoginCompleted(boolean isLogin) {
-                if (isLogin) {
-
-                    setImageNameMemberLogin();
-                }
-            }
-        });
-
+        initListener();
         initRv();
-
         setImageNameMemberLogin();
     }
 
@@ -123,7 +95,6 @@ public class PersonalFragment extends BaseFragment {
                 }
             }
         });
-
     }
 
     @Override
@@ -131,28 +102,47 @@ public class PersonalFragment extends BaseFragment {
         return R.layout.fragment_personal;
     }
 
+    public void initListener() {
+
+//        ((MainActivity) mActivity).setOnClickTabListener(new OnClickTabListener() {
+//            @Override
+//            public void onClickTab(int position) {
+//                if (position == PagerMainAdapter.PERSONAL_POS){
+//                    setImageNameMemberLogin();
+//                }
+//            }
+//        });
+        if (mActivity instanceof MainActivity) {
+            ((MainActivity) mActivity).setOnLoginCompletedListener(new OnLoginCompletedListener() {
+                @Override
+                public void onLoginCompleted(boolean isLogin) {
+                    if (isLogin) {
+                        setImageNameMemberLogin();
+                    }
+                }
+            });
+        }
+    }
+
     @OnClick(R.id.ll_login_catalog_personal)
-    public void onClickLLLoginCatalogPersonal(View view) {
+    public void onClickLogin(View view) {
 
         if (!mIsLogin) {
-
             Bundle data = new Bundle();
             data.putInt(AppConstant.FLAG_LOGIN_FINISH, AppConstant.FINISH_WHEN_COMPLETE);
             Intent intent = new Intent(mActivity, LoginActivity.class);
             intent.putExtra(AppConstant.PACKAGE, data);
-            //startActivity(intent);
-            startActivityForResult(intent, AppConstant.REQUEST_CODE_PERSONAL_FRAGMENT);
+            startActivityForResult(intent, AppConstant.LOGIN_IN_PERSONAL_REQUEST_CODE);
         }
     }
 
     public void setImageNameMemberLogin() {
 
         if (AccountUtil.getAccountId() == null) {
-
             cirImgLoginCatalogPersonal.setImageResource(R.drawable.icon_login_catalog_personal);
             txtLoginCatalogPersonal.setText(getResources().getString(R.string.catalog_login_personal));
-        } else {
 
+        } else {
             addLogOutItem();
             setImageAvatarMemberLogin(AccountUtil.getAvatarUrl());
             setNameMemberLogin();
@@ -173,17 +163,14 @@ public class PersonalFragment extends BaseFragment {
         } else {
             txtLoginCatalogPersonal.setText(name);
         }
-
     }
 
     public void addLogOutItem() {
 
         mIsLogin = true;
-
         PersonalCatalog personalLogOut = new PersonalCatalog(PersonalCatalogItemList.LOG_OUT, PersonalCatalogItemList.ICON_LOG_OUT);
         ArrayList<PersonalCatalog> list = new ArrayList<PersonalCatalog>();
         list.add(personalLogOut);
-
         PersonalCatalogItem personalLogOutItem = new PersonalCatalogItem(list, 1);
         mPersonalCatalogAdapter.addLogOutPersonal(personalLogOutItem);
     }
@@ -194,11 +181,11 @@ public class PersonalFragment extends BaseFragment {
         String message = mActivity.getString(R.string.message_confirm_logout);
         ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance(title, message);
         confirmDialog.setPositiveText(R.string.text_logout);
-
         confirmDialog.setListener(new ConfirmDialogListener() {
             @Override
             public void onPositivePress(DialogInterface dialog, int which) {
 
+                AccountUtil.removeInfoAccount();
                 mIsLogin = false;
                 mPersonalCatalogAdapter.removeLogOutPersonal();
                 cirImgLoginCatalogPersonal.setImageResource(R.drawable.icon_login_catalog_personal);
@@ -210,7 +197,6 @@ public class PersonalFragment extends BaseFragment {
 
             }
         });
-
         confirmDialog.show(mActivity.getFragmentManager(), ConfirmDialogFragment.class.getSimpleName());
     }
 

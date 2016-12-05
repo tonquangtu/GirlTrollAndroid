@@ -113,4 +113,10 @@
 
     <color name="color_line_item_catalog_personal">@color/grey_300</color>
 
+    <color name="background_activity_upload_photo">@color/white</color>
+
+    <color name="color_upload_post_button">@color/colorPrimary</color>
+
+    <color name="color_text_white">@color/white</color>
+
 </resources>

@@ -4,7 +4,7 @@
 
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="height_segment_view_bottom_main">46dp</dimen>
+    <dimen name="height_segment_view_bottom_main">48dp</dimen>
 
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
 
@@ -56,7 +56,7 @@
     <dimen name="height_like_comment_share_group">38dp</dimen>
     <dimen name="margin_left_logo_toolbar">20dp</dimen>
     <dimen name="margin_right_upload_photo">7dp</dimen>
-    <dimen name="margin_left_like_comment">12dp</dimen>
+    <dimen name="margin_left_like_comment">10dp</dimen>
     <dimen name="margin_bottom_info_feed">6dp</dimen>
 
     <dimen name="padding_top_item_catalog">40dp</dimen>
@@ -72,12 +72,30 @@
     <dimen name="margin_left_line_item_catalog_personal">55dp</dimen>
     <dimen name="height_line_item_catalog_personal">1dp</dimen>
 
-    <dimen name="margin_top_rv_item_catalog_personal">20dp</dimen>
+    <dimen name="margin_top_rv_item_catalog_personal">12dp</dimen>
     <dimen name="height_image_login_catalog_personal">40dp</dimen>
     <dimen name="width_image_login_catalog_personal">40dp</dimen>
-    <dimen name="height_layout_login_catalog_personal">65dp</dimen>
+    <dimen name="height_layout_login_catalog_personal">60dp</dimen>
     <dimen name="size_text_view_login_catalog_personal">17dp</dimen>
     <dimen name="margin_left_avatar_personal">15dp</dimen>
+    <dimen name="margin_top_img_preview_upload">14dp</dimen>
+    <dimen name="margin_bottom_upload_button">12dp</dimen>
+    <dimen name="margin_top_info_feed_upload">14dp</dimen>
+    <dimen name="margin_left_edit_description_post">12dp</dimen>
+    <dimen name="margin_right_btn_upload">2dp</dimen>
+    <dimen name="margin_left_img_preview_upload">0dp</dimen>
+    <dimen name="size_img_preview_upload">120dp</dimen>
+    <dimen name="margin_top_edit_description_post">4dp</dimen>
+    <dimen name="margin_right_edit_description_post">4dp</dimen>
+    <dimen name="margin_left_info_upload_photo">12dp</dimen>
+    <dimen name="margin_right_info_upload_photo">12dp</dimen>
+    <dimen name="margin_top_rv_list_posted">12dp</dimen>
+    <dimen name="margin_top_uploading_info">12dp</dimen>
+    <dimen name="margin_bottom_pgb_uploading">8dp</dimen>
+    <dimen name="margin_left_progress_upload">18dp</dimen>
+    <dimen name="margin_right_progress_upload">18dp</dimen>
+    <dimen name="margin_left_right_upload">18dp</dimen>
+    <dimen name="margin_bottom_top_upload">12dp</dimen>
 
 
 </resources>

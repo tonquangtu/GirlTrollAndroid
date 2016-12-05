@@ -26,6 +26,8 @@ public class ImageInfo implements Parcelable{
         this.urlImageThumbnail = urlImageThumbnail;
     }
 
+    public ImageInfo() {}
+
     protected ImageInfo(Parcel in) {
         imageId = in.readString();
         urlImage = in.readString();
@@ -78,5 +80,25 @@ public class ImageInfo implements Parcelable{
 
     public String getUrlImageThumbnail() {
         return urlImageThumbnail;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setLinkFace(String linkFace) {
+        this.linkFace = linkFace;
+    }
+
+    public void setUrlImageThumbnail(String urlImageThumbnail) {
+        this.urlImageThumbnail = urlImageThumbnail;
     }
 }

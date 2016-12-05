@@ -5,6 +5,8 @@ package com.bk.girltrollsv.constant;
  */
 public class AppConstant {
 
+    public static final String LOG_TAG = "tuton";
+
     public static final String PACKAGE = "PACKAGE";
 
     public static final String FEEDS_TAG = "FEEDS";
@@ -22,6 +24,8 @@ public class AppConstant {
     public static final String DEFAULT_FEED_ID = "-1";
 
     public static final int SUCCESS = 1;
+
+    public static final int FAILURE = 0;
 
     public static final int DEFAULT_LIMIT = 4;
 
@@ -99,10 +103,46 @@ public class AppConstant {
 
     public static final float MAX_SCALE = 2.5f;
 
-    public static final int REQUEST_CODE_PERSONAL_FRAGMENT = 4;
+    public static final int LOGIN_IN_PERSONAL_REQUEST_CODE = 4;
 
-    public static final int RESULT_CODE_LOGIN = 0;
+    public static final int TAKE_PHOTO_REQUEST_CODE = 2;
+
+    public static final int LOGIN_RESULT_CODE = 0;
 
     public static final String IS_LOGIN_TAG = "IS_LOGIN";
+
+    public static final String URI_PHOTO_TAG = "uri_photo";
+
+    public static final int READ_EXTERNAL_PERMISSION_REQUEST_CODE = 3;
+
+    public static final String PHOTO_PATH_TAG = "photo_path_tag";
+
+    public static final int MIX_IMAGE_REQUEST_CODE = 100;
+
+    public static final String TITLE_UPLOAD_TAG = "title";
+
+    public static final String SCHOOL_TAG = "school";
+
+    public static final String PHOTO_TYPE_TAG = "type";
+
+    public static final int POSTED_HISTORY_REQUEST_CODE = 100;
+
+    public static final String FLAG_OPEN_POSTED_HISTORY = "flag_open_posted_history";
+
+    public static final String ACCOUNT_ID_TAG = "account_id";
+
+    public static final String TYPE_VIEW_HOT = "type_view_hot";
+
+    public static final int UPLOAD_NOTIFICATION_ID = 1;
+
+    public static final int HOT_PHOTO = 0;
+
+    public static final int HOT_VIDEO = 1;
+
+    public static final String HOT_PHOTO_TITLE = "Ảnh hot";
+
+    public static final String HOT_VIDEO_TITLE = "Video hot";
+
+    public static final String NO_DATA = "Không có dữ liệu";
 
 }

@@ -3,9 +3,13 @@ package com.bk.girltrollsv.ui.fragment;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -18,27 +22,32 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bk.girltrollsv.R;
-import com.bk.girltrollsv.adapter.customadapter.RVFeedsAdapter;
+import com.bk.girltrollsv.adapter.customadapter.RvFeedsAdapter;
 import com.bk.girltrollsv.callback.ConfirmDialogListener;
 import com.bk.girltrollsv.callback.FeedItemOnClickListener;
 import com.bk.girltrollsv.callback.HidingScrollListener2;
 import com.bk.girltrollsv.callback.OnLoadMoreListener;
+import com.bk.girltrollsv.callback.OnTakePhotoCompleteListener;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.customview.DetailImageView;
 import com.bk.girltrollsv.databasehelper.DatabaseUtil;
 import com.bk.girltrollsv.dialog.ConfirmDialogFragment;
 import com.bk.girltrollsv.model.Feed;
 import com.bk.girltrollsv.model.dataserver.FeedResponse;
-import com.bk.girltrollsv.model.dataserver.Paging;
+import com.bk.girltrollsv.model.dataserver.Pager;
 import com.bk.girltrollsv.networkconfig.ConfigNetwork;
 import com.bk.girltrollsv.ui.activity.LoginActivity;
 import com.bk.girltrollsv.ui.activity.MainActivity;
+import com.bk.girltrollsv.ui.activity.UploadPhotoActivity;
 import com.bk.girltrollsv.ui.activity.VideoActivity;
 import com.bk.girltrollsv.util.AccountUtil;
+import com.bk.girltrollsv.util.DebugLog;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.SpaceItem;
 import com.bk.girltrollsv.util.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +83,9 @@ public class HomeFragment extends BaseFragment {
 
     ArrayList<Feed> initFeeds;
 
-    RVFeedsAdapter feedsAdapter;
+    RvFeedsAdapter feedsAdapter;
+
+    LinearLayoutManager layoutManager;
 
     Activity mActivity;
 
@@ -82,11 +93,16 @@ public class HomeFragment extends BaseFragment {
 
     boolean mHaveFeedLocal = true;
 
-    public static HomeFragment newInstance(ArrayList<Feed> feeds, Paging pagingLoadNewFeed) {
+    String mCurrentPhotoPath = null;
+
+    Uri mPhotoUri = null;
+
+
+    public static HomeFragment newInstance(ArrayList<Feed> feeds, Pager pagerLoadNewFeed) {
         HomeFragment homeFragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(AppConstant.FEEDS_TAG, feeds);
-        args.putParcelable(AppConstant.PAGING_TAG, pagingLoadNewFeed);
+        args.putParcelable(AppConstant.PAGING_TAG, pagerLoadNewFeed);
         homeFragment.setArguments(args);
         return homeFragment;
     }
@@ -106,6 +122,7 @@ public class HomeFragment extends BaseFragment {
         mActivity = getActivity();
         initRv();
         initRefreshLayout();
+        initListener();
 
         if (initFeeds == null || initFeeds.size() == 0) {
             mRefreshNewFeed.setVisibility(View.GONE);
@@ -117,14 +134,14 @@ public class HomeFragment extends BaseFragment {
     public void initRv() {
 
         int spaceBetweenItems = 15;
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         SpaceItem spaceItem = new SpaceItem(spaceBetweenItems, SpaceItem.VERTICAL);
         rvFeeds.setLayoutManager(layoutManager);
         rvFeeds.addItemDecoration(spaceItem);
 
         // must set adapter after setLayoutManager
-        feedsAdapter = new RVFeedsAdapter(getActivity(), rvFeeds, initFeeds);
+        feedsAdapter = new RvFeedsAdapter(getActivity(), rvFeeds, initFeeds);
         rvFeeds.setAdapter(feedsAdapter);
         feedsAdapter.setLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -136,11 +153,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClickImage(int posFeed, int posImage, ImageView[] views) {
 
-
                 Feed feed = feedsAdapter.getFeeds().get(posFeed);
-                handleClickImage(posImage,feed, views);
-
-
+                handleClickImage(posImage, feed, views);
             }
 
             @Override
@@ -171,18 +185,13 @@ public class HomeFragment extends BaseFragment {
         rvFeeds.addOnScrollListener(new HidingScrollListener2(mAppBarLayout));
     }
 
-    public void handleClickImage( int posImage, Feed feed, ImageView[] views){
-
-        MainActivity mainActivity = null;
+    public void handleClickImage(int posImage, Feed feed, ImageView[] views) {
 
         if (mActivity instanceof MainActivity) {
-
-            mainActivity = (MainActivity) mActivity;
+            MainActivity mainActivity = (MainActivity) mActivity;
+            DetailImageView detailImageView = mainActivity.getDetailImageView();
+            detailImageView.viewDetailImage(mainActivity.getSupportFragmentManager(), feed, posImage, views);
         }
-
-        DetailImageView detailImageView = mainActivity.getDetailImageView();
-        detailImageView.viewDetailImage(mainActivity.getSupportFragmentManager(), feed, posImage, views);
-
     }
 
     public void handleLoadMore() {
@@ -341,7 +350,7 @@ public class HomeFragment extends BaseFragment {
                     visibleControl(View.VISIBLE, View.GONE);
                 }
                 feedsAdapter.insertItems(feedAdds, 0);
-                rvFeeds.scrollToPosition(0);
+                layoutManager.smoothScrollToPosition(rvFeeds, null, 0);
                 saveFeedsToLocal(feedAdds);
 
             } else if (feedsAdapter.totalItem() == 0) {
@@ -365,7 +374,6 @@ public class HomeFragment extends BaseFragment {
         PopupMenu popup = new PopupMenu(mActivity, view);
         popup.getMenuInflater().inflate(R.menu.menu_popup, popup.getMenu());
         popup.show();
-
     }
 
     @OnClick(R.id.btn_reload)
@@ -380,16 +388,13 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.img_btn_upload_photo)
-    public void onClickUploadPhoto(View view) {
+    @OnClick(R.id.img_btn_post_photo)
+    public void onClickPostPhoto(View view) {
 
-        // check login
         if (AccountUtil.getAccountId() == null) {
             showLoginConfirmDialog();
-
         } else {
-
-
+            takePhoto();
         }
     }
 
@@ -399,7 +404,6 @@ public class HomeFragment extends BaseFragment {
         String message = mActivity.getString(R.string.message_confirm_login);
         ConfirmDialogFragment confirmDialog = ConfirmDialogFragment.newInstance(title, message);
         confirmDialog.setPositiveText(R.string.text_login_normal);
-
         confirmDialog.setListener(new ConfirmDialogListener() {
             @Override
             public void onPositivePress(DialogInterface dialog, int which) {
@@ -418,6 +422,39 @@ public class HomeFragment extends BaseFragment {
         confirmDialog.show(mActivity.getFragmentManager(), ConfirmDialogFragment.class.getSimpleName());
     }
 
+    public void takePhoto() {
+
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePhotoIntent.resolveActivity(mActivity.getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                DebugLog.e("can't create file");
+            }
+
+            if (photoFile != null) {
+                mPhotoUri = FileProvider.getUriForFile(mActivity,
+                        "com.bk.girltrollsv",
+                        photoFile);
+                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
+                mActivity.startActivityForResult(takePhotoIntent, AppConstant.TAKE_PHOTO_REQUEST_CODE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+
+        String imageFileName = "JPEG_temp_photo_upload_";
+        File storageDir = mActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
 
     public void handleReload() {
@@ -458,5 +495,39 @@ public class HomeFragment extends BaseFragment {
         }.execute();
     }
 
+    public void initListener() {
 
+        if (mActivity instanceof MainActivity) {
+
+            MainActivity mainActivity = (MainActivity) mActivity;
+            mainActivity.setOnTakePhotoCompleteListener(new OnTakePhotoCompleteListener() {
+                @Override
+                public void onTakePhotoComplete() {
+
+                    if (mPhotoUri != null) {
+                        Intent intent = new Intent(mActivity, UploadPhotoActivity.class);
+                        Bundle data = new Bundle();
+                        data.putParcelable(AppConstant.URI_PHOTO_TAG, mPhotoUri);
+                        data.putString(AppConstant.PHOTO_PATH_TAG,mCurrentPhotoPath);
+                        intent.putExtra(AppConstant.PACKAGE, data);
+                        mActivity.startActivity(intent);
+                    }
+                }
+            });
+//
+//            mainActivity.setOnRequestPermissionComplete(new OnRequestPermissionCompleted() {
+//                @Override
+//                public void onRequestComplete(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//                    switch (requestCode) {
+//                        case AppConstant.READ_EXTERNAL_PERMISSION_REQUEST_CODE:
+//                            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                                takePhoto();
+//                            }
+//                            break;
+//                    }
+//                }
+//            });
+        }
+    }
 }

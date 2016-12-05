@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity {
 
     Intent mIntent;
 
-    boolean mIsSuccessLogin = false;
+    boolean mLoginSuccess = false;
 
 
     @Override
@@ -146,10 +146,9 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.btn_sign_up)
     public void onClickSignUp(View view) {
 
-        if (Profile.getCurrentProfile() != null) {
-            LoginManager.getInstance().logOut();
-        }
-
+//        if (Profile.getCurrentProfile() != null) {
+//            LoginManager.getInstance().logOut();
+//        }
     }
 
     @Override
@@ -160,9 +159,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        mIsSuccessLogin = false;
-        mIntent.putExtra(AppConstant.IS_LOGIN_TAG, mIsSuccessLogin);
-        setResult(AppConstant.RESULT_CODE_LOGIN, mIntent);
+        mLoginSuccess = false;
+        mIntent.putExtra(AppConstant.IS_LOGIN_TAG, mLoginSuccess);
+        setResult(AppConstant.LOGIN_RESULT_CODE, mIntent);
         super.onBackPressed();
     }
 
@@ -309,9 +308,9 @@ public class LoginActivity extends BaseActivity {
         if (!loginSuccess) {
             Utils.toastShort(LoginActivity.this, R.string.login_fail);
         } else {
-            mIsSuccessLogin = true;
-            mIntent.putExtra(AppConstant.IS_LOGIN_TAG, mIsSuccessLogin);
-            setResult(AppConstant.RESULT_CODE_LOGIN, mIntent);
+            mLoginSuccess = true;
+            mIntent.putExtra(AppConstant.IS_LOGIN_TAG, mLoginSuccess);
+            setResult(AppConstant.LOGIN_RESULT_CODE, mIntent);
             Utils.toastShort(LoginActivity.this, R.string.login_success);
             if (mFlag == AppConstant.FINISH_WHEN_COMPLETE) {
                 this.finish();

@@ -53,6 +53,7 @@ public class Feed implements Parcelable{
         this.member = member;
     }
 
+    public Feed() {}
 
     protected Feed(Parcel in) {
         feedId = in.readInt();
@@ -144,5 +145,41 @@ public class Feed implements Parcelable{
 
     public void setLikeState(int isLike) {
         this.isLike = isLike;
+    }
+
+    public void setFeedId(int feedId) {
+        this.feedId = feedId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setIsLike(int isLike) {
+        this.isLike = isLike;
+    }
+
+    public void setComment(int comment) {
+        this.comment = comment;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public void setVideo(Video video) {
+        this.video = video;
+    }
+
+    public void setImages(ArrayList<ImageInfo> images) {
+        this.images = images;
+    }
+
+    public void setMember(BaseInfoMember member) {
+        this.member = member;
     }
 }

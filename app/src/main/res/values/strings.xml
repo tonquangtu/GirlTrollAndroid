@@ -65,5 +65,32 @@
     <string name="email_not_enter">Bạn chưa nhập email</string>
     <string name="password_not_enter">Bạn chưa nhập mật khẩu</string>
     <string name="email_enter_false">Bạn chưa nhập email chưa đúng định dạng</string>
+    <string name="text_hint_description_post">Mô tả về bài đăng</string>
+    <string name="title_upload_photo">Đăng lên GirlTrollSv</string>
+    <string name="title_school">Chọn trường đại học :</string>
+    <string name="text_btn_upload">Đăng</string>
+    <string name="txt_uploading">Đang đăng ...</string>
+    <string name="view_history_post">Xem lịch sử các bài đăng</string>
+    <string name="upload_fail_message">Đăng bài thất bại</string>
+    <string name="upload_success_message">Đăng bài thành công</string>
+    <string name="upload_reject_message">Bài đăng không hợp lệ</string>
+    <string name="touch_view_detail">Chạm vào đây để xem chi tiết bài đăng</string>
+
+    <string-array name="schools">
+        <item>Bách Khoa Hà Nội</item>
+        <item>Bách Khoa HCM</item>
+        <item>Kinh Tế Quốc Dân</item>
+        <item>Xây Dựng</item>
+        <item>Ngoại Thương</item>
+        <item>Công Nghiệp Hà Nội</item>
+        <item>Học Viện Tài Chính</item>
+        <item>Học Viện Ngân Hàng</item>
+        <item>Mỏ Địa Chất</item>
+        <item>Dược Hà Nội</item>
+        <item>Y Hà Nội</item>
+        <item>Kinh Doanh Công Nghệ</item>
+        <item>Quốc Gia Hà Nội</item>
+        <item>Khoa Học Tự Nhiên và Nhân Văn</item>
+    </string-array>
 
 </resources>

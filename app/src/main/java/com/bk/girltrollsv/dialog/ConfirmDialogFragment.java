@@ -44,7 +44,7 @@ public class ConfirmDialogFragment extends DialogFragment {
         String message = args.getString(MESSAGE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(title);
+//        builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
             @Override

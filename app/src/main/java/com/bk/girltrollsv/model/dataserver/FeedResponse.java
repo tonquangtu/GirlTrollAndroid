@@ -11,10 +11,10 @@ public class FeedResponse extends MyResponse{
 
     private ArrayList<Feed> data;
 
-    private Paging paging;
+    private Pager pager;
 
-    public Paging getPaging() {
-        return paging;
+    public Pager getPager() {
+        return pager;
     }
 
     public ArrayList<Feed> getData() {

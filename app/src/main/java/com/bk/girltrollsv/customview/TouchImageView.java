@@ -30,9 +30,6 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -40,23 +37,20 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.OverScroller;
-import android.widget.RelativeLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 
-import com.bk.girltrollsv.R;
-import com.bk.girltrollsv.constant.AppConstant;
-import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.util.ScreenHelper;
 
-import static com.bk.girltrollsv.constant.AppConstant.*;
+import static com.bk.girltrollsv.constant.AppConstant.DISTANCE_TRANSLATION;
+import static com.bk.girltrollsv.constant.AppConstant.DURATION_DOUBLE_TAP_ZOOM;
+import static com.bk.girltrollsv.constant.AppConstant.DURATION_TRANSLATION;
+import static com.bk.girltrollsv.constant.AppConstant.MAX_ALPHA;
+import static com.bk.girltrollsv.constant.AppConstant.MAX_SCALE;
+import static com.bk.girltrollsv.constant.AppConstant.MIN_ALPHA;
+import static com.bk.girltrollsv.constant.AppConstant.MIN_SCALE;
 
 public class TouchImageView extends ImageView {
 	
@@ -125,10 +119,10 @@ public class TouchImageView extends ImageView {
     private PointF mPointFZoom;
 
 
-    public void setView(MainActivity mainActivity){
+    public void setView(DetailImageView detailImageView){
 
         //this.mainActivity = mainActivity;
-        mDetailImageView = mainActivity.getDetailImageView();
+        mDetailImageView = detailImageView;
 
         mScreenHeight = ScreenHelper.getScreenHeightInPx();
         this.tyLe = (float)MAX_ALPHA*2/(float)mScreenHeight;

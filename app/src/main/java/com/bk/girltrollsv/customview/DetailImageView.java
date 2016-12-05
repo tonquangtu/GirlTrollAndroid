@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,6 @@ import com.bk.girltrollsv.R;
 import com.bk.girltrollsv.adapter.customadapter.ViewImageAdapter;
 import com.bk.girltrollsv.constant.AppConstant;
 import com.bk.girltrollsv.model.Feed;
-import com.bk.girltrollsv.ui.activity.MainActivity;
 import com.bk.girltrollsv.util.LikeCommentShareUtil;
 import com.bk.girltrollsv.util.ScreenHelper;
 import com.bk.girltrollsv.util.StringUtil;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  */
 public class DetailImageView {
 
-    private MainActivity mMainActivity;
+    private AppCompatActivity mMainActivity;
 
     private RelativeLayout mRLViewDetailImage;
 
@@ -78,7 +78,7 @@ public class DetailImageView {
     float scale2;
     ImageView[] mViews;
 
-    public DetailImageView(RelativeLayout rLViewDetailImage, MainActivity mainActivity) {
+    public DetailImageView(RelativeLayout rLViewDetailImage, AppCompatActivity mainActivity) {
 
         this.mRLViewDetailImage = rLViewDetailImage;
         this.mMainActivity = mainActivity;

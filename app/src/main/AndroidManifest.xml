@@ -2,9 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bk.girltrollsv">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BaseApplication"
@@ -31,7 +36,6 @@
             android:name=".ui.activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -41,27 +45,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.VideoActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/VideoTheme" />
-
         <activity android:name=".ui.activity.CommentActivity" />
-
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:theme="@style/LoginTheme"
+            android:theme="@style/LoginTheme" />
+        <activity android:name=".ui.activity.UploadPhotoActivity" />
 
-           >
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.bk.girltrollsv"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".ui.activity.MixImageActivity" />
+        <activity android:name=".ui.activity.PostedHistoryActivity" />
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <service android:name=".service.UploadService" />
 
-        </activity>
+        <activity android:name=".ui.activity.HotActivity"></activity>
     </application>
 
 </manifest>
